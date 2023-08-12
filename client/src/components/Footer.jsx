@@ -1,17 +1,38 @@
-function Link({ uri, text }) {
-  return <a href={uri} target="_blank" rel="noreferrer">{text}</a>;
-}
+import React from "react";
 
-function Footer() {
+import { AiFillInstagram, AiFillFacebook } from "react-icons/ai";
+import { BsYoutube } from "react-icons/bs";
+
+const Footer = () => {
   return (
-    <footer>
-      <h2>More resources</h2>
-      <Link uri={"https://trufflesuite.com"} text={"Truffle"} />
-      <Link uri={"https://reactjs.org"} text={"React"} />
-      <Link uri={"https://soliditylang.org"} text={"Solidity"} />
-      <Link uri={"https://ethereum.org"} text={"Ethereum"} />
-    </footer >
+    <footer className="w-full bg-bgcolor">
+      <div className="container mx-auto flex items-center justify-between py-7 px-6 lg:px-16">
+        <p className="font-urbanist text-sm text-primary md:text-base">
+          Copyright © 2022 goodal
+        </p>
+
+        <div>
+          <ul className="flex space-x-4 text-xl">
+            <li>
+              <a href="/">
+                <AiFillInstagram />
+              </a>
+            </li>
+            <li>
+              <a href="/">
+                <BsYoutube />
+              </a>
+            </li>
+            <li>
+              <a href="/">
+                <AiFillFacebook />
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </footer>
   );
-}
+};
 
 export default Footer;

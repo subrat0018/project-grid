@@ -1,24 +1,16 @@
-import { EthProvider } from "./contexts/EthContext";
-import Intro from "./components/Intro/";
-import Setup from "./components/Setup";
-import Demo from "./components/Demo";
-import Footer from "./components/Footer";
+import { Routes, Route } from 'react-router-dom';
+import { HomeLayout } from './routes/HomeLayout';
+import { SharedLayout } from './routes/sharedLayout';
 
 function App() {
   return (
-    <EthProvider>
-      <div id="App">
-        <div className="container">
-          <Intro />
-          <hr />
-          <Setup />
-          <hr />
-          <Demo />
-          <hr />
-          <Footer />
-        </div>
-      </div>
-    </EthProvider>
+    <div id="App">
+      <Routes>
+        <Route path="/" element={<SharedLayout />}>
+          <Route index element={<HomeLayout />} />
+        </Route>
+      </Routes>
+    </div>
   );
 }
 

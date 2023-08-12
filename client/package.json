@@ -9,20 +9,34 @@
   "dependencies": {
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-fast-marquee": "^1.6.0",
+    "react-icons": "^4.10.1",
+    "react-router-dom": "^6.4.0",
+    "swiper": "^9.2.2",
     "web3": "^1.8.2"
   },
   "devDependencies": {
     "@babel/preset-react": "^7.18.6",
+    "@tailwindcss/line-clamp": "^0.4.4",
+    "@types/react": "^18.2.20",
+    "@types/react-dom": "^18.0.10",
+    "autoprefixer": "^10.4.13",
     "babel-loader": "^9.1.2",
-    "css-loader": "^6.7.3",
+    "css-loader": "^6.8.1",
     "eslint": "^8.34.0",
     "eslint-config-react-app": "^7.0.1",
     "eslint-webpack-plugin": "^4.0.0",
     "html-webpack-plugin": "^5.5.0",
-    "style-loader": "^3.3.1",
-    "webpack": "^5.75.0",
-    "webpack-cli": "^5.0.1",
-    "webpack-dev-server": "^4.11.1"
+    "postcss": "^8.4.27",
+    "postcss-loader": "^7.3.3",
+    "postcss-preset-env": "^9.1.1",
+    "prettier": "^2.8.4",
+    "prettier-plugin-tailwindcss": "^0.2.4",
+    "style-loader": "^3.3.3",
+    "tailwindcss": "^3.2.4",
+    "webpack": "^5.88.2",
+    "webpack-cli": "^5.1.4",
+    "webpack-dev-server": "^4.15.1"
   },
   "eslintConfig": {
     "extends": [
