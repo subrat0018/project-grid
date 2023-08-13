@@ -1,29 +1,29 @@
 import React, { useEffect, useState } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
 
-// import { useDispatch, useSelector } from "react-redux";
-// import {
-//   setCloseCart,
-//   setOpenCart,
-// } from "../../features/customer/cart/cartSlice";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  setCloseCart,
+  setOpenCart,
+} from "../../store/customer/cart/cartSlice";
 
 // import Logo from "../../assets/logo.jpg";
 
 // icons
 import { HiMenuAlt2, HiOutlineShoppingBag } from 'react-icons/hi';
-// import { IoIosArrowDown } from "react-icons/io";
+import { IoIosArrowDown } from "react-icons/io";
 import { FaSort } from 'react-icons/fa';
 import { RiFilterOffFill } from 'react-icons/ri';
 import { FiSearch } from 'react-icons/fi';
 import { MdOutlineAccountCircle } from 'react-icons/md';
 
-// import { Cart } from "../../pages/customer/cart/index.js";
+import { Cart } from "../../pages/costumer/cart/index";
 // import { customerLogOut } from "../../features/auth/customerAuthSlice";
-// import {
-//   setFilterCategory,
-//   setSearch,
-//   setSortOrder,
-// } from "../../features/customer/product/productCustomerSlice";
+import {
+  setFilterCategory,
+  setSearch,
+  setSortOrder,
+} from "../../store/customer/product/productCustomerSlice";
 
 const Navbar = () => {
   const location = useLocation();
@@ -38,10 +38,10 @@ const Navbar = () => {
   const [searchNav, setSearchNav] = useState(false);
   const [dropdown, setDropdown] = useState(false);
 
-  // const dispatch = useDispatch();
-  // const { cartState, cartTotalQuantity } = useSelector((store) => store.cart);
+  const dispatch = useDispatch();
+  const { cartState, cartTotalQuantity } = useSelector((store) => store.cart);
   // const { customer } = useSelector((store) => store.customer);
-  // const { products, search } = useSelector((store) => store.productsCustomer);
+  const { products, search } = useSelector((store) => store.productsCustomer);
 
   // mobile dropdown
   const handleDropdown = () => {
@@ -93,44 +93,44 @@ const Navbar = () => {
     setDropdown(false);
   };
 
-  // const onClickCat = (cat) => {
-  //   dispatch(setFilterCategory(cat));
+  const onClickCat = (cat) => {
+    dispatch(setFilterCategory(cat));
 
-  //   handleFilterNav();
-  // };
+    handleFilterNav();
+  };
 
-  // const handleSearchChange = (event) => {
-  //   dispatch(setSearch(event.target.value));
-  // };
+  const handleSearchChange = (event) => {
+    dispatch(setSearch(event.target.value));
+  };
 
   // cart nav
-  // const handleCartNav = () => {
-  //   if (cartState) {
-  //     dispatch(
-  //       setCloseCart({
-  //         cartState: false,
-  //       })
-  //     );
+  const handleCartNav = () => {
+    if (cartState) {
+      dispatch(
+        setCloseCart({
+          cartState: false,
+        })
+      );
 
-  //     // document.body.style.overflow = "unset";
-  //   } else {
-  //     dispatch(
-  //       setOpenCart({
-  //         cartState: true,
-  //       })
-  //     );
+      // document.body.style.overflow = "unset";
+    } else {
+      dispatch(
+        setOpenCart({
+          cartState: true,
+        })
+      );
 
-  //     // if (typeof window != "undefined" && window.document) {
-  //     //   document.body.style.overflow = "hidden";
-  //     // }
+      // if (typeof window != "undefined" && window.document) {
+      //   document.body.style.overflow = "hidden";
+      // }
 
-  //     setMobileNav(false);
-  //     setSearchNav(false);
-  //     setFilterNav(false);
-  //     setSortNav(false);
-  //     setDropdown(false);
-  //   }
-  // };
+      setMobileNav(false);
+      setSearchNav(false);
+      setFilterNav(false);
+      setSortNav(false);
+      setDropdown(false);
+    }
+  };
 
   const changeBackground = () => {
     if (window.scrollY >= 80) {
@@ -352,13 +352,13 @@ const Navbar = () => {
 
                 {/* mobile cart logo */}
                 <div
-                  // onClick={handleCartNav}
+                  onClick={handleCartNav}
                   className="hover:text-primary relative flex cursor-pointer items-center justify-end text-xl text-zinc-600"
                 >
                   <HiOutlineShoppingBag size={25} />
 
                   <span className="absolute left-2 top-4 flex h-5 w-5 items-center justify-center rounded-full bg-slate-900 text-[0.65rem] text-slate-100">
-                    {/* {cartTotalQuantity} */} 0
+                    {cartTotalQuantity}
                   </span>
                 </div>
               </div>
@@ -434,11 +434,11 @@ const Navbar = () => {
             <div className="flex flex-col space-y-3">
               {/* <button onClick={() => onClickCat("All")}>All</button> */}
               <button>All</button>
-              {/* {products.categories?.map((cat) => (
+              {products.categories?.map((cat) => (
                 <button key={cat} onClick={() => onClickCat(cat)}>
                   {cat}
                 </button>
-              ))} */}
+              ))}
             </div>
           </div>
         )}
@@ -536,7 +536,7 @@ const Navbar = () => {
         )} */}
       </header>
 
-      {/* <Cart handleCartNav={handleCartNav} /> */}
+      <Cart handleCartNav={handleCartNav} />
     </>
   );
 };

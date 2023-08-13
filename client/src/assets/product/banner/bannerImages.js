@@ -1,38 +1,32 @@
-import all_banner from "./all_banner.jpg";
-import tangerine_banner from "./tangerine_banner.jpg";
-import apple_banner from "./apple_banner.jpg";
-import leaf_banner from "./leaf_banner.jpg";
-import apricot_banner from "./apricot_banner.jpg";
-
 export const bannerImages = [
   {
     id: 1,
     name: "All Product",
     category: "All",
-    image: all_banner,
+    image: 'https://res.cloudinary.com/sambitsankalp/image/upload/v1691873427/grid/bannerImages/all_banner_w0ngaa.jpg',
   },
   {
     id: 2,
     name: "Green Tangerine",
     category: "Green Tangerine",
-    image: tangerine_banner,
+    image: 'https://res.cloudinary.com/sambitsankalp/image/upload/v1691873426/grid/bannerImages/tangerine_banner_pc5ce2.jpg',
   },
   {
     id: 3,
     name: "Apple Aha",
     category: "Apple Aha",
-    image: apple_banner,
+    image: 'https://res.cloudinary.com/sambitsankalp/image/upload/v1691873426/grid/bannerImages/apple_banner_mt4gzh.jpg',
   },
   {
     id: 4,
     name: "Heart Leaf",
     category: "Heart Leaf",
-    image: leaf_banner,
+    image: 'https://res.cloudinary.com/sambitsankalp/image/upload/v1691873426/grid/bannerImages/leaf_banner_izlohc.jpg',
   },
   {
     id: 5,
     name: "Apricot Collagen",
     category: "Apricot Collagen",
-    image: apricot_banner,
+    image: 'https://res.cloudinary.com/sambitsankalp/image/upload/v1691873427/grid/bannerImages/apricot_banner_zdzhoc.jpg',
   },
 ];
