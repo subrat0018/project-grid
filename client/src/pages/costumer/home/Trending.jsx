@@ -10,8 +10,7 @@ const Trending = () => {
           {/* text */}
           <div className="text-center md:px-48">
             <h1 className="font-gotu text-2xl font-bold text-primary md:text-4xl md:leading-relaxed">
-              Curated Korean Skincare, from top shelf items to trending new
-              arrivals.
+              Explore our sales!!!
             </h1>
           </div>
 

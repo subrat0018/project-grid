@@ -1,29 +1,24 @@
 import React, { useEffect, useState } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
 
-import { useDispatch, useSelector } from "react-redux";
-import {
-  setCloseCart,
-  setOpenCart,
-} from "../../store/customer/cart/cartSlice";
-
-// import Logo from "../../assets/logo.jpg";
+import { useDispatch, useSelector } from 'react-redux';
+import { setCloseCart, setOpenCart } from '../../store/customer/cart/cartSlice';
 
 // icons
 import { HiMenuAlt2, HiOutlineShoppingBag } from 'react-icons/hi';
-import { IoIosArrowDown } from "react-icons/io";
+import { IoIosArrowDown } from 'react-icons/io';
 import { FaSort } from 'react-icons/fa';
 import { RiFilterOffFill } from 'react-icons/ri';
 import { FiSearch } from 'react-icons/fi';
 import { MdOutlineAccountCircle } from 'react-icons/md';
 
-import { Cart } from "../../pages/costumer/cart/index";
-// import { customerLogOut } from "../../features/auth/customerAuthSlice";
+import { Cart } from '../../pages/costumer/cart/index';
+import { customerLogOut } from '../../store/auth/customerAuthSlice';
 import {
   setFilterCategory,
   setSearch,
   setSortOrder,
-} from "../../store/customer/product/productCustomerSlice";
+} from '../../store/customer/product/productCustomerSlice';
 
 const Navbar = () => {
   const location = useLocation();
@@ -40,7 +35,7 @@ const Navbar = () => {
 
   const dispatch = useDispatch();
   const { cartState, cartTotalQuantity } = useSelector((store) => store.cart);
-  // const { customer } = useSelector((store) => store.customer);
+  const { customer } = useSelector((store) => store.customer);
   const { products, search } = useSelector((store) => store.productsCustomer);
 
   // mobile dropdown
@@ -148,15 +143,15 @@ const Navbar = () => {
     };
   }, []);
 
-  // const handleLogout = () => {
-  //   dispatch(customerLogOut());
-  // };
+  const handleLogout = () => {
+    dispatch(customerLogOut());
+  };
 
   return (
     <>
       <header
         className={`${
-          navColor ? 'bg-bgcolor border-b border-zinc-200' : 'bg-bgcolor2'
+          navColor ? 'border-b border-zinc-200 bg-bgcolor' : 'bg-bgcolor2'
         } fixed z-40 w-full transition duration-200 ease-in-out`}
       >
         <nav className="container">
@@ -191,11 +186,9 @@ const Navbar = () => {
                 }}
                 to="/"
               >
-                <img
-                  className="w-20"
-                  src="https://res.cloudinary.com/sambitsankalp/image/upload/v1691781777/grid/logo_b2cjoi.png"
-                  alt="logo"
-                />
+                <h1 className="font-raleway text-lg font-extrabold text-primary md:text-xl">
+                  blockducts
+                </h1>
               </NavLink>
             </div>
 
@@ -308,8 +301,7 @@ const Navbar = () => {
                     </li>
                   </>
                 )} */}
-
-                <li className="font-urbanist hover:text-primary font-bold text-zinc-600 transition duration-200 ease-in-out">
+                <li className="font-urbanist font-bold text-zinc-600 transition duration-200 ease-in-out hover:text-primary">
                   <NavLink
                     onClick={() => {
                       if (dropdown) {
@@ -319,12 +311,12 @@ const Navbar = () => {
                     className={({ isActive }) =>
                       isActive ? 'text-primary' : null
                     }
-                    to="/about"
+                    to="/customer/login"
                   >
-                    About
+                    Connect
                   </NavLink>
                 </li>
-                <li className="font-urbanist hover:text-primary font-bold text-zinc-600 transition duration-200 ease-in-out">
+                <li className="font-urbanist font-bold text-zinc-600 transition duration-200 ease-in-out hover:text-primary">
                   <NavLink
                     onClick={() => {
                       if (dropdown) {
@@ -353,7 +345,7 @@ const Navbar = () => {
                 {/* mobile cart logo */}
                 <div
                   onClick={handleCartNav}
-                  className="hover:text-primary relative flex cursor-pointer items-center justify-end text-xl text-zinc-600"
+                  className="relative flex cursor-pointer items-center justify-end text-xl text-zinc-600 hover:text-primary"
                 >
                   <HiOutlineShoppingBag size={25} />
 
@@ -446,7 +438,7 @@ const Navbar = () => {
         {/* mobile menu */}
         {mobileNav && (
           <div className="container mx-auto border-b border-t border-zinc-200 px-6 py-3 md:hidden lg:px-16">
-            <ul className="font-urbanist hover:text-primary font-bold text-zinc-600 transition duration-200 ease-in-out">
+            <ul className="font-urbanist font-bold text-zinc-600 transition duration-200 ease-in-out hover:text-primary">
               <li>
                 <NavLink
                   onClick={handleMobileNav}

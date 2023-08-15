@@ -10,9 +10,9 @@ export const HomeLayout = () => {
   return (
     <>
       <Hero />
+      <LogoSlider />
       <Trending />
       <Collection />
-      <LogoSlider />
     </>
   );
 };

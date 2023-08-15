@@ -6,7 +6,7 @@ import cartReducer from "../store/customer/cart/cartSlice";
 import productCustomerReducer from "../store/customer/product/productCustomerSlice";
 
 // import adminAuthReducer from "../features/auth/adminAuthSlice";
-// import customerAuthReducer from "../features/auth/customerAuthSlice";
+import customerAuthReducer from "../store/auth/customerAuthSlice";
 
 export const store = configureStore({
   reducer: {
@@ -16,6 +16,6 @@ export const store = configureStore({
     // productsAdmin: productAdminReducer,
     productsCustomer: productCustomerReducer,
     // admin: adminAuthReducer,
-    // customer: customerAuthReducer,
+    customer: customerAuthReducer,
   },
 });

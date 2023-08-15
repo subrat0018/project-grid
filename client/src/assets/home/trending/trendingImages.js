@@ -1,14 +1,14 @@
 export const trendingImages = [
   {
     id: 0,
-    img: 'https://res.cloudinary.com/sambitsankalp/image/upload/v1691781999/grid/trending/1_ru13kj.jpg',
+    img: 'https://res.cloudinary.com/sambitsankalp/image/upload/v1692044263/grid/trending/phones_eh7tnq.webp',
   },
   {
     id: 1,
-    img: 'https://res.cloudinary.com/sambitsankalp/image/upload/v1691782000/grid/trending/2_zrozan.jpg',
+    img: 'https://res.cloudinary.com/sambitsankalp/image/upload/v1692044381/grid/trending/j_om7hzo.jpg',
   },
   {
     id: 2,
-    img: 'https://res.cloudinary.com/sambitsankalp/image/upload/v1691782000/grid/trending/3_tv0ypl.jpg',
+    img: 'https://res.cloudinary.com/sambitsankalp/image/upload/v1692035915/grid/homeCarousel/winter_oqmrc5.png',
   },
 ];

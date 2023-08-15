@@ -31,7 +31,7 @@ const CartFilled = ({
     // Format the price value using the user's locale and currency
     const formattedPrice = Number(price).toLocaleString(userLocale, {
       style: "currency",
-      currency: "USD",
+      currency: "INR",
     });
 
     return formattedPrice;
@@ -43,15 +43,15 @@ const CartFilled = ({
         {/* image */}
         <div className="group relative col-span-2 flex items-center">
           <img
-            src={imgOne.url}
+            src={imgOne}
             alt={name}
-            className="absolute object-cover transition duration-500 ease-in-out group-hover:opacity-0"
+            className="absolute transition duration-500 ease-in-out group-hover:opacity-0"
           />
 
           <img
-            src={imgTwo.url}
+            src={imgTwo}
             alt={name}
-            className="absolute rounded-lg object-cover opacity-0 shadow-xl transition duration-500 ease-in-out group-hover:opacity-100"
+            className="absolute rounded-lg opacity-0 shadow-xl transition duration-500 ease-in-out group-hover:opacity-100"
           />
         </div>
 

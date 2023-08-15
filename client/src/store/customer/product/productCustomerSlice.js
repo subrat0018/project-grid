@@ -1,39 +1,58 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 
 const initialState = {
-  sortOrder: "",
-  search: "",
-  filterCategory: "All",
+  sortOrder: '',
+  search: '',
+  filterCategory: 'All',
   page: 1,
 
-  productsStatus: "idle",
+  productsStatus: 'idle',
   products: {},
   error: null, // for errors
 };
 
 // READ products
 export const readCustomerProducts = createAsyncThunk(
-  "productsCustomer/readCustomerProducts",
+  'productsCustomer/readCustomerProducts',
   async (_, thunkAPI) => {
     const { sortOrder, search, filterCategory, page } =
       thunkAPI.getState().productsCustomer;
 
     // let base_url = "http://localhost:7001/api/products";
 
-    let base_url = "https://goodal-mern.onrender.com/api/products";
+    let product_url = 'https://goodal-mern.onrender.com/api/products';
 
     try {
-      base_url = `${base_url}?page=${page}&sort=${sortOrder}&category=${filterCategory.toString()}&search=${search}`;
+      product_url = `https://fakestoreapi.com/products`;
+      let category_url = `https://fakestoreapi.com/products/categories`;
 
-      console.log(base_url);
+      console.log(product_url);
 
-      const response = await fetch(base_url);
-      const data = await response.json();
+      const product_response = await fetch(product_url);
+      let product_data = await product_response.json();
 
-      console.log(data);
+      const category_response = await fetch(category_url);
+      const category_data = await category_response.json();
 
-      if (response.ok) {
-        return data;
+      console.log(filterCategory);
+
+      if (filterCategory !== 'All')
+        product_data = product_data.filter(
+          (product) => product.category === filterCategory
+        );
+
+      const end =
+        page * 9 > product_data.length ? product_data.length - 1 : page * 9;
+      const productPagedData = product_data.slice((page - 1) * 9, end);
+
+      if (product_response.ok && category_response.ok) {
+        return {
+          categories: category_data,
+          limit: 9,
+          page,
+          productsData: productPagedData,
+          total: product_data.length,
+        };
       }
     } catch (error) {
       return thunkAPI.rejectWithValue({ error: error.message });
@@ -43,7 +62,7 @@ export const readCustomerProducts = createAsyncThunk(
 
 const productCustomerSlice = createSlice({
   initialState,
-  name: "productsCustomer",
+  name: 'productsCustomer',
   reducers: {
     setSortOrder: (state, action) => {
       state.sortOrder = action.payload;
@@ -62,15 +81,15 @@ const productCustomerSlice = createSlice({
     builder
       // READ products
       .addCase(readCustomerProducts.pending, (state) => {
-        state.productsStatus = "loading";
+        state.productsStatus = 'loading';
       })
       .addCase(readCustomerProducts.fulfilled, (state, action) => {
-        state.productsStatus = "succeeded";
+        state.productsStatus = 'succeeded';
         state.products = action.payload;
         state.error = null;
       })
       .addCase(readCustomerProducts.rejected, (state, action) => {
-        state.productsStatus = "failed";
+        state.productsStatus = 'failed';
         state.error = action.payload.error;
       });
   },

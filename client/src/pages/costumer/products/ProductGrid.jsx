@@ -10,7 +10,7 @@ export const ProductGrid = ({ products, handleAddToCart }) => {
     // Format the price value using the user's locale and currency
     const formattedPrice = Number(price).toLocaleString(userLocale, {
       style: "currency",
-      currency: "USD",
+      currency: "INR",
     });
 
     return formattedPrice;
@@ -19,23 +19,23 @@ export const ProductGrid = ({ products, handleAddToCart }) => {
   return (
     <div className="grid grid-cols-2 gap-5 md:px-3 lg:grid-cols-3">
       {products.productsData?.map((item) => (
-        <div key={item._id} className="space-y-3 text-center">
+        <div key={item.id} className="space-y-3 text-center">
           <div className="relative">
             <div className="group relative flex h-44 justify-center md:h-80">
               <Link
-                to={`/products/${item.name.toLowerCase().replace(/\s+/g, "-")}`}
+                to={`/products/${item.title.toLowerCase().replace(/\s+/g, "-")}`}
                 state={{ item }}
               >
                 <img
-                  className="absolute inset-0 h-full w-full object-cover transition duration-500 ease-in-out group-hover:opacity-0 "
-                  src={item.imgOne.url}
-                  alt={item.name}
+                  className="absolute inset-0 h-full w-full p-5 transition duration-500 ease-in-out group-hover:opacity-0 "
+                  src={item.image}
+                  alt={item.title}
                 />
 
                 <img
-                  className="absolute inset-0 h-full w-full rounded-lg object-cover opacity-0 shadow-xl transition duration-500 ease-in-out group-hover:opacity-100 "
-                  src={item.imgTwo.url}
-                  alt={item.name}
+                  className="absolute inset-0 h-full w-full rounded-lg opacity-0 shadow-xl transition duration-500 ease-in-out group-hover:opacity-100 "
+                  src={item.image}
+                  alt={item.title}
                 />
               </Link>
 
@@ -43,12 +43,12 @@ export const ProductGrid = ({ products, handleAddToCart }) => {
                 className="absolute bottom-2 hidden translate-y-3 transform rounded-sm bg-gray-700 py-3 px-12 font-urbanist text-xs font-extrabold text-bgcolor opacity-0 transition duration-300 ease-in-out hover:bg-gray-800 group-hover:translate-y-0 group-hover:opacity-100 md:block"
                 onClick={() =>
                   handleAddToCart(
-                    item._id,
+                    item.id,
                     item.category,
-                    item.name,
+                    item.title,
                     item.price,
-                    item.imgOne,
-                    item.imgTwo
+                    item.image,
+                    item.image
                   )
                 }
               >
@@ -60,12 +60,12 @@ export const ProductGrid = ({ products, handleAddToCart }) => {
               <HiOutlineShoppingBag
                 onClick={() =>
                   handleAddToCart(
-                    item._id,
+                    item.id,
                     item.category,
-                    item.name,
+                    item.title,
                     item.price,
-                    item.imgOne,
-                    item.imgTwo
+                    item.image,
+                    item.image
                   )
                 }
                 className="h-6 w-6 cursor-pointer rounded bg-gray-700 p-1 text-bgcolor transition-all duration-100 ease-in-out hover:bg-gray-800 active:scale-90 active:bg-gray-800"
@@ -75,7 +75,7 @@ export const ProductGrid = ({ products, handleAddToCart }) => {
 
           <div className="flex h-14 items-center justify-center">
             <p className="font-urbanist text-base text-secondary md:text-lg lg:text-xl">
-              {item.name}
+              {item.title}
             </p>
           </div>
 

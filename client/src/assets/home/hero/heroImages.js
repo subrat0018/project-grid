@@ -1,24 +1,24 @@
 export const heroImages = [
   {
     id: 0,
-    img: 'https://res.cloudinary.com/sambitsankalp/image/upload/v1691857492/grid/homeCarousel/1_kpy3zl.jpg',
-    desc1: "Skin care for your natural skin",
-    desc2: "Complete your elastic skin with the apricot collagen line.",
+    img: 'https://res.cloudinary.com/sambitsankalp/image/upload/v1692035915/grid/homeCarousel/winter_oqmrc5.png',
+    desc1: "Style Redefined, Wear Confidence",
+    desc2: "Unveil Your Distinctive Style. Shop Now!",
     buttonDesc: "SHOP NOW",
   },
   {
     id: 1,
-    img: 'https://res.cloudinary.com/sambitsankalp/image/upload/v1691857492/grid/homeCarousel/2_td3jfg.jpg',
-    desc1: "The beauty of the best",
-    desc2: "Face and body cleansing bars and shampoo bars.",
+    img: 'https://res.cloudinary.com/sambitsankalp/image/upload/v1692035913/grid/homeCarousel/sports_pbzfnt.png',
+    desc1: "Equip Your Victory, Dominate Today",
+    desc2: "Fuel Your Game. Elevate Performance!",
     buttonDesc: "EXTRA 15% OFF",
   },
   {
     id: 2,
-    img: 'https://res.cloudinary.com/sambitsankalp/image/upload/v1691857492/grid/homeCarousel/3_dq1x6y.jpg',
-    desc1: "Make your skin more moist",
+    img: 'https://res.cloudinary.com/sambitsankalp/image/upload/v1692036457/grid/homeCarousel/jewellery2_cgww7q.png',
+    desc1: "Elegance Adorned, Moments Captured",
     desc2:
-      "Moisturizing formulations that will make your skin even more bright.",
-    buttonDesc: "SHOP MOISTURIZER",
+      "Sparkle and Shine, Timeless Elegance!",
+    buttonDesc: "SHOP HERE",
   },
 ];

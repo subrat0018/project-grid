@@ -23,6 +23,7 @@ module.exports = {
       fontFamily: {
         urbanist: "Urbanist",
         gotu: "Gotu",
+        raleway: "Raleway"
       },
     },
   },

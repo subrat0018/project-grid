@@ -10,17 +10,12 @@ import {
   readCustomerProducts,
   setFilterCategory,
   setPage,
-  setSearch,
-  setSortOrder,
 } from "../../../store/customer/product/productCustomerSlice";
 
 import {
   ProductBanner,
   ProductGrid,
   ProductNav,
-  ProductTotal,
-  ProductSearch,
-  ProductDropdown,
   ProductPagination,
 } from "./";
 
@@ -59,13 +54,6 @@ const Products = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
-  const handleSortOrderChange = (event) => {
-    dispatch(setSortOrder(event.target.value));
-  };
-
-  const handleSearchChange = (event) => {
-    dispatch(setSearch(event.target.value));
-  };
 
   const handleAddToCart = (_id, category, name, price, imgOne, imgTwo) => {
     const items = { _id, category, name, price, imgOne, imgTwo };

@@ -7,7 +7,7 @@ import { LogoSliderImages } from "../../../assets/home/LogoSlider/LogoSliderImag
 const LogoSlider = () => {
   return (
     <section className="flex w-full items-center bg-[#ffffff]">
-      <div className="w-full pt-16">
+      <div className="w-full py-16">
         <Marquee gradient={false} speed={30}>
           {LogoSliderImages.map((item) => (
             <div key={item.id} className="mx-14">
