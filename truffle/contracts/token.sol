@@ -10,6 +10,7 @@ contract FlipCoin is ERC20 {
 
     uint256 purchase_rewards;
     uint256 purchase_referrals;
+    uint256 purchase_socialMedia;
     uint256 staking;
     uint256 partners;
     uint256 currentOrder;
@@ -76,11 +77,6 @@ contract FlipCoin is ERC20 {
         {
             if(orders[i].status == OrderStatus.Confirmed && block.timestamp >= orders[i].lastReturnDate)
             {
-                require((totalSupply() * 80 * 60 * 40)/1000000 > purchase_rewards, "Running Low on Tokens");
-                orders[i].status = OrderStatus.NotReturned;
-                IERC20 token = IERC20(tokenAddress);
-                token.transfer(orders[i].userAccount, orders[i].flipCoin);
-                expectedBalance[orders[i].userAccount] += orders[i].flipCoin;
                 if(orders[i].orderType == OrderType.Airdrop)
                 {
                     require((totalSupply() * 80 * 5)/10000 > partners, "Running Low on Tokens");
@@ -88,20 +84,23 @@ contract FlipCoin is ERC20 {
                 }
                 else if(orders[i].orderType == OrderType.SocialPost)
                 {
-                    require((totalSupply() * 80 * 5)/10000 > partners, "Running Low on Tokens");
+                    require((totalSupply() * 80 * 5)/10000 > purchase_socialMedia, "Running Low on Tokens");
                     partners += orders[i].flipCoin;
                 }
                 else if(orders[i].orderType == OrderType.Stake)
                 {
-                    require((totalSupply() * 80 * 15)/10000 > partners, "Running Low on Tokens");
+                    require((totalSupply() * 80 * 15)/10000 > staking, "Running Low on Tokens");
                     staking += orders[i].flipCoin;
                 }
                 else 
                 {
-                    require((totalSupply() * 80 * 60 * 40)/1000000 > partners, "Running Low on Tokens");
+                    require((totalSupply() * 80 * 60 * 40)/1000000 > purchase_rewards, "Running Low on Tokens");
                     purchase_rewards += orders[i].flipCoin;
                 }
-                
+                orders[i].status = OrderStatus.NotReturned;
+                IERC20 token = IERC20(tokenAddress);
+                token.transfer(orders[i].userAccount, orders[i].flipCoin);
+                expectedBalance[orders[i].userAccount] += orders[i].flipCoin;
                 if(orders[i].isReferred)
                 {
                     require((totalSupply() * 80 * 60 * 15)/1000000 > purchase_referrals, "Running Low on Tokens");
@@ -144,6 +143,7 @@ contract FlipCoin is ERC20 {
         newOrder.userAccount = userAccount;
         newOrder.status = OrderStatus.Confirmed;
         newOrder.lastReturnDate = lastReturnDate;
+        newOrder.orderType = OrderType.Purchase;
         if(isReferred)
         {
             newOrder.isReferred = true;
@@ -157,7 +157,8 @@ contract FlipCoin is ERC20 {
         currentOrder++;
     }
     function disperseCoin(address seller, uint256 amount, address userAccount) external {
-        require(balanceOf(seller) >= amount);
+        require(balanceOf(seller) >= amount, "Seller has not enough amount of Tokens");
+        require((totalSupply() * 80 * 5)/10000 > partners, "Running Low on Tokens");
         Order memory newOrder;
         newOrder.id = currentOrder;
         newOrder.flipCoin = amount;
@@ -165,6 +166,7 @@ contract FlipCoin is ERC20 {
         newOrder.lastReturnDate = block.timestamp;
         newOrder.status = OrderStatus.Confirmed;
         newOrder.userAccount = userAccount;
+        newOrder.orderType = OrderType.Airdrop;
         orders[currentOrder] = newOrder;
         _burn(seller, amount);
         currentOrder++;
@@ -183,6 +185,7 @@ contract FlipCoin is ERC20 {
         newOrder.lastReturnDate = block.timestamp;
         newOrder.status = OrderStatus.Confirmed;
         newOrder.userAccount = userAccount;
+        newOrder.orderType = OrderType.SocialPost;
         orders[currentOrder] = newOrder;
         currentOrder++;
     }
@@ -201,6 +204,7 @@ contract FlipCoin is ERC20 {
         newOrder.isReferred = false;
         newOrder.lastReturnDate = block.timestamp + interval;
         newOrder.status = OrderStatus.Confirmed;
+        newOrder.orderType = OrderType.Stake;
         newOrder.userAccount = userAccount;
         orders[currentOrder] = newOrder;
         currentOrder++;
