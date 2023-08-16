@@ -1,6 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { Routes, Route, Navigate } from 'react-router-dom';
-// import { HomeLayout } from './routes/HomeLayout';
 import { SharedLayout } from './routes/sharedLayout';
 import { ProductsLayout } from './routes/ProductsLayout';
 import { useDispatch, useSelector } from 'react-redux';
@@ -15,6 +14,7 @@ import { ProductItemLayout } from './routes/ProductItemLayout';
 import { AdminDashboardLayout } from './routes/AdminDashboardLayout';
 import { AdminLoginLayout } from './routes/AdminLoginLayout';
 import { checkAdmin } from './store/auth/adminAuthSlice';
+import CustomerDashboard from './pages/dashboard/CustomerDashboard';
 
 function App() {
   const dispatch = useDispatch();
@@ -40,6 +40,7 @@ function App() {
             path="/customer/login"
             element={!customer ? <CustomerLoginLayout /> : <Navigate to="/" />}
           />
+          <Route path="/customer/dashboard" element={<CustomerDashboard />} />
           <Route path="/products/:slug" element={<ProductItemLayout />} />
         </Route>
 

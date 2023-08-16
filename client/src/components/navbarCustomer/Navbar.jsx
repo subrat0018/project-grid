@@ -318,6 +318,21 @@ const Navbar = () => {
                     Products
                   </NavLink>
                 </li>
+                <li className="font-urbanist font-bold text-zinc-600 transition duration-200 ease-in-out hover:text-primary">
+                  <NavLink
+                    onClick={() => {
+                      if (dropdown) {
+                        handleDropdown();
+                      }
+                    }}
+                    className={({ isActive }) =>
+                      isActive ? 'text-primary' : null
+                    }
+                    to="/customer/dashboard"
+                  >
+                    Dashboard
+                  </NavLink>
+                </li>
               </ul>
 
               <div className="flex items-center justify-center space-x-3 md:space-x-0">
