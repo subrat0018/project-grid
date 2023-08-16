@@ -14,6 +14,8 @@ contract FlipCoin is ERC20 {
     uint256 partners;
     uint256 currentOrder;
     uint256 expireTime = 90;
+    uint256 socialMediaReward = 1;
+    uint256 referralReward = 1;
     address ownerAddress;
     address tokenAddress;
 
@@ -22,6 +24,13 @@ contract FlipCoin is ERC20 {
         Confirmed,
         Cancelled,
         NotReturned
+    }
+    enum OrderType
+    {
+        Purchase,
+        Airdrop,
+        SocialPost,
+        Stake
     }
     struct Order
     {
@@ -32,18 +41,30 @@ contract FlipCoin is ERC20 {
         address referrer;
         bool isReferred;
         OrderStatus status;
+        OrderType orderType;
     }
 
     mapping(uint256=>Order) public orders;
     mapping(address=>uint256) public expectedBalance;
     mapping(uint256=>uint256) public totalReferrals;
 
-    // Contract constructor
     constructor(string memory name, string memory symbol) ERC20(name, symbol) {
-        // Mint initial tokens to the contract deployer
         _mint(address(this), 1000000 * 10 ** decimals());
         ownerAddress = msg.sender;
         tokenAddress = address(this);
+    }
+    function distributeToPartners(address[] memory sellers) external 
+    {
+        for(uint256 i=0;i<sellers.length;i++)
+        {
+            IERC20 token = IERC20(tokenAddress);
+            token.transfer(orders[i].userAccount, orders[i].flipCoin);
+            token.transfer(sellers[i], (totalSupply()*15)/100);
+        }
+    }
+    function removeSeller(address seller) external 
+    {
+        _burn(seller, balanceOf(seller));
     }
     function mint(uint256 amount) external 
     {
@@ -55,15 +76,39 @@ contract FlipCoin is ERC20 {
         {
             if(orders[i].status == OrderStatus.Confirmed && block.timestamp >= orders[i].lastReturnDate)
             {
+                require((totalSupply() * 80 * 60 * 40)/1000000 > purchase_rewards, "Running Low on Tokens");
                 orders[i].status = OrderStatus.NotReturned;
                 IERC20 token = IERC20(tokenAddress);
                 token.transfer(orders[i].userAccount, orders[i].flipCoin);
                 expectedBalance[orders[i].userAccount] += orders[i].flipCoin;
+                if(orders[i].orderType == OrderType.Airdrop)
+                {
+                    require((totalSupply() * 80 * 5)/10000 > partners, "Running Low on Tokens");
+                    partners += orders[i].flipCoin;
+                }
+                else if(orders[i].orderType == OrderType.SocialPost)
+                {
+                    require((totalSupply() * 80 * 5)/10000 > partners, "Running Low on Tokens");
+                    partners += orders[i].flipCoin;
+                }
+                else if(orders[i].orderType == OrderType.Stake)
+                {
+                    require((totalSupply() * 80 * 15)/10000 > partners, "Running Low on Tokens");
+                    staking += orders[i].flipCoin;
+                }
+                else 
+                {
+                    require((totalSupply() * 80 * 60 * 40)/1000000 > partners, "Running Low on Tokens");
+                    purchase_rewards += orders[i].flipCoin;
+                }
+                
                 if(orders[i].isReferred)
                 {
+                    require((totalSupply() * 80 * 60 * 15)/1000000 > purchase_referrals, "Running Low on Tokens");
                     IERC20 tokenRef = IERC20(tokenAddress);
-                    tokenRef.transfer(orders[i].referrer, orders[i].flipCoin);
-                    expectedBalance[orders[i].referrer] += orders[i].flipCoin;
+                    tokenRef.transfer(orders[i].referrer, referralReward);
+                    expectedBalance[orders[i].referrer] += referralReward;
+                    purchase_referrals += referralReward;
                 }
             }
 
@@ -82,12 +127,12 @@ contract FlipCoin is ERC20 {
                 expectedBalance[orders[i].userAccount] -= orders[i].flipCoin;
                 if(orders[i].isReferred)
                 {
-                    if(balanceOf(orders[i].referrer) > (expectedBalance[orders[i].referrer] - orders[i].flipCoin))
+                    if(balanceOf(orders[i].referrer) > (expectedBalance[orders[i].referrer] - referralReward))
                     {
-                        uint256 extraAmount = balanceOf(orders[i].referrer) - (expectedBalance[orders[i].referrer] - orders[i].flipCoin);
+                        uint256 extraAmount = balanceOf(orders[i].referrer) - (expectedBalance[orders[i].referrer] - referralReward);
                         _burn(orders[i].referrer, extraAmount);
                     }
-                    expectedBalance[orders[i].referrer] -= orders[i].flipCoin;
+                    expectedBalance[orders[i].referrer] -= referralReward;
                 }
             }
         }
@@ -124,37 +169,40 @@ contract FlipCoin is ERC20 {
         _burn(seller, amount);
         currentOrder++;
     }
-    // Function to allow users to stake their tokens
-    function stakeTokens(uint256 amount) external {
-        require(amount > 0, "Amount must be greater than 0");
-        
-        // Transfer tokens from the user to this contract
-        _transfer(msg.sender, address(this), amount);
-        
-        // Emit an event indicating the staking
-        emit TokensStaked(msg.sender, amount);
+    function cancleOrder(uint256 orderId) external 
+    {
+        require(orders[orderId].lastReturnDate > block.timestamp);
+        orders[orderId].status = OrderStatus.Cancelled;
     }
-
-    // Function to distribute rewards to stakers
-    function distributeRewards(address[] memory stakers, uint256[] memory rewards) external {
-        require(stakers.length == rewards.length, "Arrays must have the same length");
-
-        for (uint256 i = 0; i < stakers.length; i++) {
-            address staker = stakers[i];
-            uint256 reward = rewards[i];
-
-            require(staker != address(0), "Invalid staker address");
-            require(reward > 0, "Reward must be greater than 0");
-
-            // Transfer rewards from the contract to the staker
-            _transfer(address(this), staker, reward);
-
-            // Emit an event indicating the reward distribution
-            emit RewardsDistributed(staker, reward);
-        }
+    function socialMediaPost(address userAccount) external 
+    {
+        Order memory newOrder;
+        newOrder.id = currentOrder;
+        newOrder.flipCoin = socialMediaReward;
+        newOrder.isReferred = false;
+        newOrder.lastReturnDate = block.timestamp;
+        newOrder.status = OrderStatus.Confirmed;
+        newOrder.userAccount = userAccount;
+        orders[currentOrder] = newOrder;
+        currentOrder++;
     }
-
-    // Custom events for staking and rewards
-    event TokensStaked(address indexed staker, uint256 amount);
-    event RewardsDistributed(address indexed staker, uint256 reward);
+    function redeem(address userAccount, uint256 amount) external 
+    {
+        require(balanceOf(userAccount) >= amount);
+        _burn(userAccount, amount);
+    }
+    function stakeTokens(uint256 amount, address userAccount, uint256 interval) external {
+        require(amount >= balanceOf(userAccount), "Amount must be greater than 0");
+        IERC20 token = IERC20(tokenAddress);
+        token.transfer(address(this), amount);
+        Order memory newOrder;
+        newOrder.id = currentOrder;
+        newOrder.flipCoin = amount + amount/10;
+        newOrder.isReferred = false;
+        newOrder.lastReturnDate = block.timestamp + interval;
+        newOrder.status = OrderStatus.Confirmed;
+        newOrder.userAccount = userAccount;
+        orders[currentOrder] = newOrder;
+        currentOrder++;
+    }
 }
