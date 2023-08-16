@@ -15,12 +15,10 @@ const initialState = {
 export const readCustomerProducts = createAsyncThunk(
   'productsCustomer/readCustomerProducts',
   async (_, thunkAPI) => {
-    const { sortOrder, search, filterCategory, page } =
+    const { filterCategory, page } =
       thunkAPI.getState().productsCustomer;
 
-    // let base_url = "http://localhost:7001/api/products";
-
-    let product_url = 'https://goodal-mern.onrender.com/api/products';
+    let product_url;
 
     try {
       product_url = `https://fakestoreapi.com/products`;

@@ -12,7 +12,7 @@ export const CustomerSignup = () => {
   const [password, setPassword] = useState("");
 
   const dispatch = useDispatch();
-  const { loading, errorSignUp, customer } = useSelector(
+  const { loading, errorSignUp } = useSelector(
     (store) => store.customer
   );
 

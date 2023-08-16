@@ -4,7 +4,7 @@ import { NavLink } from 'react-router-dom';
 import { HiMenuAlt2 } from 'react-icons/hi';
 
 import { useDispatch, useSelector } from 'react-redux';
-import { adminLogOut } from '../features/auth/adminAuthSlice';
+import { adminLogOut } from '../store/auth/adminAuthSlice';
 
 const NavbarAdmin = () => {
   const [navColor, setNavColor] = useState(false);

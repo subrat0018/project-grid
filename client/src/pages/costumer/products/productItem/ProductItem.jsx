@@ -2,12 +2,11 @@ import React, { useState } from 'react';
 
 import Button from '../../../../components/Button';
 
-import { FaMinus, FaPlus, FaTrashAlt } from 'react-icons/fa';
+import { FaMinus, FaPlus } from 'react-icons/fa';
 
 import { useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import {
-  setAddItemToCart,
   setAddItemToCartTwo,
   setPreAdd,
   setPreDecrease,
@@ -15,14 +14,12 @@ import {
 
 import {
   ProductItemDescription,
-  ProductItemIngredients,
-  ProductItemHowToUse,
   ProductItemShare,
 } from './';
 
 const ProductItem = () => {
   const { state } = useLocation();
-  console.log('state', state);
+  
   const { item } = state;
   const { id, category, title, price, image } = item;
 

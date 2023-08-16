@@ -128,7 +128,7 @@ const cartSlice = createSlice({
 
       state.cartItems = removeItem;
 
-      toast.success(`${action.payload.name} removed from your Cart`);
+      toast.success(`${action.payload.title} removed from your Cart`);
 
       localStorage.setItem('cart', JSON.stringify(state.cartItems));
     },

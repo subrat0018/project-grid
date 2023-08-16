@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -55,36 +56,11 @@ const Products = () => {
   };
 
 
-  const handleAddToCart = (id, category, name, price, imgOne, imgTwo) => {
-    const items = { id, category, name, price, imgOne, imgTwo };
+  const handleAddToCart = (id, category, title, price, image) => {
+    const items = { id, category, title, price, image };
 
     dispatch(setAddItemToCart(items));
   };
-
-  const { categoryCount, categoryTotal } = (
-    products.productsData || []
-  )?.reduce(
-    (count, product) => {
-      const category = product.category;
-      const index = count.categoryCount.findIndex(
-        (obj) => obj.category === category
-      );
-
-      if (index >= 0) {
-        count.categoryCount[index].count += 1;
-      } else {
-        count.categoryCount.push({ category: category, count: 1 });
-      }
-
-      count.categoryTotal += 1;
-
-      return count;
-    },
-    {
-      categoryCount: [],
-      categoryTotal: 0,
-    }
-  );
 
   return (
     <main className="min-h-screen w-full bg-bgcolor2 font-urbanist">

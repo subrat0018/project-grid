@@ -6,19 +6,14 @@ import { setCloseCart, setOpenCart } from '../../store/customer/cart/cartSlice';
 
 // icons
 import { HiMenuAlt2, HiOutlineShoppingBag } from 'react-icons/hi';
-import { IoIosArrowDown } from 'react-icons/io';
 import { FaSort } from 'react-icons/fa';
 import { RiFilterOffFill } from 'react-icons/ri';
 import { FiSearch } from 'react-icons/fi';
 import { MdOutlineAccountCircle } from 'react-icons/md';
 
 import { Cart } from '../../pages/costumer/cart/index';
-import { customerLogOut } from '../../store/auth/customerAuthSlice';
-import {
-  setFilterCategory,
-  setSearch,
-  setSortOrder,
-} from '../../store/customer/product/productCustomerSlice';
+// import { customerLogOut } from '../../store/auth/customerAuthSlice';
+import { setFilterCategory } from '../../store/customer/product/productCustomerSlice';
 
 const Navbar = () => {
   const location = useLocation();
@@ -35,8 +30,8 @@ const Navbar = () => {
 
   const dispatch = useDispatch();
   const { cartState, cartTotalQuantity } = useSelector((store) => store.cart);
-  const { customer } = useSelector((store) => store.customer);
-  const { products, search } = useSelector((store) => store.productsCustomer);
+  // const { customer } = useSelector((store) => store.customer);
+  const { products } = useSelector((store) => store.productsCustomer);
 
   // mobile dropdown
   const handleDropdown = () => {
@@ -94,10 +89,6 @@ const Navbar = () => {
     handleFilterNav();
   };
 
-  const handleSearchChange = (event) => {
-    dispatch(setSearch(event.target.value));
-  };
-
   // cart nav
   const handleCartNav = () => {
     if (cartState) {
@@ -142,10 +133,6 @@ const Navbar = () => {
       window.removeEventListener('scroll', changeBackground);
     };
   }, []);
-
-  const handleLogout = () => {
-    dispatch(customerLogOut());
-  };
 
   return (
     <>
