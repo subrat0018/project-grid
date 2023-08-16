@@ -55,8 +55,8 @@ const Products = () => {
   };
 
 
-  const handleAddToCart = (_id, category, name, price, imgOne, imgTwo) => {
-    const items = { _id, category, name, price, imgOne, imgTwo };
+  const handleAddToCart = (id, category, name, price, imgOne, imgTwo) => {
+    const items = { id, category, name, price, imgOne, imgTwo };
 
     dispatch(setAddItemToCart(items));
   };

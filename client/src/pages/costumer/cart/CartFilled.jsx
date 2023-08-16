@@ -1,37 +1,37 @@
-import React from "react";
-import { FaMinus, FaPlus, FaTrashAlt } from "react-icons/fa";
-import { useDispatch } from "react-redux";
+import React from 'react';
+import { FaMinus, FaPlus, FaTrashAlt } from 'react-icons/fa';
+import { useDispatch } from 'react-redux';
 import {
   setDecreaseItemQTY,
   setIncreaseItemQTY,
   setRemoveItemFromCart,
-} from "../../../store/customer/cart/cartSlice";
+} from '../../../store/customer/cart/cartSlice';
 
 const CartFilled = ({
-  item: { _id, category, name, price, imgOne, imgTwo, quantity },
+  item: { id, category, title, price, image, quantity },
 }) => {
   const dispatch = useDispatch();
 
   const handleRemoveItem = () => {
-    dispatch(setRemoveItemFromCart({ _id, name }));
+    dispatch(setRemoveItemFromCart({ id, title }));
   };
 
   const handleIncreaseItemQuantity = () => {
-    dispatch(setIncreaseItemQTY({ _id }));
+    dispatch(setIncreaseItemQTY({ id }));
   };
 
   const handleDecreaseItemQuantity = () => {
-    dispatch(setDecreaseItemQTY({ _id }));
+    dispatch(setDecreaseItemQTY({ id }));
   };
 
   function formatPrice(price) {
     // Get the user's locale from the browser
-    const userLocale = navigator.language || "en-US";
+    const userLocale = navigator.language || 'en-US';
 
     // Format the price value using the user's locale and currency
     const formattedPrice = Number(price).toLocaleString(userLocale, {
-      style: "currency",
-      currency: "INR",
+      style: 'currency',
+      currency: 'INR',
     });
 
     return formattedPrice;
@@ -43,14 +43,14 @@ const CartFilled = ({
         {/* image */}
         <div className="group relative col-span-2 flex items-center">
           <img
-            src={imgOne}
-            alt={name}
+            src={image}
+            alt={title}
             className="absolute transition duration-500 ease-in-out group-hover:opacity-0"
           />
 
           <img
-            src={imgTwo}
-            alt={name}
+            src={image}
+            alt={title}
             className="absolute rounded-lg opacity-0 shadow-xl transition duration-500 ease-in-out group-hover:opacity-100"
           />
         </div>
@@ -58,7 +58,7 @@ const CartFilled = ({
         {/* name */}
         <div className="col-span-3 space-y-3">
           <h1 className="text-base font-bold text-primary md:text-2xl">
-            {name}
+            {title}
           </h1>
 
           <p className="text-base text-primary md:text-2xl">{category}</p>
@@ -76,7 +76,7 @@ const CartFilled = ({
                 <FaMinus className="h-3 text-zinc-600" />
               </button>
 
-              <span className="flex items-center justify-center py-0.5 px-4 text-xs font-semibold tracking-widest text-zinc-700 md:h-5 md:w-5 md:py-4 md:px-8 md:text-sm">
+              <span className="flex items-center justify-center px-4 py-0.5 text-xs font-semibold tracking-widest text-zinc-700 md:h-5 md:w-5 md:px-8 md:py-4 md:text-sm">
                 {quantity}
               </span>
 

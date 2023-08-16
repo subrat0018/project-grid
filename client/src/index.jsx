@@ -9,10 +9,10 @@ import { store } from './app/store';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <BrowserRouter>
+  <HashRouter>
     <Provider store={store}>
       <Toaster position="top-center" reverseOrder={false} />
       <App />
     </Provider>
-  </BrowserRouter>
+  </HashRouter>
 );

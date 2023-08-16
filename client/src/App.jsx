@@ -5,10 +5,11 @@ import { ProductsLayout } from './routes/ProductsLayout';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
 
-import { checkCustomer } from "./store/auth/customerAuthSlice";
+import { checkCustomer } from './store/auth/customerAuthSlice';
 import { CustomerSignupLayout } from './routes/CustomerSignupLayout';
 import { CustomerLoginLayout } from './routes/CustomerLoginLayout';
 import { HomeLayout } from './routes/HomeLayout';
+import { ProductItemLayout } from './routes/ProductItemLayout';
 
 function App() {
   const dispatch = useDispatch();
@@ -18,12 +19,11 @@ function App() {
     dispatch(checkCustomer());
   }, []);
 
-
   return (
     <>
       <Routes>
         <Route path="/" element={<SharedLayout />}>
-          <Route index element={<CustomerSignupLayout />} />
+          <Route index element={<HomeLayout />} />
           <Route path="/products" element={<ProductsLayout />} />
           <Route
             path="/customer/signup"
@@ -33,6 +33,7 @@ function App() {
             path="/customer/login"
             element={!customer ? <CustomerLoginLayout /> : <Navigate to="/" />}
           />
+          <Route path="/products/:slug" element={<ProductItemLayout />} />
         </Route>
       </Routes>
     </>

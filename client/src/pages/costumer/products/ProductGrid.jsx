@@ -1,16 +1,16 @@
-import React from "react";
-import { Link } from "react-router-dom";
-import { HiOutlineShoppingBag } from "react-icons/hi";
+import React from 'react';
+import { Link } from 'react-router-dom';
+import { HiOutlineShoppingBag } from 'react-icons/hi';
 
 export const ProductGrid = ({ products, handleAddToCart }) => {
   function formatPrice(price) {
     // Get the user's locale from the browser
-    const userLocale = navigator.language || "en-US";
+    const userLocale = navigator.language || 'en-US';
 
     // Format the price value using the user's locale and currency
     const formattedPrice = Number(price).toLocaleString(userLocale, {
-      style: "currency",
-      currency: "INR",
+      style: 'currency',
+      currency: 'INR',
     });
 
     return formattedPrice;
@@ -23,7 +23,10 @@ export const ProductGrid = ({ products, handleAddToCart }) => {
           <div className="relative">
             <div className="group relative flex h-44 justify-center md:h-80">
               <Link
-                to={`/products/${item.title.toLowerCase().replace(/\s+/g, "-")}`}
+                to={`/products/${item.category
+                  .toLowerCase()
+                  .replace("'", '')
+                  .replace(/\s+/g, '-')}-${item.id}`}
                 state={{ item }}
               >
                 <img
@@ -40,7 +43,7 @@ export const ProductGrid = ({ products, handleAddToCart }) => {
               </Link>
 
               <button
-                className="absolute bottom-2 hidden translate-y-3 transform rounded-sm bg-gray-700 py-3 px-12 font-urbanist text-xs font-extrabold text-bgcolor opacity-0 transition duration-300 ease-in-out hover:bg-gray-800 group-hover:translate-y-0 group-hover:opacity-100 md:block"
+                className="absolute bottom-2 hidden translate-y-3 transform rounded-sm bg-gray-700 px-12 py-3 font-urbanist text-xs font-extrabold text-bgcolor opacity-0 transition duration-300 ease-in-out hover:bg-gray-800 group-hover:translate-y-0 group-hover:opacity-100 md:block"
                 onClick={() =>
                   handleAddToCart(
                     item.id,

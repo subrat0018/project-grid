@@ -1,38 +1,39 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
 
-import Button from "../../../../components/Button";
+import Button from '../../../../components/Button';
 
-import { FaMinus, FaPlus, FaTrashAlt } from "react-icons/fa";
+import { FaMinus, FaPlus, FaTrashAlt } from 'react-icons/fa';
 
-import { useLocation } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import { useLocation } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   setAddItemToCart,
   setAddItemToCartTwo,
   setPreAdd,
   setPreDecrease,
-} from "../../../../features/customer/cart/cartSlice";
+} from '../../../../store/customer/cart/cartSlice';
 
 import {
   ProductItemDescription,
   ProductItemIngredients,
   ProductItemHowToUse,
   ProductItemShare,
-} from "./";
+} from './';
 
 const ProductItem = () => {
   const { state } = useLocation();
+  console.log('state', state);
   const { item } = state;
-  const { _id, category, name, price, imgOne, imgTwo } = item;
+  const { id, category, title, price, image } = item;
 
   const { cartItems, testQuant } = useSelector((store) => store.cart);
   const dispatch = useDispatch();
 
-  const itemIndex = cartItems.findIndex((item) => item._id === _id);
+  const itemIndex = cartItems.findIndex((item) => item.id === id);
 
-  console.log("quantity", cartItems[itemIndex]?.quantity);
+  console.log('quantity', cartItems[itemIndex]?.quantity);
 
-  console.log("testQuant", testQuant);
+  console.log('testQuant', testQuant);
 
   console.log(cartItems);
 
@@ -41,38 +42,34 @@ const ProductItem = () => {
   };
 
   const handleDecrease = () => {
-    dispatch(setPreDecrease({ _id }));
+    dispatch(setPreDecrease({ id }));
   };
 
-  const [activeSection, setActiveSection] = useState("description");
+  const [activeSection, setActiveSection] = useState('description');
   const productNavItemClass =
-    "font-urbanist font-bold text-sm md:text-base text-zinc-600 transition duration-200 ease-in-out cursor-pointer hover:text-primary";
+    'font-urbanist font-bold text-sm md:text-base text-zinc-600 transition duration-200 ease-in-out cursor-pointer hover:text-primary';
 
   let detailSection;
-  if (activeSection === "description") {
+  if (activeSection === 'description') {
     detailSection = <ProductItemDescription item={item} />;
-  } else if (activeSection === "ingredients") {
-    detailSection = <ProductItemIngredients />;
-  } else if (activeSection === "howtouse") {
-    detailSection = <ProductItemHowToUse />;
-  } else if (activeSection === "share") {
+  } else if (activeSection === 'share') {
     detailSection = <ProductItemShare />;
   }
 
   const handleAddToCart = () => {
-    const items = { _id, category, name, price, imgOne, imgTwo };
+    const items = { id, category, title, price, image };
 
     dispatch(setAddItemToCartTwo(items));
   };
 
   function formatPrice(price) {
     // Get the user's locale from the browser
-    const userLocale = navigator.language || "en-US";
+    const userLocale = navigator.language || 'en-US';
 
     // Format the price value using the user's locale and currency
     const formattedPrice = Number(price).toLocaleString(userLocale, {
-      style: "currency",
-      currency: "USD",
+      style: 'currency',
+      currency: 'INR',
     });
 
     return formattedPrice;
@@ -80,40 +77,42 @@ const ProductItem = () => {
 
   return (
     <main className="min-h-screen w-full bg-[#FFFFFF]">
-      <div className="container mx-auto py-16 px-6 lg:px-16">
+      <div className="container mx-auto px-6 py-16 lg:px-16">
+        <Button navigateTo="/products" btnStyle="btn-primary " text="Back" />
         <div className="mt-3 flex flex-col items-start gap-8 md:mt-20 md:flex-row">
           {/* img */}
           <div className="group relative flex h-[400px] w-full justify-center md:h-[700px]">
             <img
-              className="absolute h-full w-full object-cover transition duration-500 ease-in-out group-hover:opacity-0"
-              src={item.imgOne.url}
+              className="absolute h-[50%] w-[50%] transition duration-500 ease-in-out group-hover:opacity-0"
+              src={item.image}
               alt={item.name}
             />
 
             <img
-              className="absolute h-full w-full rounded-lg object-cover opacity-0 shadow-xl transition duration-500 ease-in-out group-hover:opacity-100"
-              src={item.imgTwo.url}
-              alt={item.name}
+              className="absolute h-[55%] w-[55%] rounded-lg opacity-0 shadow-xl transition duration-500 ease-in-out group-hover:opacity-100"
+              src={item.image}
+              alt={item.title}
             />
           </div>
 
           {/* name */}
           <div className="flex h-full w-full flex-col justify-center space-y-6 text-left">
             <p className="font-urbanist text-xl font-bold text-primary md:text-4xl lg:text-5xl">
-              {item.name}
+              {item.title}
             </p>
 
-            <span className="inline-block font-gotu text-lg text-secondary md:text-2xl lg:text-3xl">
-              {formatPrice(item.price)}
+            <span className="flex flex-row items-start justify-start font-gotu text-lg text-secondary md:text-2xl lg:text-3xl">
+              {formatPrice(item.price)} {`(10 `}
+              <img
+                src="https://res.cloudinary.com/sambitsankalp/image/upload/v1692195660/Bitcoin_Cash_cpb1xm.png"
+                alt="BD"
+                className="h-8 w-8"
+              />
+              {` `}
+              {`)`}
             </span>
 
             <div className="flex items-center justify-between space-x-4 md:justify-start">
-              <Button
-                navigateTo="/products"
-                btnStyle="btn-primary"
-                text="Back"
-              />
-
               <div className="flex w-min items-center justify-start border border-zinc-300">
                 <button
                   onClick={handleDecrease}
@@ -122,7 +121,7 @@ const ProductItem = () => {
                   <FaMinus className="h-3 text-zinc-600" />
                 </button>
 
-                <span className="flex items-center justify-center py-0.5 px-4 text-sm font-semibold tracking-widest text-zinc-700 md:h-5 md:w-5 md:py-4 md:px-8">
+                <span className="flex items-center justify-center px-4 py-0.5 text-sm font-semibold tracking-widest text-zinc-700 md:h-5 md:w-5 md:px-8 md:py-4">
                   {testQuant}
                 </span>
 
@@ -142,37 +141,19 @@ const ProductItem = () => {
             <div className="space-y-5">
               <ul className="flex space-x-5 border-b border-zinc-300 pb-0.5">
                 <li
-                  onClick={() => setActiveSection("description")}
+                  onClick={() => setActiveSection('description')}
                   className={`${productNavItemClass} ${
-                    activeSection === "description" &&
-                    "text-pink-600 underline decoration-2 underline-offset-8 hover:text-pink-600"
+                    activeSection === 'description' &&
+                    'text-pink-600 underline decoration-2 underline-offset-8 hover:text-pink-600'
                   }`}
                 >
                   Description
                 </li>
                 <li
-                  onClick={() => setActiveSection("ingredients")}
+                  onClick={() => setActiveSection('share')}
                   className={`${productNavItemClass} ${
-                    activeSection === "ingredients" &&
-                    "text-pink-600 underline decoration-2 underline-offset-8 hover:text-pink-600"
-                  }`}
-                >
-                  Ingredients
-                </li>
-                <li
-                  onClick={() => setActiveSection("howtouse")}
-                  className={`${productNavItemClass} ${
-                    activeSection === "howtouse" &&
-                    "text-pink-600 underline decoration-2 underline-offset-8 hover:text-pink-600"
-                  }`}
-                >
-                  How To Use
-                </li>
-                <li
-                  onClick={() => setActiveSection("share")}
-                  className={`${productNavItemClass} ${
-                    activeSection === "share" &&
-                    "text-pink-600 underline decoration-2 underline-offset-8 hover:text-pink-600"
+                    activeSection === 'share' &&
+                    'text-pink-600 underline decoration-2 underline-offset-8 hover:text-pink-600'
                   }`}
                 >
                   Share
