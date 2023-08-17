@@ -110,7 +110,7 @@ export const AdminProducts = () => {
   return (
     <div className="col-span-2 space-y-5 font-urbanist">
       {/*  nav */}
-      <div className="space-y-5 rounded-lg border border-zinc-200 bg-green-200 p-5 shadow-md">
+      <div className="space-y-5 rounded-lg border border-zinc-200 bg-[#f0e2e1] p-5 shadow-md">
         {/* filter */}
         <ul className="flex justify-center space-x-3 text-base font-bold tracking-wide text-bgcolor3 md:text-lg lg:text-xl">
           <li

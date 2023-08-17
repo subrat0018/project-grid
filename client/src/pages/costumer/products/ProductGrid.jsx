@@ -36,7 +36,7 @@ export const ProductGrid = ({ products, handleAddToCart }) => {
                 />
 
                 <img
-                  className="absolute inset-0 h-full w-full rounded-lg opacity-0 shadow-xl transition duration-500 ease-in-out group-hover:opacity-100 "
+                  className="absolute inset-0 h-full w-full rounded-lg opacity-0 shadow-2xl p-2 transition duration-500 ease-in-out group-hover:opacity-100 "
                   src={item.image}
                   alt={item.title}
                 />
@@ -51,7 +51,6 @@ export const ProductGrid = ({ products, handleAddToCart }) => {
                     item.title,
                     item.price,
                     item.image,
-                    item.image
                   )
                 }
               >
@@ -68,7 +67,6 @@ export const ProductGrid = ({ products, handleAddToCart }) => {
                     item.title,
                     item.price,
                     item.image,
-                    item.image
                   )
                 }
                 className="h-6 w-6 cursor-pointer rounded bg-gray-700 p-1 text-bgcolor transition-all duration-100 ease-in-out hover:bg-gray-800 active:scale-90 active:bg-gray-800"
