@@ -10,11 +10,12 @@ import { CustomerSignupLayout } from './routes/CustomerSignupLayout';
 import { CustomerLoginLayout } from './routes/CustomerLoginLayout';
 import { HomeLayout } from './routes/HomeLayout';
 import { ProductItemLayout } from './routes/ProductItemLayout';
+import CustomerDashboardLayout from './routes/CustomerDashboardLayout';
 
 import { AdminDashboardLayout } from './routes/AdminDashboardLayout';
 import { AdminLoginLayout } from './routes/AdminLoginLayout';
 import { checkAdmin } from './store/auth/adminAuthSlice';
-import CustomerDashboard from './pages/dashboard/CustomerDashboard';
+import AdminDistributeLayout from './routes/AdminDistributeLayout';
 
 function App() {
   const dispatch = useDispatch();
@@ -40,7 +41,10 @@ function App() {
             path="/customer/login"
             element={!customer ? <CustomerLoginLayout /> : <Navigate to="/" />}
           />
-          <Route path="/customer/dashboard" element={<CustomerDashboard />} />
+          <Route
+            path="/customer/dashboard"
+            element={<CustomerDashboardLayout />}
+          />
           <Route path="/products/:slug" element={<ProductItemLayout />} />
         </Route>
 
@@ -57,6 +61,7 @@ function App() {
               !admin ? <AdminLoginLayout /> : <Navigate to="/admin/dashboard" />
             }
           />
+          <Route path="/admin/dashboard/distribute" element={<AdminDistributeLayout />} />
         </Route>
       </Routes>
     </>

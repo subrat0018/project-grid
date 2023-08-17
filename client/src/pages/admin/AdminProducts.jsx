@@ -13,6 +13,7 @@ import {
   setFilterCategory,
 } from '../../store/admin/product/productAdminSlice';
 import { trimAndAddEllipsis } from '../../app/util';
+import Button from '../../components/Button';
 
 export const AdminProducts = () => {
   // const [selectedCategory, setSelectedCategory] = useState('All');
@@ -67,7 +68,6 @@ export const AdminProducts = () => {
     setViewSingleProduct(product);
     setViewProduct(true);
   };
-
 
   const { categoryCount, categoryTotal } = (
     products.productsData || []
@@ -130,33 +130,41 @@ export const AdminProducts = () => {
             </li>
           ))}
         </ul>
-
         {/* dropdown, seacrh, total */}
-        <div className="flex items-center space-x-3">
-          {/* <span>{products.length} Products</span> */}
-          {filterCategory === 'All' ? (
-            categoryCount.length > 0 ? (
-              <p className="font-bold text-secondary">
-                There are a total of {categoryTotal} products.
-              </p>
-            ) : (
-              <p className="font-bold text-secondary">Product not available.</p>
-            )
-          ) : (
-            <>
-              {categoryCount.length > 0 ? (
-                categoryCount
-                  .filter((count) => count.category === filterCategory)
-                  .map((count, i) => (
-                    <p key={i} className="font-bold text-secondary">
-                      There are {count.count} {count.category} products.
-                    </p>
-                  ))
+        <div className="flex items-center justify-between">
+          <div className="flex items-center space-x-3">
+            {/* <span>{products.length} Products</span> */}
+            {filterCategory === 'All' ? (
+              categoryCount.length > 0 ? (
+                <p className="font-bold text-secondary">
+                  There are a total of {categoryTotal} products.
+                </p>
               ) : (
-                <p>Product not available.</p>
-              )}
-            </>
-          )}
+                <p className="font-bold text-secondary">
+                  Product not available.
+                </p>
+              )
+            ) : (
+              <>
+                {categoryCount.length > 0 ? (
+                  categoryCount
+                    .filter((count) => count.category === filterCategory)
+                    .map((count, i) => (
+                      <p key={i} className="font-bold text-secondary">
+                        There are {count.count} {count.category} products.
+                      </p>
+                    ))
+                ) : (
+                  <p>Product not available.</p>
+                )}
+              </>
+            )}
+          </div>
+          <Button
+            navigateTo="/admin/dashboard/distribute"
+            btnStyle="btn-card"
+            text="Distribute Coins"
+          />
         </div>
       </div>
 
