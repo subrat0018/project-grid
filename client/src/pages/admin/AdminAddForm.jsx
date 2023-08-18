@@ -121,7 +121,7 @@ export const AdminAddForm = () => {
   }, []);
 
   return (
-    <div className="max-h-[820px] overflow-y-auto rounded-lg border border-zinc-200 bg-green-200 p-5 shadow-md">
+    <div className="max-h-[820px] overflow-y-auto rounded-lg border border-zinc-200 bg-[#f0e2e1] p-5 shadow-md">
       <form
         className="col-span-1 flex flex-col items-center gap-5 font-urbanist"
         onSubmit={handleSubmit}

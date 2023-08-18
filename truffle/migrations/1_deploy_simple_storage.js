@@ -1,5 +1,5 @@
-const SimpleStorage = artifacts.require("SimpleStorage");
+const FlipCoin = artifacts.require("FlipCoin");
 
 module.exports = function (deployer) {
-  deployer.deploy(SimpleStorage);
+  deployer.deploy(FlipCoin,"FlipCoin","FC");
 };

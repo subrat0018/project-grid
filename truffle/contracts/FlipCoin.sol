@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.0;
+pragma solidity ^0.8.13;
+
 
 // Import the necessary ERC-20 interface
 import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
@@ -14,9 +15,10 @@ contract FlipCoin is ERC20 {
     uint256 staking;
     uint256 partners;
     uint256 currentOrder;
-    uint256 expireTime = 90;
+    uint256 expireTime = 60;
     uint256 socialMediaReward = 1;
     uint256 referralReward = 1;
+    uint256 currentMintAmount = 0;
     address ownerAddress;
     address tokenAddress;
 
@@ -24,7 +26,8 @@ contract FlipCoin is ERC20 {
     {
         Confirmed,
         Cancelled,
-        NotReturned
+        NotReturned,
+        Expired
     }
     enum OrderType
     {
@@ -50,7 +53,8 @@ contract FlipCoin is ERC20 {
     mapping(uint256=>uint256) public totalReferrals;
 
     constructor(string memory name, string memory symbol) ERC20(name, symbol) {
-        _mint(address(this), 1000000 * 10 ** decimals());
+        _mint(address(this), 10000000 * 10 ** decimals());
+        currentMintAmount = 10000000;
         ownerAddress = msg.sender;
         tokenAddress = address(this);
     }
@@ -59,8 +63,7 @@ contract FlipCoin is ERC20 {
         for(uint256 i=0;i<sellers.length;i++)
         {
             IERC20 token = IERC20(tokenAddress);
-            token.transfer(orders[i].userAccount, orders[i].flipCoin);
-            token.transfer(sellers[i], (totalSupply()*15)/100);
+            token.transfer(sellers[i], (currentMintAmount * 5)/100);
         }
     }
     function removeSeller(address seller) external 
@@ -71,6 +74,7 @@ contract FlipCoin is ERC20 {
     {
         require(ownerAddress == msg.sender);
         _mint(address(this), amount * 10 ** decimals());
+        currentMintAmount = amount;
     }
     function depositCoint() external {
         for(uint256 i=0;i<currentOrder;i++)
@@ -113,7 +117,7 @@ contract FlipCoin is ERC20 {
 
         }
     }
-    function deductCoin() external {
+    function deductCoin() payable external {
         for(uint256 i=0;i<currentOrder;i++)
         {
             if(orders[i].status == OrderStatus.NotReturned && block.timestamp >= orders[i].lastReturnDate + expireTime)
@@ -133,13 +137,19 @@ contract FlipCoin is ERC20 {
                     }
                     expectedBalance[orders[i].referrer] -= referralReward;
                 }
+                orders[i].status = OrderStatus.Expired;
             }
         }
     }
     function purchase(uint256 productPrice,address userAccount, uint256 lastReturnDate,bool isReferred, address referrer)external {
         Order memory newOrder;
         newOrder.id = currentOrder;
-        newOrder.flipCoin = productPrice/10;
+        if(productPrice/100 >= 100){
+        newOrder.flipCoin = 100;
+        }
+        else{
+            newOrder.flipCoin = productPrice / 100;
+        }
         newOrder.userAccount = userAccount;
         newOrder.status = OrderStatus.Confirmed;
         newOrder.lastReturnDate = lastReturnDate;
@@ -191,13 +201,12 @@ contract FlipCoin is ERC20 {
     }
     function redeem(address userAccount, uint256 amount) external 
     {
-        require(balanceOf(userAccount) >= amount);
+        require(balanceOf(userAccount) >= amount && amount > 0, "Insufficient balance");
         _burn(userAccount, amount);
     }
     function stakeTokens(uint256 amount, address userAccount, uint256 interval) external {
-        require(amount >= balanceOf(userAccount), "Amount must be greater than 0");
-        IERC20 token = IERC20(tokenAddress);
-        token.transfer(address(this), amount);
+        require(amount >0 && amount <= balanceOf(userAccount), "Insufficient balance");
+        _transfer(userAccount, address(this) ,amount);
         Order memory newOrder;
         newOrder.id = currentOrder;
         newOrder.flipCoin = amount + amount/10;

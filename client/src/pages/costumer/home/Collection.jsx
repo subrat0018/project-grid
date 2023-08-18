@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 
-import Button from '../../../components/Button';
+// import Button from '../../../components/Button';
 import { IoIosArrowBack, IoIosArrowForward } from 'react-icons/io';
 import { collectionImages } from '../../../assets/home/collection/collectionImages';
 
@@ -12,16 +12,10 @@ import { Navigation } from 'swiper';
 import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/css/navigation';
+import { NavLink } from 'react-router-dom';
+// import { NavLink } from 'react-router-dom';
 
 const Collection = () => {
-  const [categories, setcategories] = useState([]);
-
-  useEffect(() => {
-    fetch('https://fakestoreapi.com/products/categories')
-      .then((res) => res.json())
-      .then((json) => setcategories(json));
-  }, []);
-
   return (
     <section className="flex w-full items-center bg-bgcolor md:min-h-screen">
       <div className="container mx-auto px-6 py-16 lg:px-16">
@@ -62,26 +56,25 @@ const Collection = () => {
                 },
               }}
             >
-              {categories && collectionImages.map((item, i) => {
+              {collectionImages.map((item, i) => {
                 return (
-                  <SwiperSlide key={item.id}>
-                    <div className="flex flex-col items-center space-y-7 p-5 text-center">
-                      <h3 className="font-urbanist text-2xl font-bold text-primary md:text-3xl">
-                        {categories[i]}
-                      </h3>
-
-                      <img
-                        className="h-96 w-full transform rounded-xl object-cover object-center shadow-lg transition duration-300 ease-out md:hover:scale-105"
-                        src={item.img}
-                        alt={item.img}
-                      />
-
-                      <Button
-                        navigateTo="/products"
-                        btnStyle="btn-card"
-                        text="View Collection"
-                      />
-                    </div>
+                  <SwiperSlide key={`${item.id}`}>
+                    <NavLink to="/products">
+                      <div className="flex cursor-pointer flex-col items-center space-y-7 p-5 text-center">
+                        <div className="card-image relative w-full">
+                          <img
+                            className="h-96 w-full transform rounded-xl object-cover object-center shadow-lg transition duration-300 ease-out md:hover:scale-105"
+                            src={item.img}
+                            alt={item.img}
+                          />
+                          <div className="overlay p-5">
+                            <p className="overlay-text font-urbanist text-2xl font-bold text-primary md:text-3xl">
+                              {item.name}
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    </NavLink>
                   </SwiperSlide>
                 );
               })}

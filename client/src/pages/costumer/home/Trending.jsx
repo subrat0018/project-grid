@@ -8,11 +8,11 @@ const Trending = () => {
       <div className="container mx-auto py-16 px-6 lg:px-16">
         <div className="space-y-11">
           {/* text */}
-          <div className="text-center md:px-48">
+          {/* <div className="text-center md:px-48">
             <h1 className="font-gotu text-2xl font-bold text-primary md:text-4xl md:leading-relaxed">
               Explore our sales!!!
             </h1>
-          </div>
+          </div> */}
 
           {/* grid */}
           <div className="grid items-center gap-y-4 gap-x-3 md:grid-cols-4 md:grid-rows-4">
