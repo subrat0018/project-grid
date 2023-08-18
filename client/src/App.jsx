@@ -3,7 +3,7 @@ import { Routes, Route, Navigate } from 'react-router-dom';
 import { SharedLayout } from './routes/sharedLayout';
 import { ProductsLayout } from './routes/ProductsLayout';
 import { useDispatch, useSelector } from 'react-redux';
-import { useEffect,useContext } from 'react';
+import { useEffect, useContext } from 'react';
 
 import { checkCustomer } from './store/auth/customerAuthSlice';
 import { CustomerSignupLayout } from './routes/CustomerSignupLayout';
@@ -16,14 +16,16 @@ import { AdminDashboardLayout } from './routes/AdminDashboardLayout';
 import { AdminLoginLayout } from './routes/AdminLoginLayout';
 import { checkAdmin } from './store/auth/adminAuthSlice';
 import AdminDistributeLayout from './routes/AdminDistributeLayout';
+import CheckoutLayout from './routes/CheckoutLayout';
 
 function App() {
   const dispatch = useDispatch();
   const { admin } = useSelector((store) => store.admin);
   const { customer } = useSelector((store) => store.customer);
-  window.ethereum&&window.ethereum.on('accountsChanged', function () {
-    setTimeout(window.location.reload(false), 1000);
-  });
+  window.ethereum &&
+    window.ethereum.on('accountsChanged', function () {
+      setTimeout(window.location.reload(false), 1000);
+    });
   useEffect(() => {
     dispatch(checkAdmin());
     dispatch(checkCustomer());
@@ -51,6 +53,7 @@ function App() {
             path="/customer/dashboard"
             element={<CustomerDashboardLayout />}
           />
+          <Route path="/checkout" element={<CheckoutLayout />} />
           <Route path="/products/:slug" element={<ProductItemLayout />} />
         </Route>
 
@@ -67,7 +70,10 @@ function App() {
               !admin ? <AdminLoginLayout /> : <Navigate to="/admin/dashboard" />
             }
           />
-          <Route path="/admin/dashboard/distribute" element={<AdminDistributeLayout />} />
+          <Route
+            path="/admin/dashboard/distribute"
+            element={<AdminDistributeLayout />}
+          />
         </Route>
       </Routes>
     </>
