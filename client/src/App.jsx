@@ -3,7 +3,7 @@ import { Routes, Route, Navigate } from 'react-router-dom';
 import { SharedLayout } from './routes/sharedLayout';
 import { ProductsLayout } from './routes/ProductsLayout';
 import { useDispatch, useSelector } from 'react-redux';
-import { useEffect } from 'react';
+import { useEffect,useContext } from 'react';
 
 import { checkCustomer } from './store/auth/customerAuthSlice';
 import { CustomerSignupLayout } from './routes/CustomerSignupLayout';
@@ -11,7 +11,7 @@ import { CustomerLoginLayout } from './routes/CustomerLoginLayout';
 import { HomeLayout } from './routes/HomeLayout';
 import { ProductItemLayout } from './routes/ProductItemLayout';
 import CustomerDashboardLayout from './routes/CustomerDashboardLayout';
-
+import Web3Context from './contexts';
 import { AdminDashboardLayout } from './routes/AdminDashboardLayout';
 import { AdminLoginLayout } from './routes/AdminLoginLayout';
 import { checkAdmin } from './store/auth/adminAuthSlice';
@@ -21,10 +21,16 @@ function App() {
   const dispatch = useDispatch();
   const { admin } = useSelector((store) => store.admin);
   const { customer } = useSelector((store) => store.customer);
-
+  window.ethereum&&window.ethereum.on('accountsChanged', function () {
+    setTimeout(window.location.reload(false), 1000);
+  });
   useEffect(() => {
     dispatch(checkAdmin());
     dispatch(checkCustomer());
+  }, []);
+  const { checkIfWalletIsConnected } = useContext(Web3Context);
+  useEffect(() => {
+    checkIfWalletIsConnected();
   }, []);
 
   return (

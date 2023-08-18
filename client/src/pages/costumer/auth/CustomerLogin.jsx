@@ -1,11 +1,16 @@
-import { useState } from 'react';
+import { useState,useContext } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { customerLogin } from '../../../store/auth/customerAuthSlice';
 
 // image
 import { NavLink } from 'react-router-dom';
+import Web3Context from '../../../contexts';
+
+
 
 export const CustomerLogin = () => {
+  const { connectWallet, account } = useContext(Web3Context);
+
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
@@ -14,8 +19,10 @@ export const CustomerLogin = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    dispatch(customerLogin({ email, password }));
+    console.log(account.currentAccount)
+    connectWallet()
+   
+    //dispatch(customerLogin({ email, password }));
   };
 
   return (
@@ -26,7 +33,7 @@ export const CustomerLogin = () => {
             className="flex w-full flex-col items-center gap-5 md:mr-20 md:w-1/3"
             onSubmit={handleSubmit}
           >
-            <h3 className="mb-3 font-urbanist text-xl font-bold text-primary md:text-3xl">
+            {/* <h3 className="mb-3 font-urbanist text-xl font-bold text-primary md:text-3xl">
               Please login to your account
             </h3>
 
@@ -46,13 +53,13 @@ export const CustomerLogin = () => {
               value={password}
               placeholder="Password"
               className="w-full border border-gray-300 px-5 py-3 shadow-md focus:outline-none md:px-6 md:py-4 md:text-lg"
-            />
+            /> */}
 
             <button
               disabled={loading}
               className="w-full rounded-md bg-[#c6f6f8] px-5 py-2 font-urbanist font-extrabold text-secondary shadow-md ring-2 ring-[#abecee] transition duration-300 ease-in hover:bg-[#abecee] hover:text-primary md:px-6 md:py-3"
             >
-              LOGIN
+              Connect your wallet to Login
             </button>
 
             <div className="flex items-center justify-center space-x-2 font-urbanist text-base font-semibold text-gray-600">

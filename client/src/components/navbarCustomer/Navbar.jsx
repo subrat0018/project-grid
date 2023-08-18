@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState,useContext } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
 
 import { useDispatch, useSelector } from 'react-redux';
@@ -14,9 +14,13 @@ import { MdOutlineAccountCircle } from 'react-icons/md';
 import { Cart } from '../../pages/costumer/cart/index';
 // import { customerLogOut } from '../../store/auth/customerAuthSlice';
 import { setFilterCategory } from '../../store/customer/product/productCustomerSlice';
+import Web3Context from '../../contexts';
+
 
 const Navbar = () => {
   const location = useLocation();
+  const { account } = useContext(Web3Context);
+
   // Check if the user is on the products page
   const isProductsPage = location.pathname === '/products';
 
@@ -27,6 +31,7 @@ const Navbar = () => {
   const [filterNav, setFilterNav] = useState(false);
   const [searchNav, setSearchNav] = useState(false);
   const [dropdown, setDropdown] = useState(false);
+
 
   const dispatch = useDispatch();
   const { cartState, cartTotalQuantity } = useSelector((store) => store.cart);
@@ -289,7 +294,7 @@ const Navbar = () => {
                   </>
                 )} */}
                 <li className="font-urbanist font-bold text-zinc-600 transition duration-200 ease-in-out hover:text-primary">
-                  <NavLink
+                 { account.currentAccount == null ?(<NavLink
                     onClick={() => {
                       if (dropdown) {
                         handleDropdown();
@@ -300,8 +305,11 @@ const Navbar = () => {
                     }
                     to="/customer/login"
                   >
-                    Connect
-                  </NavLink>
+                    Login
+                  </NavLink>):
+                  ( <div></div>
+                  )
+}
                 </li>
                 <li className="font-urbanist font-bold text-zinc-600 transition duration-200 ease-in-out hover:text-primary">
                   <NavLink
