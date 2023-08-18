@@ -4,10 +4,9 @@ const morgan = require("morgan");
 const session = require("express-session");
 const dbConnection = require("./database");
 const MongoStore = require("connect-mongo")(session);
-const passport = require("./passport");
 const app = express();
 var cors = require("cors");
-const PORT = 8080;
+const PORT = 5000;
 // Route requires
 const user = require("./routes/index");
 
@@ -31,9 +30,6 @@ app.use(
   })
 );
 
-// Passport
-app.use(passport.initialize());
-app.use(passport.session()); // calls the deserializeUser
 
 // Routes
 app.use("/", user);
