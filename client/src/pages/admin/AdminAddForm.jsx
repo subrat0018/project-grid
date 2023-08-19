@@ -10,6 +10,8 @@ import {
 
 import { ImSpinner2 } from 'react-icons/im';
 import { useEffect, useState } from 'react';
+import { CartFilled } from '../costumer/cart';
+import Button from '../../components/Button';
 
 export const AdminAddForm = () => {
   const dispatch = useDispatch();
@@ -21,6 +23,7 @@ export const AdminAddForm = () => {
     productData,
     currentId,
   } = useSelector((store) => store.productsAdmin);
+  const { cartItems, cartTotalAmount } = useSelector((store) => store.cart);
 
   // fetch the data that will be edited
   // will populate the form with the data
@@ -114,6 +117,24 @@ export const AdminAddForm = () => {
 
   const [categories, setcategories] = useState([]);
 
+  function formatPrice(price) {
+    // Get the user's locale from the browser
+    const userLocale = navigator.language || 'en-US';
+
+    // Format the price value using the user's locale and currency
+    const formattedPrice = Number(price).toLocaleString(userLocale, {
+      style: 'currency',
+      currency: 'INR',
+    });
+
+    return formattedPrice;
+  }
+
+  function calculate(value) {
+    if (Number(value) / 100 >= 100) return 100;
+    else return Math.floor(Number(value) / 100);
+  }
+
   useEffect(() => {
     fetch('https://fakestoreapi.com/products/categories')
       .then((res) => res.json())
@@ -121,166 +142,61 @@ export const AdminAddForm = () => {
   }, []);
 
   return (
-    <div className="max-h-[820px] overflow-y-auto rounded-lg border border-zinc-200 bg-[#f0e2e1] p-5 shadow-md">
+    <div className="col-span-2 max-h-[820px] overflow-y-auto rounded-lg border border-zinc-200 bg-[#f0e2e1] p-5 shadow-md">
       <form
-        className="col-span-1 flex flex-col items-center gap-5 font-urbanist"
+        className="flex flex-col items-center gap-5 font-urbanist"
         onSubmit={handleSubmit}
       >
         <h2 className="text-2xl font-bold text-primary md:text-3xl lg:text-4xl">
-          Add a New Product
+          Past Products
         </h2>
 
-        {/* Product Category */}
-        <select
-          name="category"
-          value={productData.category}
-          onChange={handleInputChange}
-          className={
-            emptyFields.includes('category')
-              ? 'w-full border-2 border-rose-500 shadow-lg focus:outline-none md:px-3 md:py-2'
-              : 'w-full border-2 border-transparent shadow-lg focus:outline-none md:px-3 md:py-2'
-          }
-        >
-          <option value="">Product Category</option>
-          {categories.map((cat) => {
-            return (
-              <option key={cat} value={cat}>
-                {cat}
-              </option>
-            );
-          })}
-        </select>
+        {cartItems.map((item, i) => (
+          <div key={i} className="flex justify-center border-b-2 border-black">
+            <div className="grid grid-cols-5 gap-3 p-4 font-urbanist">
+              {/* image */}
+              <img
+                src={item.image}
+                alt={item.title}
+                className="col-span-1 h-full w-full"
+              />
 
-        {/* Product Name */}
-        <input
-          type="text"
-          name="name"
-          value={productData.title}
-          onChange={handleInputChange}
-          placeholder="Product Name"
-          className={
-            emptyFields.includes('name')
-              ? 'w-full border-2 border-rose-500 shadow-lg focus:outline-none md:px-3 md:py-2'
-              : 'w-full border-2 border-transparent shadow-lg focus:outline-none md:px-3 md:py-2'
-          }
-        />
+              {/* name */}
+              <div className="col-span-4">
+                <h1 className="text-base font-bold text-primary md:text-2xl">
+                  {item.title}
+                </h1>
 
-        {/* Product Price */}
-        <input
-          type="number"
-          name="price"
-          value={productData.price}
-          onChange={handleInputChange}
-          placeholder="Product Price"
-          className={
-            emptyFields.includes('price')
-              ? 'w-full border-2 border-rose-500 shadow-lg focus:outline-none md:px-3 md:py-2'
-              : 'w-full border-2 border-transparent shadow-lg focus:outline-none md:px-3 md:py-2'
-          }
-        />
+                <p className="mt-2 text-base text-primary md:text-xl">
+                  {item.category}
+                </p>
 
-        {/* Coins Price */}
-        <input
-          type="number"
-          name="coin"
-          value={productData.coins}
-          onChange={handleInputChange}
-          placeholder="Product Coins"
-          className={
-            emptyFields.includes('coins')
-              ? 'w-full border-2 border-rose-500 shadow-lg focus:outline-none md:px-3 md:py-2'
-              : 'w-full border-2 border-transparent shadow-lg focus:outline-none md:px-3 md:py-2'
-          }
-        />
+                <h2 className="mt-5 text-base font-bold text-primary md:text-xl">
+                  {formatPrice(item.price)}
+                </h2>
 
-        <input
-          type="file"
-          name="imgOne"
-          onChange={handleFileInputChange}
-          className={
-            emptyFields.includes('image')
-              ? 'block w-full text-sm text-gray-900 file:m-3 file:rounded-full file:border-none file:bg-violet-50 file:px-4 file:py-2 file:text-sm file:font-semibold file:text-violet-700 file:shadow-lg file:ring-2 file:ring-rose-500 hover:file:bg-violet-100'
-              : 'block w-full text-sm text-gray-900 file:m-3 file:rounded-full file:border-none file:bg-violet-50 file:px-4 file:py-2 file:text-sm file:font-semibold file:text-violet-700 file:shadow-lg file:ring-2 file:ring-transparent hover:file:bg-violet-100'
-          }
-        />
-
-        <div className="mb-2 w-full space-y-6">
-          {/* Detail One*/}
-          <input
-            type="text"
-            name="description"
-            value={productData.description}
-            onChange={(e) => handleDescriptionChange}
-            placeholder="Description"
-            className={
-              emptyFields.includes(`description`)
-                ? 'w-full border-2 border-rose-500 shadow-lg focus:outline-none md:px-3 md:py-2'
-                : 'w-full border-2 border-transparent shadow-lg focus:outline-none md:px-3 md:py-2'
-            }
-          />
-        </div>
-
-        {currentId ? (
-          <>
-            {loadingUpdate ? (
-              <button
-                type="button"
-                className="flex w-full items-center justify-center rounded-md bg-blue-500 px-5 py-2 font-bold text-primary shadow-md transition duration-300 ease-in hover:bg-blue-400 md:px-6 md:py-3"
-                disabled
-              >
-                <ImSpinner2 className="mr-3 h-5 w-5 animate-spin" />
-                Updating...
-              </button>
-            ) : (
-              <button
-                type="submit"
-                className="w-full rounded-md bg-blue-500 px-5 py-2 font-bold text-primary shadow-md transition duration-300 ease-in hover:bg-blue-400 md:px-6 md:py-3"
-              >
-                Update Product
-              </button>
-            )}
-
-            <button
-              type="button"
-              onClick={() => onCancel()}
-              className="w-full rounded-md bg-red-500 px-5 py-2 font-bold text-primary shadow-md transition duration-300 ease-in hover:bg-red-400 md:px-6 md:py-3"
-            >
-              Cancel
-            </button>
-          </>
-        ) : (
-          <>
-            {loadingCreate ? (
-              <button
-                type="button"
-                className="flex w-full items-center justify-center rounded-md bg-blue-500 px-5 py-2 font-bold text-primary shadow-md transition duration-300 ease-in hover:bg-blue-400 md:px-6 md:py-3"
-                disabled
-              >
-                <ImSpinner2 className="mr-3 h-5 w-5 animate-spin" />
-                Creating...
-              </button>
-            ) : (
-              <button
-                type="submit"
-                className="w-full rounded-md bg-blue-500 px-5 py-2 font-bold text-primary shadow-md transition duration-300 ease-in hover:bg-blue-400 md:px-6 md:py-3"
-              >
-                Ceate Product
-              </button>
-            )}
-
-            <button
-              type="button"
-              onClick={() => onClear()}
-              className="w-full rounded-md bg-blue-500 px-5 py-2 font-bold text-primary shadow-md transition duration-300 ease-in hover:bg-blue-400 md:px-6 md:py-3"
-            >
-              Clear
-            </button>
-          </>
-        )}
-
-        {error && (
-          <div className="text-sm font-bold text-rose-500">{error}</div>
-        )}
+                <p className="mt-1 flex items-center justify-start text-base text-primary md:text-lg">
+                  {calculate(item.price) ? (
+                    <>
+                      You will got {calculate(item.price)}{' '}
+                      <img
+                        src="https://res.cloudinary.com/sambitsankalp/image/upload/v1692195660/Bitcoin_Cash_cpb1xm.png"
+                        alt="BD"
+                        className="ml-1 h-5 w-5"
+                      />
+                      from this order.
+                    </>
+                  ) : (
+                    <></>
+                  )}
+                </p>
+                <p className="mt-1 text-base text-primary md:text-lg">
+                  The product is delivered to NIT Rourkela, Odisha, India
+                </p>
+              </div>
+            </div>
+          </div>
+        ))}
       </form>
     </div>
   );

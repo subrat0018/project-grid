@@ -17,6 +17,8 @@ import { AdminLoginLayout } from './routes/AdminLoginLayout';
 import { checkAdmin } from './store/auth/adminAuthSlice';
 import AdminDistributeLayout from './routes/AdminDistributeLayout';
 import CheckoutLayout from './routes/CheckoutLayout';
+import OldOrdersLayout from './routes/OldOrdersLayout';
+import SellerDashboardLayout from './routes/SellerDashboardLayout';
 
 function App() {
   const dispatch = useDispatch();
@@ -54,26 +56,25 @@ function App() {
             element={<CustomerDashboardLayout />}
           />
           <Route path="/checkout" element={<CheckoutLayout />} />
+          <Route path="/oldorders" element={<OldOrdersLayout />} />
           <Route path="/products/:slug" element={<ProductItemLayout />} />
         </Route>
 
         <Route path="/" element={<SharedLayout />}>
-          <Route
-            path="/admin/dashboard"
-            element={
-              admin ? <AdminDashboardLayout /> : <Navigate to="/admin/login" />
-            }
-          />
-          <Route
+          <Route path="/seller/dashboard" element={<AdminDashboardLayout />} />
+
+          <Route path="/admin/dashboard" element={<SellerDashboardLayout />} />
+          {/* <Route
             path="/admin/login"
             element={
               !admin ? <AdminLoginLayout /> : <Navigate to="/admin/dashboard" />
             }
-          />
-          <Route
-            path="/admin/dashboard/distribute"
+          /> */}
+
+          {/* <Route
+            path="/seller/dashboard/distribute"
             element={<AdminDistributeLayout />}
-          />
+          /> */}
         </Route>
       </Routes>
     </>
