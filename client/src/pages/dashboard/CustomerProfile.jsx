@@ -10,7 +10,7 @@ const CustomerProfile = (props) => {
           alt="product"
         />
         <div>
-          <h5 class="font-gotu text-3xl font-semibold tracking-tight text-gray-900 dark:text-white">
+          <h5 class="font-gotu text-3xl font-semibold tracking-tight text-gray-900">
             {props.Name}
           </h5>
           <div className="flex items-center justify-between mt-2 mx-2">

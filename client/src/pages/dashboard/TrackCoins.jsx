@@ -4,7 +4,7 @@ const TrackCoins = () => {
   return (
     <>
       <h5 className='font-urbanist text-2xl font-bold mt-5'>Track your coins here</h5>
-      <div class="mt-2 w-full rounded-md border-2 border-black bg-white font-gotu text-sm font-semibold text-gray-900 dark:border-gray-600 dark:bg-gray-700 dark:text-white">
+      <div class="mt-2 w-full rounded-md border-2 border-black bg-white font-gotu text-sm font-semibold text-gray-900">
         <div class="flex w-full cursor-pointer items-center justify-between border-b-2 border-black px-4 py-2 hover:bg-gray-100 hover:text-blue-700 focus:text-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-700 ">
           <p className="text-lg">1. Shirt</p>
           <span className="flex items-center justify-center font-gotu text-base font-bold">

@@ -1,37 +1,40 @@
-import { useState, useContext } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { customerSignup } from "../../../store/auth/customerAuthSlice";
-import axios from "axios";
-import Web3Context from "../../../contexts";
+import { useState, useContext } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { customerSignup } from '../../../store/auth/customerAuthSlice';
+import axios from 'axios';
+import Web3Context from '../../../contexts';
 
 // image
-import { NavLink } from "react-router-dom";
+import { NavLink } from 'react-router-dom';
 
 export const CustomerSignup = () => {
   const { checkIfWalletIsConnected } = useContext(Web3Context);
-  const [Name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [Name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [seller, setseller] = useState(false);
 
   const dispatch = useDispatch();
   const { loading, errorSignUp } = useSelector((store) => store.customer);
 
+  console.log(seller);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     checkIfWalletIsConnected().then((res) => {
-      axios("http://localhost:5000/signup", {
-        method: "POST",
+      axios('http://localhost:5000/signup', {
+        method: 'POST',
         data: {
           email: email,
-          userType: "User",
+          userType: seller ? 'Seller' : 'User',
           walletAddress: res,
-          name:Name
+          name: Name,
         },
       }).then((res) => {
         if (res.data) {
           window.location.href = `/`;
         } else {
-          alert("Something went wrong");
+          alert('Something went wrong');
           window.location.href = `/#/customer/signup`;
         }
       });
@@ -45,7 +48,7 @@ export const CustomerSignup = () => {
       <div className="container mx-auto px-6 py-6 lg:px-16">
         <div className="mt-16 flex flex-col-reverse items-center justify-center gap-5 md:flex-row">
           <form
-            className="flex w-full flex-col items-center gap-5 md:mr-20 md:w-1/3"
+            className="flex w-full flex-col items-start gap-5 md:mr-20 md:w-1/3"
             onSubmit={handleSubmit}
           >
             <h3 className="mb-3 font-urbanist text-xl font-bold text-primary md:text-3xl">
@@ -69,6 +72,19 @@ export const CustomerSignup = () => {
               placeholder="E-mail"
               className="w-full border border-gray-300 px-5 py-3 shadow-md focus:outline-none md:px-6 md:py-4 md:text-lg"
             />
+
+            <label class="relative inline-flex cursor-pointer items-start justify-start">
+              <input
+                type="checkbox"
+                value={seller}
+                onChange={(e) => setseller(e.target.checked)}
+                class="peer sr-only"
+              />
+              <div class="peer h-6 w-11 rounded-full bg-gray-200 after:absolute after:left-[2px] after:top-[2px] after:h-5 after:w-5 after:rounded-full after:border after:border-gray-300 after:bg-white after:transition-all after:content-[''] peer-checked:bg-blue-600 peer-checked:after:translate-x-full peer-checked:after:border-white peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300"></div>
+              <span class="ml-3 text-sm font-medium text-gray-900">
+                Are you a Seller?
+              </span>
+            </label>
 
             <button
               disabled={loading}
