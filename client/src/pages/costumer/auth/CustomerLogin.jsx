@@ -1,6 +1,5 @@
 import { useState, useContext } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { customerLogin } from "../../../store/auth/customerAuthSlice";
 import axios from "axios";
 
 // image
@@ -28,7 +27,9 @@ export const CustomerLogin = () => {
       }).then((data) => {
         // console.log(data)
         // console.log(data.data)
+        
         if (data.data) {
+          if(data.data)
           window.location.href = `/`;
         } else {
           alert("Please Create an Account First");
