@@ -1,10 +1,3 @@
-const getSellerNFTs = async (contract, sellerId) => {
-  if (!contract) {
-    return false;
-  }
-
-  // getSellerNFTs
-}
 
 const getOrders = (contract)=>{
   if(!contract) return false;
@@ -18,4 +11,4 @@ const getOrders = (contract)=>{
 
 }
 
-export{getSellerNFTs,getOrders}
+export{getOrders}
