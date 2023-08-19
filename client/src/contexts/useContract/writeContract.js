@@ -1,14 +1,96 @@
-// createSeller
-const createSeller = async (sellerId, contract, account) => {
+const purchase = async (
+  contract,
+  price,
+  user,
+  lastReturned,
+  referrer,
+  account
+) => {
   if (!contract) {
     return false;
   }
   const res = await contract.methods
-    .createSeller(sellerId)
+    .purchase(price, user, lastReturned, referrer)
+    .send({ from: account });
+  return res;
+};
+const disperseCoin = async (contract, seller, amount, userAccount, account) => {
+  if (!contract) {
+    return false;
+  }
+  const res = await contract.methods
+    .disperseCoin(contract, seller, amount, userAccount)
+    .send({ from: account });
+  return res;
+};
+const cancelOrder = async (contract, orderId, account) => {
+  if (!contract) {
+    return false;
+  }
+  const res = await contract.methods
+    .cancleOrder(orderId)
     .send({ from: account });
   return res;
 };
 
+const stakeTokens = async (
+  contract,
+  amount,
+  userAccount,
+  interval,
+  account
+) => {
+  if (!contract) {
+    return false;
+  }
+  const res = await contract.methods
+    .stakeTokens(amount, userAccount, interval)
+    .send({ from: account });
+  return res;
+};
 
+const reedem = async (contract, amount, interval, account) => {
+  if (!contract) {
+    return false;
+  }
+  const res = await contract.methods
+    .reedem(amount, interval)
+    .send({ from: account });
+  return res;
+};
 
-export { createSeller };
+const socialMediaPost = async (contract, userAccount, account) => {
+  if (!contract) {
+    return false;
+  }
+  const res = await contract.methods
+    .socialMediaPost(userAccount)
+    .send({ from: account });
+  return res;
+};
+
+const  removeSeller = async(contract,seller,account)=>{
+  if(!contract){
+    return false;
+  }
+  const res = await contract.methods.removeSeller(seller).send({from:account})
+  return res
+}
+
+const mint = async(contract,amount,account)=>{
+  if(!contract){
+    return false;
+  }
+  const res = await contract.methods.mint(amount).send({from:account})
+  return res
+}
+export {
+  purchase,
+  disperseCoin,
+  cancelOrder,
+  stakeTokens,
+  reedem,
+  socialMediaPost,
+  removeSeller,
+  mint
+};
