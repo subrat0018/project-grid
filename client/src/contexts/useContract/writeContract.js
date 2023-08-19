@@ -3,15 +3,15 @@ const purchase = async (
   price,
   user,
   lastReturned,
+  isReferred,
   referrer,
-  account
 ) => {
   if (!contract) {
     return false;
   }
   const res = await contract.methods
-    .purchase(price, user, lastReturned, referrer)
-    .send({ from: account });
+    .purchase(price, user, lastReturned,isReferred, referrer)
+    .send({ from: user });
   return res;
 };
 const disperseCoin = async (contract, seller, amount, userAccount, account) => {
