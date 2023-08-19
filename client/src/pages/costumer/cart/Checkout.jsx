@@ -1,19 +1,26 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { FaMinus, FaPlus, FaTrashAlt } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
 import { setGetTotals } from "../../../store/customer/cart/cartSlice";
+import { purchase } from "../../../contexts/useContract/writeContract";
+import Web3Context from "../../../contexts/index"
 
 const Checkout = () => {
   const dispatch = useDispatch();
+  const { account,checkIfWalletIsConnected, Contract } = useContext(Web3Context);
   const { cartItems, cartTotalAmount } = useSelector((store) => store.cart);
+  const [price, setPrice] = useState(cartTotalAmount);
+  const [toggle, setToggle] = useState(0);
+  const [referrer, setReferrer] = useState("0x0000000000000000000000000000000000000000");
+  const nullAdress = "0x0000000000000000000000000000000000000000";
   function calculate(value) {
-    if (Number(value) / 100 >= 100) return 100;
-    else return Math.floor(Number(value) / 100);
+    if (Number(value) / 50 >= 100) return 100;
+    else return Math.floor(Number(value) / 50);
   }
   useEffect(() => {
     dispatch(setGetTotals());
-  }, [cartItems, dispatch]);
-
+    setPrice(cartTotalAmount)
+  }, [cartItems, dispatch, cartTotalAmount])
   function formatPrice(price) {
     // Get the user's locale from the browser
     const userLocale = navigator.language || "en-US";
@@ -125,8 +132,11 @@ const Checkout = () => {
               name="delivery"
               //   value={firstName}
               //   onChange={(e) => setFirstName(.target.value)}
-              placeholder="Delivery Address 1"
+              placeholder="Referrer Account"
               className="w-full border border-gray-300 px-3 py-3 shadow-md focus:outline-none md:px-3 md:py-3 md:text-lg"
+              onChange={(e)=>{
+                setReferrer(e.target.value);
+              }}
             />
 
             <div className="mt-5 rounded-lg bg-white p-3">
@@ -166,7 +176,20 @@ const Checkout = () => {
                   .
                 </p>
 
-                <button className="mt-4 w-full rounded-md bg-[#c6f6f8] px-4 py-1 font-urbanist font-extrabold text-secondary shadow-md ring-2 ring-black transition duration-300 ease-in hover:bg-black hover:text-white md:px-4 md:py-2">
+                <button
+                onClick={()=>{
+                  if(toggle === 0)
+                  {
+                    setPrice(cartTotalAmount - calculate(cartTotalAmount));
+                    setToggle(1);
+                  }
+                  else
+                  {
+                    setPrice(cartTotalAmount);
+                    setToggle(0);
+                  }
+                }}
+                 className="mt-4 w-full rounded-md bg-[#c6f6f8] px-4 py-1 font-urbanist font-extrabold text-secondary shadow-md ring-2 ring-black transition duration-300 ease-in hover:bg-black hover:text-white md:px-4 md:py-2">
                   Use coins
                 </button>
               </div>
@@ -174,7 +197,12 @@ const Checkout = () => {
             <button className="mt-8 w-full rounded-md bg-[#c6f6f8] px-4 py-1 font-urbanist font-extrabold text-secondary shadow-md ring-2 ring-[#abecee] transition duration-300 ease-in hover:bg-[#abecee] hover:text-primary md:px-4 md:py-2">
               Add more items
             </button>
-            <button className="mt-4 w-full rounded-md bg-[#c6f6f8] px-4 py-1 font-urbanist font-extrabold text-secondary shadow-md ring-2 ring-[#abecee] transition duration-300 ease-in hover:bg-[#abecee] hover:text-primary md:px-4 md:py-2">
+            <button onClick={()=>{
+              if(referrer === "")setReferrer(nullAdress);
+              console.log(price)
+              purchase(Contract,Math.floor(price),account.currentAccount,Math.floor(Date.now()/1000) + 60,(referrer !== nullAdress), referrer);
+            }}
+             className="mt-4 w-full rounded-md bg-[#c6f6f8] px-4 py-1 font-urbanist font-extrabold text-secondary shadow-md ring-2 ring-[#abecee] transition duration-300 ease-in hover:bg-[#abecee] hover:text-primary md:px-4 md:py-2">
               Proceed with Payment
             </button>
           </div>
