@@ -22,10 +22,10 @@ function App() {
   const dispatch = useDispatch();
   const { admin } = useSelector((store) => store.admin);
   const { customer } = useSelector((store) => store.customer);
-  window.ethereum &&
-    window.ethereum.on('accountsChanged', function () {
-      setTimeout(window.location.reload(false), 1000);
-    });
+  // window.ethereum &&
+  //   window.ethereum.on('accountsChanged', function () {
+  //     setTimeout(window.location.reload(false), 1000);
+  //   });
   useEffect(() => {
     dispatch(checkAdmin());
     dispatch(checkCustomer());

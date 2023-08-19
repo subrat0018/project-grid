@@ -1,6 +1,6 @@
 import React, { useEffect, useState,useContext } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
-
+import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 import { setCloseCart, setOpenCart } from '../../store/customer/cart/cartSlice';
 
@@ -19,7 +19,7 @@ import Web3Context from '../../contexts';
 
 const Navbar = () => {
   const location = useLocation();
-  const { account } = useContext(Web3Context);
+  const { account,checkIfWalletIsConnected } = useContext(Web3Context);
 
   // Check if the user is on the products page
   const isProductsPage = location.pathname === '/products';
@@ -31,6 +31,7 @@ const Navbar = () => {
   const [filterNav, setFilterNav] = useState(false);
   const [searchNav, setSearchNav] = useState(false);
   const [dropdown, setDropdown] = useState(false);
+  const [Name,setName] = useState('')
 
 
   const dispatch = useDispatch();
@@ -130,6 +131,18 @@ const Navbar = () => {
       setNavColor(false);
     }
   };
+  useEffect(()=>{
+    checkIfWalletIsConnected().then((res) => {
+      axios("http://localhost:5000/getdetails", {
+        method: "POST",
+        data: {
+          walletAddress: res,
+        },
+      }).then(res=>{
+        setName(res.data.name)
+      })
+    })
+  },[account.currentAccount])
 
   useEffect(() => {
     window.addEventListener('scroll', changeBackground);
@@ -307,7 +320,8 @@ const Navbar = () => {
                   >
                     Login
                   </NavLink>):
-                  ( <div></div>
+                  ( 
+                  <li className="font-urbanist font-bold text-zinc-600 transition duration-200 ease-in-out hover:text-primary">Hey {Name}</li>
                   )
 }
                 </li>

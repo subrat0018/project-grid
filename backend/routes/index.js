@@ -32,7 +32,8 @@ router.post("/signup", async (req, res) => {
 router.post("/getdetails",async (req,res)=>{
   const {walletAddress} = req.body
   const user = await User.findOne({walletAddress: walletAddress});
-  res.send(user);
+  res.send(user)
+ 
 })
 router.get("/getsellers", async (req, res)=>{
   const users = await User.find();
