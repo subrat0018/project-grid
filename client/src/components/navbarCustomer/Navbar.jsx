@@ -3,7 +3,6 @@ import { NavLink, useLocation } from 'react-router-dom';
 import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 import { setCloseCart, setOpenCart } from '../../store/customer/cart/cartSlice';
-
 // icons
 import { HiMenuAlt2, HiOutlineShoppingBag } from 'react-icons/hi';
 import { FaSort } from 'react-icons/fa';
@@ -21,7 +20,7 @@ import { balanceOf } from '../../contexts/useContract/readContract';
 
 const Navbar = () => {
   const location = useLocation();
-  const { account,checkIfWalletIsConnected, contract } = useContext(Web3Context);
+  const { account,checkIfWalletIsConnected, Contract } = useContext(Web3Context);
 
   // Check if the user is on the products page
   const isProductsPage = location.pathname === '/products';
@@ -126,6 +125,8 @@ const Navbar = () => {
     }
   };
 
+  const [balance,setBalance]  = useState('')
+
   const changeBackground = () => {
     if (window.scrollY >= 80) {
       setNavColor(true);
@@ -142,6 +143,8 @@ const Navbar = () => {
         },
       }).then(res=>{
         setName(res.data.name)
+        balanceOf(Contract,account.currentAccount).then(res=>setBalance(res))
+       
       })
     })
   },[account.currentAccount])
@@ -380,7 +383,7 @@ const Navbar = () => {
                   </span>
                 </div>
               </div>
-              <div>{balanceOf(contract,account.currentAccount)}</div>
+              <div>{balance}</div>
             </div>
           </div>
 
