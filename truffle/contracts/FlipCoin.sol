@@ -165,20 +165,23 @@ contract FlipCoin is ERC20 {
         orders[currentOrder] = newOrder;
         currentOrder++;
     }
-    function disperseCoin(address seller, uint256 amount, address userAccount) external {
-        require(balanceOf(seller) >= amount, "Seller has not enough amount of Tokens");
+    function disperseCoin(address seller, uint256[] memory amount, address[] memory userAccount, uint256 totalAmount) external {
+        require(balanceOf(seller) >= totalAmount, "Seller has not enough amount of Tokens");
         require((totalSupply() * 5)/100 > partners, "Running Low on Tokens");
-        Order memory newOrder;
-        newOrder.id = currentOrder;
-        newOrder.flipCoin = amount;
-        newOrder.isReferred = false;
-        newOrder.lastReturnDate = block.timestamp;
-        newOrder.status = OrderStatus.Confirmed;
-        newOrder.userAccount = userAccount;
-        newOrder.orderType = OrderType.Airdrop;
-        orders[currentOrder] = newOrder;
-        _burn(seller, amount);
-        currentOrder++;
+        for(uint256 i=0;i<amount.length;i++)
+        {
+            Order memory newOrder;
+            newOrder.id = currentOrder;
+            newOrder.flipCoin = amount[0];
+            newOrder.isReferred = false;
+            newOrder.lastReturnDate = block.timestamp;
+            newOrder.status = OrderStatus.Confirmed;
+            newOrder.userAccount = userAccount[i];
+            newOrder.orderType = OrderType.Airdrop;
+            orders[currentOrder] = newOrder;
+            _burn(seller, amount[i]);
+            currentOrder++;
+        }
     }
     function cancleOrder(uint256 orderId) external 
     {
