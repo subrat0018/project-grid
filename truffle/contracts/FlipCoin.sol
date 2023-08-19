@@ -82,22 +82,22 @@ contract FlipCoin is ERC20 {
             {
                 if(orders[i].orderType == OrderType.Airdrop)
                 {
-                    require((totalSupply() * 80 * 5)/10000 > partners, "Running Low on Tokens");
+                    require((totalSupply() * 5)/100 > partners, "Running Low on Tokens");
                     partners += orders[i].flipCoin;
                 }
                 else if(orders[i].orderType == OrderType.SocialPost)
                 {
-                    require((totalSupply() * 80 * 5)/10000 > purchase_socialMedia, "Running Low on Tokens");
+                    require((totalSupply() * 5)/100 > purchase_socialMedia, "Running Low on Tokens");
                     purchase_socialMedia += orders[i].flipCoin;
                 }
                 else if(orders[i].orderType == OrderType.Stake)
                 {
-                    require((totalSupply() * 80 * 15)/10000 > staking, "Running Low on Tokens");
+                    require((totalSupply() * 15)/100 > staking, "Running Low on Tokens");
                     staking += orders[i].flipCoin;
                 }
                 else 
                 {
-                    require((totalSupply() * 80 * 60 * 40)/1000000 > purchase_rewards, "Running Low on Tokens");
+                    require((totalSupply() * 40)/100 > purchase_rewards, "Running Low on Tokens");
                     purchase_rewards += orders[i].flipCoin;
                 }
                 orders[i].status = OrderStatus.NotReturned;
@@ -106,7 +106,7 @@ contract FlipCoin is ERC20 {
                 expectedBalance[orders[i].userAccount] += orders[i].flipCoin;
                 if(orders[i].isReferred)
                 {
-                    require((totalSupply() * 80 * 60 * 15)/1000000 > purchase_referrals, "Running Low on Tokens");
+                    require((totalSupply() * 15)/100 > purchase_referrals, "Running Low on Tokens");
                     IERC20 tokenRef = IERC20(tokenAddress);
                     tokenRef.transfer(orders[i].referrer, referralReward);
                     expectedBalance[orders[i].referrer] += referralReward;
@@ -167,7 +167,7 @@ contract FlipCoin is ERC20 {
     }
     function disperseCoin(address seller, uint256 amount, address userAccount) external {
         require(balanceOf(seller) >= amount, "Seller has not enough amount of Tokens");
-        require((totalSupply() * 80 * 5)/10000 > partners, "Running Low on Tokens");
+        require((totalSupply() * 5)/100 > partners, "Running Low on Tokens");
         Order memory newOrder;
         newOrder.id = currentOrder;
         newOrder.flipCoin = amount;
