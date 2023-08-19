@@ -1,24 +1,27 @@
-import React, { useEffect } from 'react';
-import { FaMinus, FaPlus, FaTrashAlt } from 'react-icons/fa';
-import { useDispatch, useSelector } from 'react-redux';
-import { setGetTotals } from '../../../store/customer/cart/cartSlice';
+import React, { useEffect } from "react";
+import { FaMinus, FaPlus, FaTrashAlt } from "react-icons/fa";
+import { useDispatch, useSelector } from "react-redux";
+import { setGetTotals } from "../../../store/customer/cart/cartSlice";
 
 const Checkout = () => {
   const dispatch = useDispatch();
   const { cartItems, cartTotalAmount } = useSelector((store) => store.cart);
-
+  function calculate(value) {
+    if (Number(value) / 100 >= 100) return 100;
+    else return Math.floor(Number(value) / 100);
+  }
   useEffect(() => {
     dispatch(setGetTotals());
   }, [cartItems, dispatch]);
 
   function formatPrice(price) {
     // Get the user's locale from the browser
-    const userLocale = navigator.language || 'en-US';
+    const userLocale = navigator.language || "en-US";
 
     // Format the price value using the user's locale and currency
     const formattedPrice = Number(price).toLocaleString(userLocale, {
-      style: 'currency',
-      currency: 'INR',
+      style: "currency",
+      currency: "INR",
     });
 
     return formattedPrice;
@@ -92,13 +95,19 @@ const Checkout = () => {
                           </div>
                         </div>
                         <p className="mt-3 flex items-center justify-start text-base text-primary md:text-lg">
-                          This product can give 8{' '}
-                          <img
-                            src="https://res.cloudinary.com/sambitsankalp/image/upload/v1692195660/Bitcoin_Cash_cpb1xm.png"
-                            alt="BD"
-                            className="ml-1 h-5 w-5"
-                          />
-                          .
+                          {calculate(item.price) ? (
+                            <>
+                              You will earn {calculate(item.price)}{" "}
+                              <img
+                                src="https://res.cloudinary.com/sambitsankalp/image/upload/v1692195660/Bitcoin_Cash_cpb1xm.png"
+                                alt="BD"
+                                className="ml-1 h-5 w-5"
+                              />
+                              .
+                            </>
+                          ) : (
+                            <></>
+                          )}
                         </p>
                       </div>
                     </div>
@@ -115,23 +124,14 @@ const Checkout = () => {
               type="text"
               name="delivery"
               //   value={firstName}
-              //   onChange={(e) => setFirstName(e.target.value)}
-              placeholder="Delivery Adress 1"
+              //   onChange={(e) => setFirstName(.target.value)}
+              placeholder="Delivery Address 1"
               className="w-full border border-gray-300 px-3 py-3 shadow-md focus:outline-none md:px-3 md:py-3 md:text-lg"
-            />
-
-            <input
-              type="text"
-              name="delivery2"
-              //   value={firstName}
-              //   onChange={(e) => setFirstName(e.target.value)}
-              placeholder="Delivery Adress 2"
-              className="mt-1 w-full border border-gray-300 px-3 py-3 shadow-md focus:outline-none md:px-3 md:py-3 md:text-lg"
             />
 
             <div className="mt-5 rounded-lg bg-white p-3">
               <p className="mt-2 flex items-center justify-start font-gotu text-base font-bold text-primary md:text-xl">
-                Total: {formatPrice(cartTotalAmount)} {`(`}25{' '}
+                Total: {formatPrice(cartTotalAmount)} {`(`}25{" "}
                 <img
                   src="https://res.cloudinary.com/sambitsankalp/image/upload/v1692195660/Bitcoin_Cash_cpb1xm.png"
                   alt="BD"
@@ -144,11 +144,11 @@ const Checkout = () => {
                   Use your BD coins
                 </h3>
                 <p className="mt-2 flex items-center justify-start font-gotu text-base font-bold text-primary md:text-lg">
-                  <span className="mr-2 font-bold">Total:</span>{' '}
+                  <span className="mr-2 font-bold">Total:</span>{" "}
                   <span className="mr-2 line-through">
                     {formatPrice(cartTotalAmount)}
-                  </span>{' '}
-                  {formatPrice(cartTotalAmount - 30)} {`(-`}40{' '}
+                  </span>{" "}
+                  {formatPrice(cartTotalAmount - 30)} {`(-`}40{" "}
                   <img
                     src="https://res.cloudinary.com/sambitsankalp/image/upload/v1692195660/Bitcoin_Cash_cpb1xm.png"
                     alt="BD"
@@ -157,7 +157,7 @@ const Checkout = () => {
                   {`)`}
                 </p>
                 <p className="mt-2 flex items-center justify-start text-sm text-primary md:text-base">
-                  You have currently 100{' '}
+                  You have currently 100{" "}
                   <img
                     src="https://res.cloudinary.com/sambitsankalp/image/upload/v1692195660/Bitcoin_Cash_cpb1xm.png"
                     alt="BD"
