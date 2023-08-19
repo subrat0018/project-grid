@@ -24,7 +24,8 @@ const Web3Provider = ({ children }) => {
       });
 
       console.log("Connected", accounts[0]);
-      window.location.href = `/`
+      return accounts[0]
+      // window.location.href = `/`
     } catch (error) {
       console.log(error);
     }
@@ -50,6 +51,7 @@ const Web3Provider = ({ children }) => {
 
     if (accounts.length !== 0) {
       getContract(chain, accounts);
+      return accounts[0]
     } else {
       console.log("No authorized account found");
     }

@@ -1,27 +1,42 @@
-import { useState,useContext } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { customerLogin } from '../../../store/auth/customerAuthSlice';
+import { useState, useContext } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { customerLogin } from "../../../store/auth/customerAuthSlice";
+import axios from "axios";
 
 // image
-import { NavLink } from 'react-router-dom';
-import Web3Context from '../../../contexts';
-
-
+import { NavLink } from "react-router-dom";
+import Web3Context from "../../../contexts";
 
 export const CustomerLogin = () => {
-  const { connectWallet, account } = useContext(Web3Context);
+  const { connectWallet } = useContext(Web3Context);
 
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
   const dispatch = useDispatch();
   const { loading, errorLogIn } = useSelector((store) => store.customer);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(account.currentAccount)
-    connectWallet()
-   
+
+    connectWallet().then((res) => {
+      axios("http://localhost:5000/getdetails", {
+        method: "POST",
+        data: {
+          walletAddress: res,
+        },
+      }).then((data) => {
+        // console.log(data)
+        // console.log(data.data)
+        if (data.data) {
+          window.location.href = `/`;
+        } else {
+          alert("Please Create an Account First");
+          window.location.href = `/#/customer/signup`;
+        }
+      });
+    });
+
     //dispatch(customerLogin({ email, password }));
   };
 

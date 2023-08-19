@@ -1,6 +1,6 @@
 import React from 'react';
 
-const CustomerProfile = () => {
+const CustomerProfile = (props) => {
   return (
     <>
       <div class="flex w-full flex-col items-center justify-center rounded-lg">
@@ -11,7 +11,7 @@ const CustomerProfile = () => {
         />
         <div>
           <h5 class="font-gotu text-3xl font-semibold tracking-tight text-gray-900 dark:text-white">
-            Sambit Sankalp
+            {props.Name}
           </h5>
           <div className="flex items-center justify-between mt-2 mx-2">
             <p className="font-gotu text-base font-bold">30 orders</p>
