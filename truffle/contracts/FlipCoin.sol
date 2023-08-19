@@ -14,9 +14,9 @@ contract FlipCoin is ERC20 {
     uint256 public staking;
     uint256 public partners;
     uint256 public currentOrder;
-    uint256 public expireTime = 60;
-    uint256 public socialMediaReward = 1;
-    uint256 public referralReward = 1;
+    uint256 public expireTime = 300;
+    uint256 public socialMediaReward = 5;
+    uint256 public referralReward = 5;
     uint256 public currentMintAmount = 0;
     address public ownerAddress;
     address public tokenAddress;
@@ -143,11 +143,11 @@ contract FlipCoin is ERC20 {
     function purchase(uint256 productPrice,address userAccount, uint256 lastReturnDate,bool isReferred, address referrer)external {
         Order memory newOrder;
         newOrder.id = currentOrder;
-        if(productPrice/100 >= 100){
+        if(productPrice/50 >= 100){
         newOrder.flipCoin = 100;
         }
         else{
-            newOrder.flipCoin = productPrice / 100;
+            newOrder.flipCoin = productPrice / 50;
         }
         newOrder.userAccount = userAccount;
         newOrder.status = OrderStatus.Confirmed;
