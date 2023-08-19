@@ -15,11 +15,13 @@ import { Cart } from '../../pages/costumer/cart/index';
 // import { customerLogOut } from '../../store/auth/customerAuthSlice';
 import { setFilterCategory } from '../../store/customer/product/productCustomerSlice';
 import Web3Context from '../../contexts';
+import { balanceOf } from '../../contexts/useContract/readContract';
+
 
 
 const Navbar = () => {
   const location = useLocation();
-  const { account,checkIfWalletIsConnected } = useContext(Web3Context);
+  const { account,checkIfWalletIsConnected, contract } = useContext(Web3Context);
 
   // Check if the user is on the products page
   const isProductsPage = location.pathname === '/products';
@@ -378,6 +380,7 @@ const Navbar = () => {
                   </span>
                 </div>
               </div>
+              <div>{balanceOf(contract,account.currentAccount)}</div>
             </div>
           </div>
 

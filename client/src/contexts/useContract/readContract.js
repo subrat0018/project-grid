@@ -10,5 +10,12 @@ const getOrders = (contract)=>{
   return orders
 
 }
+const balanceOf = (contract, address) =>{
+  console.log(contract);
+  if(!contract)return 0;
+  console.log(address);
+  const res = contract.methods.balanceOf(address).call().then(res=>res);
+  return res;
+}
 
-export{getOrders}
+export{getOrders, balanceOf}
