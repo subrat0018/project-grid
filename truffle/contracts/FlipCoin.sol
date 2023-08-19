@@ -9,18 +9,18 @@ import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 // Inherit from the ERC-20 contract
 contract FlipCoin is ERC20 {
 
-    uint256 purchase_rewards;
-    uint256 purchase_referrals;
-    uint256 purchase_socialMedia;
-    uint256 staking;
-    uint256 partners;
-    uint256 currentOrder;
-    uint256 expireTime = 60;
-    uint256 socialMediaReward = 1;
-    uint256 referralReward = 1;
-    uint256 currentMintAmount = 0;
-    address ownerAddress;
-    address tokenAddress;
+    uint256 public purchase_rewards;
+    uint256 public purchase_referrals;
+    uint256 public purchase_socialMedia;
+    uint256 public staking;
+    uint256 public partners;
+    uint256 public currentOrder;
+    uint256 public expireTime = 60;
+    uint256 public socialMediaReward = 1;
+    uint256 public referralReward = 1;
+    uint256 public currentMintAmount = 0;
+    address public ownerAddress;
+    address public tokenAddress;
 
     enum OrderStatus
     {
