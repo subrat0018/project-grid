@@ -18,8 +18,10 @@ contract FlipCoin is ERC20 {
     uint256 public socialMediaReward = 5;
     uint256 public referralReward = 5;
     uint256 public currentMintAmount = 0;
+    uint256 public ordersCount = 0;
     address public ownerAddress;
     address public tokenAddress;
+    string tokenUrl = "https://res.cloudinary.com/sambitsankalp/image/upload/v1692528950/fccoin_emuzu6.png";
 
     enum OrderStatus
     {
@@ -52,6 +54,8 @@ contract FlipCoin is ERC20 {
     mapping(uint256=>Order) public orders;
     mapping(address=>uint256) public expectedBalance;
     mapping(uint256=>uint256) public totalReferrals;
+
+    Order[] public orderHistory;
 
     constructor(string memory name, string memory symbol) ERC20(name, symbol) {
         _mint(address(this), 10000000 * 10 ** decimals());
@@ -87,11 +91,6 @@ contract FlipCoin is ERC20 {
                     require((totalSupply() * 5)/100 > partners, "Running Low on Tokens");
                     partners += orders[i].flipCoin;
                 }
-                else if(orders[i].orderType == OrderType.SocialPost)
-                {
-                    require((totalSupply() * 5)/100 > purchase_socialMedia, "Running Low on Tokens");
-                    purchase_socialMedia += orders[i].flipCoin;
-                }
                 else if(orders[i].orderType == OrderType.Stake)
                 {
                     require((totalSupply() * 15)/100 > staking, "Running Low on Tokens");
@@ -106,6 +105,8 @@ contract FlipCoin is ERC20 {
                 IERC20 token = IERC20(tokenAddress);
                 token.transfer(orders[i].userAccount, orders[i].flipCoin);
                 expectedBalance[orders[i].userAccount] += orders[i].flipCoin;
+                orderHistory.push(orders[i]);
+                ordersCount++;
                 if(orders[i].isReferred)
                 {
                     require((totalSupply() * 15)/100 > purchase_referrals, "Running Low on Tokens");
@@ -113,6 +114,16 @@ contract FlipCoin is ERC20 {
                     tokenRef.transfer(orders[i].referrer, referralReward);
                     expectedBalance[orders[i].referrer] += referralReward;
                     purchase_referrals += referralReward;
+                    Order memory newOrder;
+                    newOrder.flipCoin = referralReward;
+                    newOrder.lastReturnDate = orders[i].lastReturnDate;
+                    newOrder.status = OrderStatus.NotReturned;
+                    newOrder.userAccount = orders[i].referrer;
+                    newOrder.productName = "Referral Reward";
+                    newOrder.imgUrl = tokenUrl;
+                    orderHistory.push(newOrder);
+                    ordersCount++;
+                    
                 }
             }
 
@@ -123,22 +134,37 @@ contract FlipCoin is ERC20 {
         {
             if(orders[i].status == OrderStatus.NotReturned && block.timestamp >= orders[i].lastReturnDate + expireTime)
             {
+                orders[i].status = OrderStatus.Expired;
+                uint256 orderFlipCoin = orders[i].flipCoin;
                 if(balanceOf(orders[i].userAccount) > (expectedBalance[orders[i].userAccount] - orders[i].flipCoin))
                 {
                     uint256 extraAmount = balanceOf(orders[i].userAccount) - (expectedBalance[orders[i].userAccount] - orders[i].flipCoin);
                     _burn(orders[i].userAccount, extraAmount);
+                    orders[i].flipCoin = extraAmount;
+                    orders[i].imgUrl = tokenUrl;
+                    orders[i].lastReturnDate = orders[i].lastReturnDate + expireTime;
+                    orderHistory.push(orders[i]);
+                    ordersCount++;
                 }
-                expectedBalance[orders[i].userAccount] -= orders[i].flipCoin;
+                expectedBalance[orders[i].userAccount] -= orderFlipCoin;
                 if(orders[i].isReferred)
                 {
                     if(balanceOf(orders[i].referrer) > (expectedBalance[orders[i].referrer] - referralReward))
                     {
                         uint256 extraAmount = balanceOf(orders[i].referrer) - (expectedBalance[orders[i].referrer] - referralReward);
                         _burn(orders[i].referrer, extraAmount);
+                        Order memory newOrder;
+                        newOrder.flipCoin = referralReward;
+                        newOrder.lastReturnDate = block.timestamp;
+                        newOrder.status = OrderStatus.Expired;
+                        newOrder.userAccount = orders[i].referrer;
+                        newOrder.productName = "Referral Expired";
+                        newOrder.imgUrl = tokenUrl;
+                        orderHistory.push(newOrder);
+                        ordersCount++;
                     }
                     expectedBalance[orders[i].referrer] -= referralReward;
-                }
-                orders[i].status = OrderStatus.Expired;
+                } 
             }
         }
     }
@@ -187,6 +213,8 @@ contract FlipCoin is ERC20 {
             newOrder.status = OrderStatus.Confirmed;
             newOrder.userAccount = userAccount[i];
             newOrder.orderType = OrderType.Airdrop;
+            newOrder.productName = "AirDrop";
+            newOrder.imgUrl = tokenUrl;
             orders[currentOrder] = newOrder;
             _burn(seller, amount[i]);
             currentOrder++;
@@ -197,36 +225,19 @@ contract FlipCoin is ERC20 {
         require(orders[orderId].lastReturnDate > block.timestamp);
         orders[orderId].status = OrderStatus.Cancelled;
     }
-    function socialMediaPost(address userAccount) external 
-    {
-        Order memory newOrder;
-        newOrder.id = currentOrder;
-        newOrder.flipCoin = socialMediaReward;
-        newOrder.isReferred = false;
-        newOrder.lastReturnDate = block.timestamp;
-        newOrder.status = OrderStatus.Confirmed;
-        newOrder.userAccount = userAccount;
-        newOrder.orderType = OrderType.SocialPost;
-        orders[currentOrder] = newOrder;
-        newOrder.productName = "Social Media Interaction";
-        newOrder.imgUrl = "https://res.cloudinary.com/sambitsankalp/image/upload/v1692528950/fccoin_emuzu6.png";
-        currentOrder++;
-    }
+
     function redeem(address userAccount, uint256 amount) internal  
     {
         require(balanceOf(userAccount) >= amount && amount > 0, "Insufficient balance");
         Order memory newOrder;
-        newOrder.id = currentOrder;
         newOrder.flipCoin = amount;
-        newOrder.isReferred = false;
         newOrder.lastReturnDate = block.timestamp;
         newOrder.status = OrderStatus.Expired;
         newOrder.userAccount = userAccount;
-        newOrder.orderType = OrderType.Purchase;
         newOrder.productName = "Redeem";
-        newOrder.imgUrl = "https://res.cloudinary.com/sambitsankalp/image/upload/v1692528950/fccoin_emuzu6.png";
-        orders[currentOrder] = newOrder;
-        currentOrder++;
+        newOrder.imgUrl = tokenUrl;
+        orderHistory.push(newOrder);
+        ordersCount++;
         _burn(userAccount, amount);
     }
     function stakeTokens(uint256 amount, address userAccount, uint256 interval) external {
@@ -240,9 +251,17 @@ contract FlipCoin is ERC20 {
         newOrder.status = OrderStatus.Confirmed;
         newOrder.orderType = OrderType.Stake;
         newOrder.userAccount = userAccount;
-        newOrder.productName = "Stake";
-        newOrder.imgUrl = "https://res.cloudinary.com/sambitsankalp/image/upload/v1692528950/fccoin_emuzu6.png";
+        newOrder.productName = "Stake Credit";
+        newOrder.imgUrl = tokenUrl;
         orders[currentOrder] = newOrder;
         currentOrder++;
+        newOrder.lastReturnDate = block.timestamp;
+        newOrder.flipCoin = amount;
+        newOrder.status = OrderStatus.Expired;
+        newOrder.userAccount = userAccount;
+        newOrder.productName = "Stake Debit";
+        newOrder.imgUrl = tokenUrl;
+        orderHistory.push(newOrder);
+        ordersCount++;
     }
 }

@@ -8,7 +8,7 @@ export const ProductGrid = ({ products, handleAddToCart }) => {
   return (
     <div className="grid grid-cols-2 gap-5 md:px-3 lg:grid-cols-3">
       {products.productsData?.map((item) => (
-        <div key={item.id} className="space-y-3 text-center">
+        <div key={item.id} className="space-y-3 text-center border-2 border-black rounded-xl">
           <div className="relative">
             <div className="group relative flex h-44 justify-center md:h-80">
               <Link
@@ -25,7 +25,7 @@ export const ProductGrid = ({ products, handleAddToCart }) => {
                 />
 
                 <img
-                  className="absolute inset-0 h-full w-full rounded-lg opacity-0 shadow-2xl p-2 transition duration-500 ease-in-out group-hover:opacity-100 "
+                  className="absolute inset-0 h-full w-full rounded-lg opacity-0 p-2 transition duration-500 ease-in-out group-hover:opacity-100 "
                   src={item.image}
                   alt={item.title}
                 />

@@ -1,67 +1,22 @@
+/* eslint-disable no-unused-vars */
 import { useDispatch, useSelector } from 'react-redux';
 import {
   createAdminProduct,
-  setClearErrors,
-  setClearInputs,
-  setCurrentId,
-  setProductData,
   updateAdminProduct,
 } from '../../store/admin/product/productAdminSlice';
 
-import { ImSpinner2 } from 'react-icons/im';
+// import { ImSpinner2 } from 'react-icons/im';
 import { useEffect, useState } from 'react';
-import { CartFilled } from '../costumer/cart';
-import Button from '../../components/Button';
+// import { CartFilled } from '../costumer/cart';
+// import Button from '../../components/Button';
 import { calculate, formatPrice } from '../../app/util';
 
 export const AdminAddForm = () => {
   const dispatch = useDispatch();
-  const {
-    emptyFields,
-    error,
-    loadingCreate,
-    loadingUpdate,
-    productData,
-    currentId,
-  } = useSelector((store) => store.productsAdmin);
-  const { cartItems, cartTotalAmount } = useSelector((store) => store.cart);
-
-  // fetch the data that will be edited
-  // will populate the form with the data
-  // image OnChange
-  const handleFileInputChange = (e) => {
-    const { name, files } = e.target;
-
-    if (files.length > 0 && files[0] instanceof Blob) {
-      const reader = new FileReader();
-      reader.readAsDataURL(files[0]);
-      reader.onload = () => {
-        dispatch(setProductData({ ...productData, [name]: reader.result }));
-      };
-    } else {
-      dispatch(setProductData({ ...productData, [name]: '' }));
-    }
-  };
-
-  // inputs OnChange
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    dispatch(setProductData({ ...productData, [name]: value }));
-  };
-
-  // desc OnChange
-  const handleDescriptionChange = (e, index) => {
-    const { name, value } = e.target;
-    const newDescription = productData.description.map((item, i) => {
-      if (i === index) {
-        return { ...item, [name]: value };
-      }
-
-      return item;
-    });
-
-    dispatch(setProductData({ ...productData, description: newDescription }));
-  };
+  const { productData, currentId } = useSelector(
+    (store) => store.productsAdmin
+  );
+  const { cartItems } = useSelector((store) => store.cart);
 
   // SUBMIT
   const handleSubmit = (e) => {
@@ -92,28 +47,6 @@ export const AdminAddForm = () => {
         }
       });
     }
-  };
-
-  // clearing input fileds
-  const onClear = () => {
-    dispatch(setClearInputs());
-    dispatch(setClearErrors());
-
-    const fileInputs = document.querySelectorAll('input[type="file"]');
-    fileInputs.forEach((input) => {
-      input.value = '';
-    });
-  };
-
-  const onCancel = () => {
-    dispatch(setClearInputs());
-    dispatch(setClearErrors());
-    dispatch(setCurrentId(null));
-
-    const fileInputs = document.querySelectorAll('input[type="file"]');
-    fileInputs.forEach((input) => {
-      input.value = '';
-    });
   };
 
   const [categories, setcategories] = useState([]);
@@ -159,7 +92,7 @@ export const AdminAddForm = () => {
                 </h2>
 
                 <p className="mt-1 flex items-center justify-start text-base text-primary md:text-lg">
-                  {calculate(item.price ) ? (
+                  {calculate(item.price) ? (
                     <>
                       You will got {calculate(item.price)}{' '}
                       <img

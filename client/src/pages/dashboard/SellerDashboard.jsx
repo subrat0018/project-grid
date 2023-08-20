@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { useEffect, useState, useContext } from 'react';
 import axios from 'axios';
 import Web3Context from '../../contexts';
@@ -6,7 +7,7 @@ import { totalSupply } from '../../contexts/useContract/readContract';
 import { mint } from '../../contexts/useContract/writeContract';
 const SellerDashboard = () => {
   const {Contract, account} = useContext(Web3Context);
-  const [supplycoins, setsupplycoins] = useState();
+  // const [supplycoins, setsupplycoins] = useState();
   const [mintCoins, setMintCoins] = useState();
   const [sellers, setSellers] = useState([]);
   const [sellerAddress,setSellerAddress] = useState([])
