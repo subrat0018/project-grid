@@ -21,8 +21,8 @@ const CustomerDashboard = () => {
     })
   },[account.currentAccount])
   return (
-    <main className="flex w-full items-start bg-bgcolor md:min-h-screen">
-      <div className="container mx-auto px-6 py-16 lg:px-16">
+    <main className="flex w-full items-start justify-start bg-bgcolor md:min-h-screen">
+      <div className="grid grid-cols-4 container mx-auto px-6 pt-28">
         <CustomerProfile Name={Name} />
         <TrackCoins />
       </div>

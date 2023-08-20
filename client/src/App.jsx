@@ -17,9 +17,9 @@ import { AdminLoginLayout } from './routes/AdminLoginLayout';
 import { checkAdmin } from './store/auth/adminAuthSlice';
 import AdminDistributeLayout from './routes/AdminDistributeLayout';
 import CheckoutLayout from './routes/CheckoutLayout';
-import OldOrdersLayout from './routes/OldOrdersLayout';
 import SellerDashboardLayout from './routes/SellerDashboardLayout';
 import axios from 'axios';
+import StakeCoinsLayout from './routes/StakeCoinsLayout';
 
 function App() {
   const dispatch = useDispatch();
@@ -77,7 +77,7 @@ function App() {
           />
 
           <Route path="/checkout" element={<CheckoutLayout />} />
-          <Route path="/oldorders" element={<OldOrdersLayout />} />
+          <Route path="/stakecoins" element={<StakeCoinsLayout />} />
           <Route path="/products/:slug" element={<ProductItemLayout />} />
         </Route>
       </Routes>
