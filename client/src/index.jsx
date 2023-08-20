@@ -10,7 +10,7 @@ import Web3Provider from "./contexts/Web3Provider";
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <HashRouter>
+  <HashRouter basename='/'>
     <Web3Provider>
     <Provider store={store}>
       <Toaster position="top-center" reverseOrder={false} />
