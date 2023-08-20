@@ -26,7 +26,8 @@ const OldOrders = () => {
   }, [cartItems, dispatch, account]);
   useEffect(() => {
     // console.log("Orders" , orders)
-    const userRecord = orders.length?orders.filter((item)=> {return (item.userAccount.toLowerCase() === account.currentAccount.toLowerCase() && (item.status === "2" || item.status === "3"))}):[];
+    const userRecord = orders.length?orders.filter((item)=> {return (item.userAccount.toLowerCase() === account.currentAccount.toLowerCase())}):[];
+    console.log(userRecord);
     userRecord.sort((a, b)=>{
       return (a.lastReturnDate > b.lastReturnDate);
     });
@@ -44,6 +45,12 @@ const OldOrders = () => {
       hour12: true,
     };
     return date.toLocaleString('en-US', options);
+  }
+  function checkItem(item)
+  {
+    if(item.status === "3")return false;
+    if(item.productName === "Redeem" || item.productName === "Stake" || item.productName === "AirDrop" || item.productName === "Social Media Interaction")return false;
+    return true;
   }
   return (
     // <main className="flex w-full items-start bg-bgcolor md:min-h-[80vh]">
@@ -86,12 +93,9 @@ const OldOrders = () => {
                             className="ml-1 h-5 w-5"
                           />
                         </h2>
-                        {item.productName !== "Redeem" && <h3 className="text-base font-bold text-primary md:text-2xl">
-                          Date: {item.status === "2"?formatDateAndTime(new Date(parseInt(item.lastReturnDate * 1000))): formatDateAndTime(new Date(parseInt(item.lastReturnDate * 1000 + 300 * 1000)))}
-                        </h3>}
-                        {item.productName === "Redeem" && <h3 className="text-base font-bold text-primary md:text-2xl">
+                        <h3>
                           Date: {formatDateAndTime(new Date(parseInt(item.lastReturnDate * 1000)))}
-                        </h3>}
+                        </h3>
 
                         {/* <p className="mt-1 flex items-center justify-start text-base text-primary md:text-lg">
                           {calculate(item.price) ? (
@@ -108,7 +112,7 @@ const OldOrders = () => {
                             <></>
                           )}
                         </p> */}
-                        {item.productName.length > 8 && (
+                        {checkItem(item) && (
                           <>
                             {' '}
                             <p className="mt-1 text-base text-primary md:text-lg">
@@ -120,7 +124,7 @@ const OldOrders = () => {
                             </p>
                           </>
                         )}
-                        {item.productName.length > 8 && (
+                        {checkItem(item) && (
                           <div class="flex cursor-pointer items-center space-x-1">
                             <svg
                               class="h-4 w-4 text-yellow-300"
@@ -169,7 +173,7 @@ const OldOrders = () => {
                             </svg>
                           </div>
                         )}
-                        {item.productName.length > 8 && (
+                        {checkItem(item) && (
                           <Button
                             navigateTo="/products"
                             btnStyle="btn-secondary mt-2"
