@@ -34,7 +34,7 @@ export const CustomerLogin = () => {
           window.location.href = `/`;
         } else {
           alert("Please Create an Account First");
-          window.location.href = `/#/customer/signup`;
+          window.location.href = `/customer/signup`;
         }
       });
     });

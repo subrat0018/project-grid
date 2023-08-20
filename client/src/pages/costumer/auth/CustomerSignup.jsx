@@ -36,7 +36,7 @@ export const CustomerSignup = () => {
           window.location.href = `/`;
         } else {
           alert('Something went wrong');
-          window.location.href = `/#/customer/signup`;
+          window.location.href = `/customer/signup`;
         }
       });
     });
