@@ -14,6 +14,12 @@ const purchase = async (
     .send({ from: user });
   return res;
 };
+const distributeToPartners = async(contract, sellers, account) => {
+  if(!contract)return false;
+  const res = await contract.methods.distributeToPartners(sellers).send({from: account});
+  if(res)return true;
+  return false;
+}
 const disperseCoin = async (contract, seller, amount, userAccount, account) => {
   if (!contract) {
     return false;
@@ -86,6 +92,7 @@ const mint = async(contract,amount,account)=>{
 }
 export {
   purchase,
+  distributeToPartners,
   disperseCoin,
   cancelOrder,
   stakeTokens,
