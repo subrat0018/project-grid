@@ -51,7 +51,7 @@ const NavbarAdmin = () => {
 
           {/* logo */}
           <div>
-            <NavLink to="/admin/dashboard">
+            <NavLink to="/dashboard">
               <img
                 className="w-20"
                 src="https://res.cloudinary.com/sambitsankalp/image/upload/v1691781777/grid/logo_b2cjoi.png"
