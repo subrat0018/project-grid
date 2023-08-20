@@ -12,6 +12,7 @@ import { ImSpinner2 } from 'react-icons/im';
 import { useEffect, useState } from 'react';
 import { CartFilled } from '../costumer/cart';
 import Button from '../../components/Button';
+import { calculate, formatPrice } from '../../app/util';
 
 export const AdminAddForm = () => {
   const dispatch = useDispatch();
@@ -117,24 +118,6 @@ export const AdminAddForm = () => {
 
   const [categories, setcategories] = useState([]);
 
-  function formatPrice(price) {
-    // Get the user's locale from the browser
-    const userLocale = navigator.language || 'en-US';
-
-    // Format the price value using the user's locale and currency
-    const formattedPrice = Number(price).toLocaleString(userLocale, {
-      style: 'currency',
-      currency: 'INR',
-    });
-
-    return formattedPrice;
-  }
-
-  function calculate(value) {
-    if (Number(value) / 100 >= 100) return 100;
-    else return Math.floor(Number(value) / 100);
-  }
-
   useEffect(() => {
     fetch('https://fakestoreapi.com/products/categories')
       .then((res) => res.json())
@@ -172,11 +155,11 @@ export const AdminAddForm = () => {
                 </p>
 
                 <h2 className="mt-5 text-base font-bold text-primary md:text-xl">
-                  {formatPrice(item.price)}
+                  {formatPrice(item.price * 80)}
                 </h2>
 
                 <p className="mt-1 flex items-center justify-start text-base text-primary md:text-lg">
-                  {calculate(item.price) ? (
+                  {calculate(item.price ) ? (
                     <>
                       You will got {calculate(item.price)}{' '}
                       <img

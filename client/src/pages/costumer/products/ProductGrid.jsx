@@ -1,20 +1,9 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { HiOutlineShoppingBag } from 'react-icons/hi';
+import { formatPrice } from '../../../app/util';
 
 export const ProductGrid = ({ products, handleAddToCart }) => {
-  function formatPrice(price) {
-    // Get the user's locale from the browser
-    const userLocale = navigator.language || 'en-US';
-
-    // Format the price value using the user's locale and currency
-    const formattedPrice = Number(price).toLocaleString(userLocale, {
-      style: 'currency',
-      currency: 'INR',
-    });
-
-    return formattedPrice;
-  }
 
   return (
     <div className="grid grid-cols-2 gap-5 md:px-3 lg:grid-cols-3">
@@ -82,7 +71,7 @@ export const ProductGrid = ({ products, handleAddToCart }) => {
 
           <div className="flex items-center justify-center">
             <span className="font-urbanist text-base font-bold text-secondary md:text-lg lg:text-xl">
-              {formatPrice(item.price)}
+              {formatPrice(item.price * 80)}
             </span>
           </div>
         </div>

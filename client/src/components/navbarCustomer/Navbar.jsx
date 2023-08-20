@@ -1,4 +1,4 @@
-import React, { useEffect, useState,useContext } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
 import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
@@ -16,11 +16,10 @@ import { setFilterCategory } from '../../store/customer/product/productCustomerS
 import Web3Context from '../../contexts';
 import { balanceOf } from '../../contexts/useContract/readContract';
 
-
-
 const Navbar = () => {
   const location = useLocation();
-  const { account,checkIfWalletIsConnected, Contract } = useContext(Web3Context);
+  const { account, checkIfWalletIsConnected, Contract } =
+    useContext(Web3Context);
 
   // Check if the user is on the products page
   const isProductsPage = location.pathname === '/products';
@@ -32,8 +31,7 @@ const Navbar = () => {
   const [filterNav, setFilterNav] = useState(false);
   const [searchNav, setSearchNav] = useState(false);
   const [dropdown, setDropdown] = useState(false);
-  const [Name,setName] = useState('')
-
+  const [Name, setName] = useState('');
 
   const dispatch = useDispatch();
   const { cartState, cartTotalQuantity } = useSelector((store) => store.cart);
@@ -125,7 +123,7 @@ const Navbar = () => {
     }
   };
 
-  const [balance,setBalance]  = useState('')
+  const [balance, setBalance] = useState('');
 
   const changeBackground = () => {
     if (window.scrollY >= 80) {
@@ -134,20 +132,21 @@ const Navbar = () => {
       setNavColor(false);
     }
   };
-  useEffect(()=>{
+  useEffect(() => {
     checkIfWalletIsConnected().then((res) => {
-      axios("http://localhost:5000/getdetails", {
-        method: "POST",
+      axios('http://localhost:5000/getdetails', {
+        method: 'POST',
         data: {
           walletAddress: res,
         },
-      }).then(res=>{
-        setName(res.data.name)
-        balanceOf(Contract,account.currentAccount).then(res=>setBalance(res))
-       
-      })
-    })
-  },[account.currentAccount])
+      }).then((res) => {
+        setName(res.data.name);
+        balanceOf(Contract, account.currentAccount).then((res) =>
+          setBalance(res)
+        );
+      });
+    });
+  }, [account.currentAccount]);
 
   useEffect(() => {
     window.addEventListener('scroll', changeBackground);
@@ -156,6 +155,8 @@ const Navbar = () => {
       window.removeEventListener('scroll', changeBackground);
     };
   }, []);
+
+  console.log(account);
 
   return (
     <>
@@ -312,23 +313,25 @@ const Navbar = () => {
                   </>
                 )} */}
                 <li className="font-urbanist font-bold text-zinc-600 transition duration-200 ease-in-out hover:text-primary">
-                 { account.currentAccount == null ?(<NavLink
-                    onClick={() => {
-                      if (dropdown) {
-                        handleDropdown();
+                  {account.currentAccount == null ? (
+                    <NavLink
+                      onClick={() => {
+                        if (dropdown) {
+                          handleDropdown();
+                        }
+                      }}
+                      className={({ isActive }) =>
+                        isActive ? 'text-primary' : null
                       }
-                    }}
-                    className={({ isActive }) =>
-                      isActive ? 'text-primary' : null
-                    }
-                    to="/customer/login"
-                  >
-                    Login
-                  </NavLink>):
-                  ( 
-                  <li className="font-urbanist font-bold text-zinc-600 transition duration-200 ease-in-out hover:text-primary">Hey {Name}</li>
-                  )
-}
+                      to="/customer/login"
+                    >
+                      Login
+                    </NavLink>
+                  ) : (
+                    <li className="font-urbanist font-bold text-zinc-600 transition duration-200 ease-in-out hover:text-primary">
+                      Hey {Name}
+                    </li>
+                  )}
                 </li>
                 <li className="font-urbanist font-bold text-zinc-600 transition duration-200 ease-in-out hover:text-primary">
                   <NavLink
@@ -355,7 +358,7 @@ const Navbar = () => {
                     className={({ isActive }) =>
                       isActive ? 'text-primary' : null
                     }
-                    to="/customer/dashboard"
+                    to="/dashboard"
                   >
                     Dashboard
                   </NavLink>

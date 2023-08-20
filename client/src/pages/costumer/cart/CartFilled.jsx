@@ -6,6 +6,7 @@ import {
   setIncreaseItemQTY,
   setRemoveItemFromCart,
 } from '../../../store/customer/cart/cartSlice';
+import { formatPrice } from '../../../app/util';
 
 const CartFilled = ({
   item: { id, category, title, price, image, quantity },
@@ -23,19 +24,6 @@ const CartFilled = ({
   const handleDecreaseItemQuantity = () => {
     dispatch(setDecreaseItemQTY({ id }));
   };
-
-  function formatPrice(price) {
-    // Get the user's locale from the browser
-    const userLocale = navigator.language || 'en-US';
-
-    // Format the price value using the user's locale and currency
-    const formattedPrice = Number(price).toLocaleString(userLocale, {
-      style: 'currency',
-      currency: 'INR',
-    });
-
-    return formattedPrice;
-  }
 
   return (
     <div className="flex-1 border-b border-zinc-300">
@@ -64,7 +52,7 @@ const CartFilled = ({
           <p className="text-base text-primary md:text-2xl">{category}</p>
 
           <h2 className="text-base font-bold text-primary md:text-2xl">
-            {formatPrice(price * quantity)}
+            {formatPrice(price * quantity * 80)}
           </h2>
 
           <div className="flex space-x-3">

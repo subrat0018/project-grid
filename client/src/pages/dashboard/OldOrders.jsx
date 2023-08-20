@@ -5,6 +5,7 @@ import { FaMinus, FaPlus, FaTrashAlt } from 'react-icons/fa';
 import Button from '../../components/Button';
 import { getOrders } from '../../contexts/useContract/readContract';
 import Web3Context from '../../contexts/index';
+import { calculate, formatPrice } from '../../app/util';
 
 const OldOrders = () => {
   const dispatch = useDispatch();
