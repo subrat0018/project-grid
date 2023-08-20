@@ -55,7 +55,7 @@ const OldOrders = () => {
         <div className="flex w-full items-start justify-center">
           <div className="h-full w-full bg-white p-4">
             <div className="pb-3 font-urbanist text-2xl font-bold">
-              Coin History
+              FlipCoin History
             </div>
             <div className="min-h-[70vh] overflow-y-auto bg-bgcolor">
               {userOrders &&
