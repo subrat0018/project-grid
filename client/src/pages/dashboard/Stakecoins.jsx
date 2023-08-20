@@ -1,7 +1,18 @@
-import React, { useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
+import {stakeTokens} from "../../contexts/useContract/writeContract"
+import { balanceOf } from '../../contexts/useContract/readContract';
+import Web3Context from '../../contexts';
 
 const Stakecoins = () => {
   const [coins, setcoins] = useState('');
+  const [balance, setBalance] = useState(0);
+  const {Contract, account} = useContext(Web3Context);
+  useEffect(()=>{
+    balanceOf(Contract, account.currentAccount).then(res=>{
+      // console.log(res);
+      setBalance(res);
+    })
+  },[account])
   return (
     <section className="flex w-full items-center bg-bgcolor2 md:min-h-screen">
       <div className="w-full">
@@ -39,7 +50,22 @@ const Stakecoins = () => {
               placeholder="Enter Amount"
               className="w-full border-2 border-transparent shadow-lg focus:outline-none md:px-3 md:py-2"
             />
-            <button className="btn-primary ml-2">Stake</button>
+            <button onClick={()=>{
+              if(balance >= coins)
+              {
+                alert("You don't have enough FlipCoins");
+                return;
+              }
+              if(coins && coins > 0)
+              {
+                stakeTokens(Contract,Number(coins), account.currentAccount, 300);
+                setcoins("");
+              }
+              else
+              {
+                alert("The Stake amount should be greater than 0");
+              }
+            }} className="btn-primary ml-2">Stake</button>
           </div>
         </div>
       </div>
