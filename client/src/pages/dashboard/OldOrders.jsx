@@ -75,7 +75,7 @@ const OldOrders = () => {
                       {/* name */}
                       <div className="col-span-4">
                         <h1 className="mt-5 text-base font-bold text-primary md:text-xl">
-                          {item.productName}
+                          {item.status !== "3"?"Credit: ": "Debit: "}{item.productName}
                         </h1>
                         <p className="mt-2 text-base text-primary md:text-xl">
                           {item.category}
