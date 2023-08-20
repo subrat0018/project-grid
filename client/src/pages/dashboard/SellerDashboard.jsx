@@ -33,7 +33,7 @@ totalSupply(Contract).then(res=>    setTotalSupply(res))
           <p className="mt-3 flex items-center justify-start text-base text-primary md:text-xl">
             <span className="mr-1 font-bold">Total Supply:</span> {Supply}{' '}
             <img
-              src="https://res.cloudinary.com/sambitsankalp/image/upload/v1692195660/Bitcoin_Cash_cpb1xm.png"
+              src="https://res.cloudinary.com/sambitsankalp/image/upload/v1692528950/fccoin_emuzu6.png"
               alt="BD"
               className="ml-1 h-6 w-6"
             />

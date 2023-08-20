@@ -25,14 +25,14 @@ function App() {
   const dispatch = useDispatch();
   const { admin } = useSelector((store) => store.admin);
   const { customer } = useSelector((store) => store.customer);
-  const { connectWallet } = useContext(Web3Context);
+  const { connectWallet, checkIfWalletIsConnected } = useContext(Web3Context);
   const [data, setdata] = useState({});
   // window.ethereum &&
   //   window.ethereum.on('accountsChanged', function () {
   //     setTimeout(window.location.reload(false), 1000);
   //   });
   useEffect(() => {
-    connectWallet().then((res) => {
+    checkIfWalletIsConnected().then((res) => {
       axios('http://localhost:5000/getdetails', {
         method: 'POST',
         data: {
@@ -46,10 +46,6 @@ function App() {
     });
     dispatch(checkAdmin());
     dispatch(checkCustomer());
-  }, []);
-  const { checkIfWalletIsConnected } = useContext(Web3Context);
-  useEffect(() => {
-    checkIfWalletIsConnected();
   }, []);
 
   return (

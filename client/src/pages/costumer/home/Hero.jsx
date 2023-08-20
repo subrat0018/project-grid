@@ -25,15 +25,15 @@ const Hero = () => {
   });
 
   return (
-    <section className="flex w-full items-center bg-bgcolor2 md:min-h-screen">
+    <section className="flex w-full items-center bg-bgcolor2 md:min-h-[50vh]">
       <div className="w-full">
         <div className="relative flex flex-col items-center justify-center font-urbanist">
           {/* image */}
-          <div className="min-h-screen w-full">
+          <div className="min-h-[50vh] w-full">
             <img
               src={heroImages[curSlideNumber].img}
               alt="heroImages"
-              className="min-h-screen w-full object-cover md:h-[600px]"
+              className="min-h-[50vh] w-full object-cover md:h-[600px]"
             />
 
             {/* image darker overlay */}
@@ -45,12 +45,12 @@ const Hero = () => {
             <h1 className="text-sm font-bold uppercase tracking-widest text-white md:text-base">
               {heroImages[curSlideNumber].desc1}
             </h1>
-            <p className="font-gotu text-3xl text-white lg:text-6xl lg:leading-snug">
+            <p className="font-gotu text-2xl text-white lg:text-5xl lg:leading-snug">
               {heroImages[curSlideNumber].desc2}
             </p>
           </div>
 
-          <div className="absolute bottom-32 md:bottom-40">
+          <div className="absolute bottom-32 md:bottom-43">
             <Button
               navigateTo="/products"
               btnStyle="btn-secondary"

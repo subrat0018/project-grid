@@ -163,7 +163,7 @@ export const AdminAddForm = () => {
                     <>
                       You will got {calculate(item.price)}{' '}
                       <img
-                        src="https://res.cloudinary.com/sambitsankalp/image/upload/v1692195660/Bitcoin_Cash_cpb1xm.png"
+                        src="https://res.cloudinary.com/sambitsankalp/image/upload/v1692528950/fccoin_emuzu6.png"
                         alt="BD"
                         className="ml-1 h-5 w-5"
                       />
