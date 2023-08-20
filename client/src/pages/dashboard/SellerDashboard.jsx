@@ -10,15 +10,22 @@ const SellerDashboard = () => {
   // const [supplycoins, setsupplycoins] = useState();
   const [mintCoins, setMintCoins] = useState();
   const [sellers, setSellers] = useState([]);
-
-  useEffect(() => {
-    axios('http://localhost:5000/getsellers', {
-      method: 'GET',
-    }).then((res) => {
-      // console.log(res.data);
+  const [sellerAddress,setSellerAddress] = useState([])
+  const [Supply,setTotalSupply] = useState();
+  useEffect(()=>{
+    axios("http://localhost:5000/getsellers",{
+      method: "GET"
+    }).then(res=>{
+      setSellers([...res.data])
+      let addr= [];
+      for(let i=0;i<res.data.length;i++){
+        // console.log(res.data)
+        addr.push(res.data[i].walletAddress)
+      }
+      setSellerAddress([...addr])
     });
-  });
-
+totalSupply(Contract).then(res=>    setTotalSupply(res))
+  },[account])
   return (
     <main className="flex w-full items-center bg-bgcolor md:min-h-screen">
       <div className="container mx-auto px-6 py-16 lg:px-16">
@@ -66,14 +73,10 @@ const SellerDashboard = () => {
               </div>
             ))}
           </div>
-          <button
-            onClick={() => {
-              distributeToPartners(Contract, sellers, account.currentAccount);
-            }}
-            className="btn-secondary w-full"
-          >
-            Distribute
-          </button>
+          <button onClick={()=>{
+            // console.log(sellerAddress)
+            distributeToPartners(Contract, sellerAddress, account.currentAccount);
+          }} className='btn-secondary w-full'>Distribute</button>
         </div>
       </div>
     </main>
