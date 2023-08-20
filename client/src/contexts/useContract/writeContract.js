@@ -6,13 +6,15 @@ const purchase = async (
   isReferred,
   referrer,
   isRedeem,
-  redeemAmount
+  redeemAmount,
+  productName,
+  imgUrl
 ) => {
   if (!contract) {
     return false;
   }
   const res = await contract.methods
-    .purchase(price, user, lastReturned,isReferred, referrer, isRedeem, redeemAmount)
+    .purchase(price, user, lastReturned,isReferred, referrer, isRedeem, redeemAmount,productName, imgUrl)
     .send({ from: user });
   return res;
 };

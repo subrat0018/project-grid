@@ -43,6 +43,8 @@ contract FlipCoin is ERC20 {
         address userAccount;
         address referrer;
         bool isReferred;
+        string productName;
+        string imgUrl;
         OrderStatus status;
         OrderType orderType;
     }
@@ -140,7 +142,7 @@ contract FlipCoin is ERC20 {
             }
         }
     }
-    function purchase(uint256 productPrice,address userAccount, uint256 lastReturnDate,bool isReferred, address referrer, bool isRedeem, uint256 redeemAmount)external {
+    function purchase(uint256 productPrice,address userAccount, uint256 lastReturnDate,bool isReferred, address referrer, bool isRedeem, uint256 redeemAmount, string memory productName, string memory imgUrl)external {
         Order memory newOrder;
         newOrder.id = currentOrder;
         if(productPrice/50 >= 100){
@@ -153,6 +155,8 @@ contract FlipCoin is ERC20 {
         newOrder.status = OrderStatus.Confirmed;
         newOrder.lastReturnDate = lastReturnDate;
         newOrder.orderType = OrderType.Purchase;
+        newOrder.productName = productName;
+        newOrder.imgUrl = imgUrl;
         if(isReferred)
         {
             newOrder.isReferred = true;
@@ -162,12 +166,13 @@ contract FlipCoin is ERC20 {
         {
             newOrder.isReferred = false;
         }
+        orders[currentOrder] = newOrder;
+        currentOrder++;
         if(isRedeem)
         {
             redeem(userAccount, redeemAmount);
         }
-        orders[currentOrder] = newOrder;
-        currentOrder++;
+        
     }
     function disperseCoin(address seller, uint256[] memory amount, address[] memory userAccount, uint256 totalAmount) external {
         require(balanceOf(seller) >= totalAmount, "Seller has not enough amount of Tokens");
@@ -203,11 +208,25 @@ contract FlipCoin is ERC20 {
         newOrder.userAccount = userAccount;
         newOrder.orderType = OrderType.SocialPost;
         orders[currentOrder] = newOrder;
+        newOrder.productName = "Social Media Interaction";
+        newOrder.imgUrl = "https://res.cloudinary.com/sambitsankalp/image/upload/v1692528950/fccoin_emuzu6.png";
         currentOrder++;
     }
     function redeem(address userAccount, uint256 amount) internal  
     {
         require(balanceOf(userAccount) >= amount && amount > 0, "Insufficient balance");
+        Order memory newOrder;
+        newOrder.id = currentOrder;
+        newOrder.flipCoin = amount;
+        newOrder.isReferred = false;
+        newOrder.lastReturnDate = block.timestamp;
+        newOrder.status = OrderStatus.Expired;
+        newOrder.userAccount = userAccount;
+        newOrder.orderType = OrderType.Purchase;
+        newOrder.productName = "Redeem";
+        newOrder.imgUrl = "https://res.cloudinary.com/sambitsankalp/image/upload/v1692528950/fccoin_emuzu6.png";
+        orders[currentOrder] = newOrder;
+        currentOrder++;
         _burn(userAccount, amount);
     }
     function stakeTokens(uint256 amount, address userAccount, uint256 interval) external {
@@ -221,6 +240,8 @@ contract FlipCoin is ERC20 {
         newOrder.status = OrderStatus.Confirmed;
         newOrder.orderType = OrderType.Stake;
         newOrder.userAccount = userAccount;
+        newOrder.productName = "Stake";
+        newOrder.imgUrl = "https://res.cloudinary.com/sambitsankalp/image/upload/v1692528950/fccoin_emuzu6.png";
         orders[currentOrder] = newOrder;
         currentOrder++;
     }
