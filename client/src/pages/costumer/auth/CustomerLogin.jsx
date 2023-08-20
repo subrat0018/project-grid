@@ -79,7 +79,7 @@ export const CustomerLogin = () => {
               Connect your wallet to Login
             </button>
 
-            <div className="flex items-center justify-center space-x-2 font-urbanist text-base font-semibold text-gray-600">
+            {/* <div className="flex items-center justify-center space-x-2 font-urbanist text-base font-semibold text-gray-600">
               <h4>New customer?</h4>
 
               <NavLink
@@ -88,7 +88,7 @@ export const CustomerLogin = () => {
               >
                 Create an account
               </NavLink>
-            </div>
+            </div> */}
 
             {errorLogIn && <div className="error">{errorLogIn}</div>}
           </form>
