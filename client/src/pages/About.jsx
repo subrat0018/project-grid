@@ -1,5 +1,6 @@
 import React from 'react';
 import { about } from '../assets/about';
+import Table from '../components/Table';
 
 const About = () => {
   return (
@@ -78,6 +79,8 @@ const About = () => {
             alt="/"
           />
         </div>
+        <Table/>
+        <img src="https://res.cloudinary.com/doybtqm8h/image/upload/v1692561108/WhatsApp_Image_2023-08-21_at_01.21.23_kuh77a.jpg" alt="" />
       </div>
     </main>
   );
