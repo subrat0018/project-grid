@@ -1,13 +1,13 @@
 
 const getOrders = async (contract)=>{
   if(!contract) return false;
-  const res = await contract.methods.currentOrder().call();
-  let orders = [];
-  for(let i=0;i<res;i++){
-    const _orders = await contract.methods.orders(i).call();
-    orders.push(_orders);
-  }
-  return orders;
+  const res = await contract.methods.orderHistory().call();
+  // let orders = [];
+  // for(let i=0;i<res;i++){
+  //   const _orders = await contract.methods.orders(i).call();
+  //   orders.push(_orders);
+  // }
+  return res;
 
 }
 const balanceOf = async(contract, address) =>{
