@@ -13,14 +13,40 @@ const OldOrders = () => {
   const { cartItems, cartTotalAmount } = useSelector((store) => store.cart);
   const [orders,setOrders] =  useState([]);
   const [userOrders, setUserOrders] = useState([]);
+  function calculate(value) {
+    if (Number(value) / 50 >= 100) return 100;
+    else return Math.floor(Number(value) / 50);
+  }
+
   useEffect(() => {
     dispatch(setGetTotals());
-    setOrders(getOrders(Contract).then(res=>console.log(res)));
-    const userRecord = orders.length?orders.filter((item)=>{console.log(item.userAccount);return item.userAccount === account.currentAccount}):[];
-    setUserOrders([...userOrders, ...userRecord]);
-    console.log(userOrders);
+    getOrders(Contract).then((res)=>{
+      setOrders([...res])
+    });
+ 
   }, [cartItems, dispatch ,account]);
+  useEffect(()=>{
+    // console.log("Orders" , orders)
+    const userRecord = orders.length?orders.filter((item)=> {return (item.userAccount.toLowerCase() === account.currentAccount.toLowerCase() && (item.status === "2" || item.status === "3"))}):[];
+    setUserOrders([ ...userRecord]);
+    console.log(userOrders);
+  },[orders,account])
+  function formatDateAndTime(date) {
+    const options = { year: 'numeric', month: 'numeric', day: 'numeric', hour: 'numeric', minute: 'numeric', second: 'numeric', hour12: true };
+    return date.toLocaleString('en-US', options);
+  }
+  function formatPrice(price) {
+    // Get the user's locale from the browser
+    const userLocale = navigator.language || 'en-US';
 
+    // Format the price value using the user's locale and currency
+    const formattedPrice = Number(price).toLocaleString(userLocale, {
+      style: 'currency',
+      currency: 'INR',
+    });
+
+    return formattedPrice;
+  }
   return (
     <main className="flex w-full items-start bg-bgcolor md:min-h-[80vh]">
       <div className="container mx-auto px-6 pt-16 lg:px-16">
@@ -30,8 +56,8 @@ const OldOrders = () => {
               Old Orders
             </div>
             <div className="min-h-[70vh] overflow-y-auto bg-bgcolor">
-              {cartItems &&
-                cartItems.map((item, i) => (
+              {userOrders &&
+                userOrders.map((item, i) => (
                   <div
                     key={i}
                     className="flex justify-center border-b-2 border-black"
@@ -46,17 +72,17 @@ const OldOrders = () => {
 
                       {/* name */}
                       <div className="col-span-4">
-                        <h1 className="text-base font-bold text-primary md:text-2xl">
-                          {item.title}
-                        </h1>
 
                         <p className="mt-2 text-base text-primary md:text-xl">
                           {item.category}
                         </p>
 
                         <h2 className="mt-5 text-base font-bold text-primary md:text-xl">
-                          {formatPrice(item.price * 80)}
+                          {item.status==="2"?"+":"-"}{item.flipCoin} FlipCoins
                         </h2>
+                        <h3 className="text-base font-bold text-primary md:text-2xl">
+                          Date: {item.status === "2"?formatDateAndTime(new Date(parseInt(item.lastReturnDate * 1000))): formatDateAndTime(new Date(parseInt(item.lastReturnDate * 1000 + 300 * 1000)))}
+                        </h3>
 
                         <p className="mt-1 flex items-center justify-start text-base text-primary md:text-lg">
                           {calculate(item.price) ? (
