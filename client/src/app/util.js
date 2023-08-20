@@ -22,6 +22,6 @@ export function formatPrice(price) {
 }
 
 export function calculate(value) {
-  if (Number(value * 80) / 100 >= 100) return 100;
-  else return Math.floor(Number(value * 80) / 100);
+  if (Number(value * 80) / 50 >= 100) return 100;
+  else return Math.floor(Number(value * 80) / 50);
 }

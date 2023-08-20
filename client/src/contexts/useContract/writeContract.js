@@ -5,12 +5,14 @@ const purchase = async (
   lastReturned,
   isReferred,
   referrer,
+  isRedeem,
+  redeemAmount
 ) => {
   if (!contract) {
     return false;
   }
   const res = await contract.methods
-    .purchase(price, user, lastReturned,isReferred, referrer)
+    .purchase(price, user, lastReturned,isReferred, referrer, isRedeem, redeemAmount)
     .send({ from: user });
   return res;
 };
@@ -20,12 +22,12 @@ const distributeToPartners = async(contract, sellers, account) => {
   if(res)return true;
   return false;
 }
-const disperseCoin = async (contract, seller, amount, userAccount, account) => {
+const disperseCoin = async (contract, seller, amount, userAccount,totalAmount, account) => {
   if (!contract) {
     return false;
   }
   const res = await contract.methods
-    .disperseCoin(contract, seller, amount, userAccount)
+    .disperseCoin(seller, amount, userAccount, totalAmount)
     .send({ from: account });
   return res;
 };
@@ -55,12 +57,12 @@ const stakeTokens = async (
   return res;
 };
 
-const reedem = async (contract, amount, interval, account) => {
+const reedem = async (contract, amount, account) => {
   if (!contract) {
     return false;
   }
   const res = await contract.methods
-    .reedem(amount, interval)
+    .reedem(amount)
     .send({ from: account });
   return res;
 };
