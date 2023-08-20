@@ -21,6 +21,7 @@ import CheckoutLayout from './routes/CheckoutLayout';
 import SellerDashboardLayout from './routes/SellerDashboardLayout';
 import axios from 'axios';
 import StakeCoinsLayout from './routes/StakeCoinsLayout';
+import AboutLayout from './routes/AboutLayout';
 
 function App() {
   const dispatch = useDispatch();
@@ -77,6 +78,7 @@ function App() {
             }
           />
 
+          <Route path="/about" element={<AboutLayout />} />
           <Route path="/checkout" element={<CheckoutLayout />} />
           <Route path="/stakecoins" element={<StakeCoinsLayout />} />
           <Route path="/products/:slug" element={<ProductItemLayout />} />
