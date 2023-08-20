@@ -13,15 +13,8 @@ const About = () => {
           </h1>
           <p className="flex w-4/5 flex-col space-y-6 text-center font-gotu text-lg text-secondary md:text-xl">
             <span>Buy products using FlipCoins</span>
-            <span>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris
-              vestibulum hendrerit dapibus.
-            </span>
-
-            <span>
-              Nullam quis ex eu est pellentesque rhoncus ac id nibh. Curabitur
-              tempor maximus ipsum dapibus semper. Etiam scelerisque pretium
-              arcu nec cursus.
+            <span> 
+"Elevate Your Loyalty Experience: Where Tokens Fuel Rewards and Trust is Transparent."
             </span>
           </p>
         </div>
@@ -62,7 +55,7 @@ const About = () => {
             alt="/"
           />
 
-          <div className="space-y-4 self-center">
+          {/* <div className="space-y-4 self-center">
             <h2 className="font-urbanist text-2xl font-bold text-primary md:text-3xl lg:text-4xl">
               {about[2].name}
             </h2>
@@ -71,13 +64,13 @@ const About = () => {
                 <li>{des}</li>
               ))}
             </p>
-          </div>
+          </div> */}
 
-          <img
+          {/* <img
             className="h-64 w-full overflow-hidden rounded-lg object-cover md:h-96"
             src={about[2].img}
             alt="/"
-          />
+          /> */}
         </div>
         <Table/>
         <img src="https://res.cloudinary.com/doybtqm8h/image/upload/v1692561108/WhatsApp_Image_2023-08-21_at_01.21.23_kuh77a.jpg" alt="" />
