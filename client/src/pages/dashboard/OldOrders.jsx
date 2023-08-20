@@ -1,19 +1,28 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useContext, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setGetTotals } from '../../store/customer/cart/cartSlice';
 import { FaMinus, FaPlus, FaTrashAlt } from 'react-icons/fa';
 import Button from '../../components/Button';
+import { getOrders } from '../../contexts/useContract/readContract';
+import Web3Context from '../../contexts/index';
 
 const OldOrders = () => {
   const dispatch = useDispatch();
+  const {Contract,account} = useContext(Web3Context);
   const { cartItems, cartTotalAmount } = useSelector((store) => store.cart);
+  const [orders,setOrders] =  useState([]);
+  const [userOrders, setUserOrders] = useState([]);
   function calculate(value) {
     if (Number(value) / 100 >= 100) return 100;
     else return Math.floor(Number(value) / 100);
   }
   useEffect(() => {
     dispatch(setGetTotals());
-  }, [cartItems, dispatch]);
+    setOrders(getOrders(Contract).then(res=>console.log(res)));
+    const userRecord = orders.length?orders.filter((item)=>{console.log(item.userAccount);return item.userAccount === account.currentAccount}):[];
+    setUserOrders([...userOrders, ...userRecord]);
+    console.log(userOrders);
+  }, [cartItems, dispatch ,account]);
 
   function formatPrice(price) {
     // Get the user's locale from the browser

@@ -1,19 +1,19 @@
 
-const getOrders = (contract)=>{
+const getOrders = async (contract)=>{
   if(!contract) return false;
-  const res = contract.methods.orders.call().then(res=>res);
+  const res = await contract.methods.currentOrder().call();
   let orders = [];
   for(let i=0;i<res;i++){
-    const _orders = contract.methods.orders(i).call().then(res=>res);
+    const _orders = await contract.methods.orders(i).call();
     orders.push(_orders);
   }
-  return orders
+  return orders;
 
 }
 const balanceOf = (contract, address) =>{
-  console.log(contract);
+  // console.log(contract);
   if(!contract)return 0;
-  console.log(address);
+  // console.log(address);
   const res = contract.methods.balanceOf(address).call().then(res=>res);
   return res;
 }
