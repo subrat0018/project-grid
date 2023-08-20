@@ -16,6 +16,7 @@ import {
   ProductItemDescription,
   ProductItemShare,
 } from './';
+import { formatPrice } from '../../../../app/util';
 
 const ProductItem = () => {
   const { state } = useLocation();
@@ -59,19 +60,6 @@ const ProductItem = () => {
     dispatch(setAddItemToCartTwo(items));
   };
 
-  function formatPrice(price) {
-    // Get the user's locale from the browser
-    const userLocale = navigator.language || 'en-US';
-
-    // Format the price value using the user's locale and currency
-    const formattedPrice = Number(price).toLocaleString(userLocale, {
-      style: 'currency',
-      currency: 'INR',
-    });
-
-    return formattedPrice;
-  }
-
   return (
     <main className="min-h-screen w-full bg-[#FFFFFF]">
       <div className="container mx-auto px-6 py-16 lg:px-16">
@@ -99,7 +87,7 @@ const ProductItem = () => {
             </p>
 
             <span className="flex flex-row items-start justify-start font-gotu text-lg text-secondary md:text-2xl lg:text-3xl">
-              {formatPrice(item.price)} {`(10 `}
+              {formatPrice(item.price * 80)} {`(10 `}
               <img
                 src="https://res.cloudinary.com/sambitsankalp/image/upload/v1692195660/Bitcoin_Cash_cpb1xm.png"
                 alt="BD"

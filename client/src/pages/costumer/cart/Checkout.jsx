@@ -1,38 +1,29 @@
-import React, { useEffect, useState, useContext } from "react";
-import { FaMinus, FaPlus, FaTrashAlt } from "react-icons/fa";
-import { useDispatch, useSelector } from "react-redux";
-import { setGetTotals } from "../../../store/customer/cart/cartSlice";
-import { purchase } from "../../../contexts/useContract/writeContract";
-import Web3Context from "../../../contexts/index"
+import React, { useEffect, useState, useContext } from 'react';
+import { FaMinus, FaPlus, FaTrashAlt } from 'react-icons/fa';
+import { useDispatch, useSelector } from 'react-redux';
+import { setGetTotals } from '../../../store/customer/cart/cartSlice';
+import { purchase } from '../../../contexts/useContract/writeContract';
+import Web3Context from '../../../contexts/index';
+import { calculate, formatPrice } from '../../../app/util';
 
 const Checkout = () => {
   const dispatch = useDispatch();
-  const { account,checkIfWalletIsConnected, Contract } = useContext(Web3Context);
+  const { account, checkIfWalletIsConnected, Contract } =
+    useContext(Web3Context);
   const { cartItems, cartTotalAmount } = useSelector((store) => store.cart);
   const [price, setPrice] = useState(cartTotalAmount);
   const [toggle, setToggle] = useState(0);
-  const [referrer, setReferrer] = useState("0x0000000000000000000000000000000000000000");
-  const nullAdress = "0x0000000000000000000000000000000000000000";
-  function calculate(value) {
-    if (Number(value) / 50 >= 100) return 100;
-    else return Math.floor(Number(value) / 50);
-  }
+  const [referrer, setReferrer] = useState(
+    '0x0000000000000000000000000000000000000000'
+  );
+  const nullAdress = '0x0000000000000000000000000000000000000000';
+
   useEffect(() => {
     dispatch(setGetTotals());
-    setPrice(cartTotalAmount)
-  }, [cartItems, dispatch, cartTotalAmount])
-  function formatPrice(price) {
-    // Get the user's locale from the browser
-    const userLocale = navigator.language || "en-US";
+    setPrice(cartTotalAmount * 80);
+  }, [cartItems, dispatch, cartTotalAmount]);
 
-    // Format the price value using the user's locale and currency
-    const formattedPrice = Number(price).toLocaleString(userLocale, {
-      style: "currency",
-      currency: "INR",
-    });
-
-    return formattedPrice;
-  }
+  console.log(price, calculate(price));
 
   return (
     <main className="flex w-full items-start bg-bgcolor md:min-h-[80vh]">
@@ -104,7 +95,7 @@ const Checkout = () => {
                         <p className="mt-3 flex items-center justify-start text-base text-primary md:text-lg">
                           {calculate(item.price) ? (
                             <>
-                              You will earn {calculate(item.price)}{" "}
+                              You will earn {calculate(item.price)}{' '}
                               <img
                                 src="https://res.cloudinary.com/sambitsankalp/image/upload/v1692195660/Bitcoin_Cash_cpb1xm.png"
                                 alt="BD"
@@ -134,14 +125,15 @@ const Checkout = () => {
               //   onChange={(e) => setFirstName(.target.value)}
               placeholder="Referrer Account"
               className="w-full border border-gray-300 px-3 py-3 shadow-md focus:outline-none md:px-3 md:py-3 md:text-lg"
-              onChange={(e)=>{
+              onChange={(e) => {
                 setReferrer(e.target.value);
               }}
             />
 
             <div className="mt-5 rounded-lg bg-white p-3">
               <p className="mt-2 flex items-center justify-start font-gotu text-base font-bold text-primary md:text-xl">
-                Total: {formatPrice(cartTotalAmount)} {`(`}25{" "}
+                Total: {formatPrice(price)} {`(`}
+                {calculate(price / 80)}{' '}
                 <img
                   src="https://res.cloudinary.com/sambitsankalp/image/upload/v1692195660/Bitcoin_Cash_cpb1xm.png"
                   alt="BD"
@@ -154,20 +146,27 @@ const Checkout = () => {
                   Use your BD coins
                 </h3>
                 <p className="mt-2 flex items-center justify-start font-gotu text-base font-bold text-primary md:text-lg">
-                  <span className="mr-2 font-bold">Total:</span>{" "}
-                  <span className="mr-2 line-through">
-                    {formatPrice(cartTotalAmount)}
-                  </span>{" "}
-                  {formatPrice(cartTotalAmount - 30)} {`(-`}40{" "}
-                  <img
-                    src="https://res.cloudinary.com/sambitsankalp/image/upload/v1692195660/Bitcoin_Cash_cpb1xm.png"
-                    alt="BD"
-                    className="ml-1 h-6 w-6"
-                  />
-                  {`)`}
+                  <span className="mr-2 font-bold">Total:</span>{' '}
+                  {!toggle ? (
+                    <>
+                      <span className="mr-2 line-through">
+                        {formatPrice(price)}
+                      </span>{' '}
+                      {formatPrice(price - calculate(price / 80))} {`(-`}
+                      {calculate(cartTotalAmount)}{' '}
+                      <img
+                        src="https://res.cloudinary.com/sambitsankalp/image/upload/v1692195660/Bitcoin_Cash_cpb1xm.png"
+                        alt="BD"
+                        className="ml-1 h-6 w-6"
+                      />
+                      {`)`}
+                    </>
+                  ) : (
+                    <>{formatPrice(price)}</>
+                  )}
                 </p>
                 <p className="mt-2 flex items-center justify-start text-sm text-primary md:text-base">
-                  You have currently 100{" "}
+                  You have currently 100{' '}
                   <img
                     src="https://res.cloudinary.com/sambitsankalp/image/upload/v1692195660/Bitcoin_Cash_cpb1xm.png"
                     alt="BD"
@@ -177,32 +176,41 @@ const Checkout = () => {
                 </p>
 
                 <button
-                onClick={()=>{
-                  if(toggle === 0)
-                  {
-                    setPrice(cartTotalAmount - calculate(cartTotalAmount));
-                    setToggle(1);
-                  }
-                  else
-                  {
-                    setPrice(cartTotalAmount);
-                    setToggle(0);
-                  }
-                }}
-                 className="mt-4 w-full rounded-md bg-[#c6f6f8] px-4 py-1 font-urbanist font-extrabold text-secondary shadow-md ring-2 ring-black transition duration-300 ease-in hover:bg-black hover:text-white md:px-4 md:py-2">
-                  Use coins
+                  onClick={() => {
+                    if (toggle === 0) {
+                      setPrice(
+                        cartTotalAmount * 80 - calculate(cartTotalAmount)
+                      );
+                      setToggle(1);
+                    } else {
+                      setPrice(cartTotalAmount * 80);
+                      setToggle(0);
+                    }
+                  }}
+                  className="mt-4 w-full rounded-md bg-[#c6f6f8] px-4 py-1 font-urbanist font-extrabold text-secondary shadow-md ring-2 ring-black transition duration-300 ease-in hover:bg-black hover:text-white md:px-4 md:py-2"
+                >
+                  {!toggle ? `Use coins` : `Get back coins`}
                 </button>
               </div>
             </div>
             <button className="mt-8 w-full rounded-md bg-[#c6f6f8] px-4 py-1 font-urbanist font-extrabold text-secondary shadow-md ring-2 ring-[#abecee] transition duration-300 ease-in hover:bg-[#abecee] hover:text-primary md:px-4 md:py-2">
               Add more items
             </button>
-            <button onClick={()=>{
-              if(referrer === "")setReferrer(nullAdress);
-              console.log(price)
-              purchase(Contract,Math.floor(price),account.currentAccount,Math.floor(Date.now()/1000) + 60,(referrer !== nullAdress), referrer);
-            }}
-             className="mt-4 w-full rounded-md bg-[#c6f6f8] px-4 py-1 font-urbanist font-extrabold text-secondary shadow-md ring-2 ring-[#abecee] transition duration-300 ease-in hover:bg-[#abecee] hover:text-primary md:px-4 md:py-2">
+            <button
+              onClick={() => {
+                if (referrer === '') setReferrer(nullAdress);
+                console.log(price);
+                purchase(
+                  Contract,
+                  Math.floor(price),
+                  account.currentAccount,
+                  Math.floor(Date.now() / 1000) + 60,
+                  referrer !== nullAdress,
+                  referrer
+                );
+              }}
+              className="mt-4 w-full rounded-md bg-[#c6f6f8] px-4 py-1 font-urbanist font-extrabold text-secondary shadow-md ring-2 ring-[#abecee] transition duration-300 ease-in hover:bg-[#abecee] hover:text-primary md:px-4 md:py-2"
+            >
               Proceed with Payment
             </button>
           </div>

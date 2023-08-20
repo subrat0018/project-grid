@@ -3,7 +3,7 @@ import { Routes, Route, Navigate } from 'react-router-dom';
 import { SharedLayout } from './routes/sharedLayout';
 import { ProductsLayout } from './routes/ProductsLayout';
 import { useDispatch, useSelector } from 'react-redux';
-import { useEffect, useContext } from 'react';
+import { useEffect, useContext, useState } from 'react';
 
 import { checkCustomer } from './store/auth/customerAuthSlice';
 import { CustomerSignupLayout } from './routes/CustomerSignupLayout';
@@ -19,16 +19,31 @@ import AdminDistributeLayout from './routes/AdminDistributeLayout';
 import CheckoutLayout from './routes/CheckoutLayout';
 import OldOrdersLayout from './routes/OldOrdersLayout';
 import SellerDashboardLayout from './routes/SellerDashboardLayout';
+import axios from 'axios';
 
 function App() {
   const dispatch = useDispatch();
   const { admin } = useSelector((store) => store.admin);
   const { customer } = useSelector((store) => store.customer);
+  const { connectWallet } = useContext(Web3Context);
+  const [data, setdata] = useState({});
   // window.ethereum &&
   //   window.ethereum.on('accountsChanged', function () {
   //     setTimeout(window.location.reload(false), 1000);
   //   });
   useEffect(() => {
+    connectWallet().then((res) => {
+      axios('http://localhost:5000/getdetails', {
+        method: 'POST',
+        data: {
+          walletAddress: res,
+        },
+      }).then((data) => {
+        // console.log(data)
+        console.log('data', data.data);
+        setdata(data.data);
+      });
+    });
     dispatch(checkAdmin());
     dispatch(checkCustomer());
   }, []);
@@ -51,30 +66,23 @@ function App() {
             path="/customer/login"
             element={!customer ? <CustomerLoginLayout /> : <Navigate to="/" />}
           />
+
           <Route
-            path="/customer/dashboard"
-            element={<CustomerDashboardLayout />}
+            path="dashboard"
+            element={
+              data.userType === 'Seller' ? (
+                <AdminDashboardLayout />
+              ) : data.userType === 'User' ? (
+                <CustomerDashboardLayout />
+              ) : (
+                <SellerDashboardLayout />
+              )
+            }
           />
+
           <Route path="/checkout" element={<CheckoutLayout />} />
           <Route path="/oldorders" element={<OldOrdersLayout />} />
           <Route path="/products/:slug" element={<ProductItemLayout />} />
-        </Route>
-
-        <Route path="/" element={<SharedLayout />}>
-          <Route path="/seller/dashboard" element={<AdminDashboardLayout />} />
-
-          <Route path="/admin/dashboard" element={<SellerDashboardLayout />} />
-          {/* <Route
-            path="/admin/login"
-            element={
-              !admin ? <AdminLoginLayout /> : <Navigate to="/admin/dashboard" />
-            }
-          /> */}
-
-          {/* <Route
-            path="/seller/dashboard/distribute"
-            element={<AdminDistributeLayout />}
-          /> */}
         </Route>
       </Routes>
     </>
