@@ -6,7 +6,7 @@ import { readAdminProducts } from '../../store/admin/product/productAdminSlice';
 import { disperseCoin } from '../../contexts/useContract/writeContract';
 import Web3Context from '../../contexts';
 import { balanceOf } from '../../contexts/useContract/readContract';
-import { Toast, toast } from 'react-hot-toast';
+// import { Toast, toast } from 'react-hot-toast';
 // import { trimAndAddEllipsis } from '../../app/util';
 // import Button from '../../components/Button';
 
