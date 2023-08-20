@@ -216,7 +216,8 @@ const Checkout = () => {
                   Math.floor(Date.now() / 1000) + 60,
                   referrer !== nullAdress,
                   referrer,
-                  toggle
+                  toggle,
+                  calculate(cartTotalAmount)
                 );
               }}
               className="mt-4 w-full rounded-md bg-[#c6f6f8] px-4 py-1 font-urbanist font-extrabold text-secondary shadow-md ring-2 ring-[#abecee] transition duration-300 ease-in hover:bg-[#abecee] hover:text-primary md:px-4 md:py-2"
