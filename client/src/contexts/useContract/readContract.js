@@ -17,5 +17,11 @@ const balanceOf = (contract, address) =>{
   const res = contract.methods.balanceOf(address).call().then(res=>res);
   return res;
 }
+const totalSupply = async(contract)=>{
+  if(!contract) return 0;
 
-export{getOrders, balanceOf}
+  const res = await contract.methods.totalSupply().call()
+  return res
+}
+
+export{getOrders, balanceOf,totalSupply}
