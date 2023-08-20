@@ -25,7 +25,7 @@ const SellerDashboard = () => {
       }
       setSellerAddress([...addr])
 totalSupply(Contract).then(res=>    setTotalSupply(res))
-  },[account])
+    })},[account])
   return (
     <main className="flex w-full items-center bg-bgcolor md:min-h-screen">
       <div className="container mx-auto px-6 py-16 lg:px-16">
@@ -82,5 +82,6 @@ totalSupply(Contract).then(res=>    setTotalSupply(res))
     </main>
   );
 };
+
 
 export default SellerDashboard;
