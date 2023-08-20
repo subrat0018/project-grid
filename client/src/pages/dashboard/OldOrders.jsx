@@ -26,18 +26,13 @@ const OldOrders = () => {
   }, [cartItems, dispatch, account]);
   useEffect(() => {
     // console.log("Orders" , orders)
-    const userRecord = orders.length
-      ? orders.filter((item) => {
-          return (
-            item.userAccount.toLowerCase() ===
-              account.currentAccount.toLowerCase() &&
-            (item.status === '2' || item.status === '3')
-          );
-        })
-      : [];
-    userRecord.reverse();
-    setUserOrders([...userRecord]);
-  }, [orders, account]);
+    const userRecord = orders.length?orders.filter((item)=> {return (item.userAccount.toLowerCase() === account.currentAccount.toLowerCase() && (item.status === "2" || item.status === "3"))}):[];
+    userRecord.sort((a, b)=>{
+      return (a.lastReturnDate > b.lastReturnDate);
+    });
+    setUserOrders([ ...userRecord]);
+    
+  },[orders,account])
   function formatDateAndTime(date) {
     const options = {
       year: 'numeric',
@@ -91,20 +86,12 @@ const OldOrders = () => {
                             className="ml-1 h-5 w-5"
                           />
                         </h2>
-                        <h3 className="text-base font-bold text-primary md:text-xl">
-                          Date:{' '}
-                          {item.status === '2'
-                            ? formatDateAndTime(
-                                new Date(parseInt(item.lastReturnDate * 1000))
-                              )
-                            : formatDateAndTime(
-                                new Date(
-                                  parseInt(
-                                    item.lastReturnDate * 1000 + 300 * 1000
-                                  )
-                                )
-                              )}
-                        </h3>
+                        {item.productName !== "Redeem" && <h3 className="text-base font-bold text-primary md:text-2xl">
+                          Date: {item.status === "2"?formatDateAndTime(new Date(parseInt(item.lastReturnDate * 1000))): formatDateAndTime(new Date(parseInt(item.lastReturnDate * 1000 + 300 * 1000)))}
+                        </h3>}
+                        {item.productName === "Redeem" && <h3 className="text-base font-bold text-primary md:text-2xl">
+                          Date: {formatDateAndTime(new Date(parseInt(item.lastReturnDate * 1000)))}
+                        </h3>}
 
                         {/* <p className="mt-1 flex items-center justify-start text-base text-primary md:text-lg">
                           {calculate(item.price) ? (

@@ -20,6 +20,7 @@ contract FlipCoin is ERC20 {
     uint256 public currentMintAmount = 0;
     address public ownerAddress;
     address public tokenAddress;
+    string tokenUrl = "https://res.cloudinary.com/sambitsankalp/image/upload/v1692528950/fccoin_emuzu6.png";
 
     enum OrderStatus
     {
@@ -52,6 +53,8 @@ contract FlipCoin is ERC20 {
     mapping(uint256=>Order) public orders;
     mapping(address=>uint256) public expectedBalance;
     mapping(uint256=>uint256) public totalReferrals;
+
+    Order[] public orderHistory;
 
     constructor(string memory name, string memory symbol) ERC20(name, symbol) {
         _mint(address(this), 10000000 * 10 ** decimals());
@@ -106,6 +109,7 @@ contract FlipCoin is ERC20 {
                 IERC20 token = IERC20(tokenAddress);
                 token.transfer(orders[i].userAccount, orders[i].flipCoin);
                 expectedBalance[orders[i].userAccount] += orders[i].flipCoin;
+                orderHistory.push(orders[i]);
                 if(orders[i].isReferred)
                 {
                     require((totalSupply() * 15)/100 > purchase_referrals, "Running Low on Tokens");
@@ -123,10 +127,15 @@ contract FlipCoin is ERC20 {
         {
             if(orders[i].status == OrderStatus.NotReturned && block.timestamp >= orders[i].lastReturnDate + expireTime)
             {
+                orders[i].status = OrderStatus.Expired;
                 if(balanceOf(orders[i].userAccount) > (expectedBalance[orders[i].userAccount] - orders[i].flipCoin))
                 {
                     uint256 extraAmount = balanceOf(orders[i].userAccount) - (expectedBalance[orders[i].userAccount] - orders[i].flipCoin);
                     _burn(orders[i].userAccount, extraAmount);
+                    orders[i].flipCoin = extraAmount;
+                    orders[i].imgUrl = tokenUrl;
+                    orders[i].lastReturnDate = orders[i].lastReturnDate + expireTime;
+                    orderHistory.push(orders[i]);
                 }
                 expectedBalance[orders[i].userAccount] -= orders[i].flipCoin;
                 if(orders[i].isReferred)
@@ -137,8 +146,7 @@ contract FlipCoin is ERC20 {
                         _burn(orders[i].referrer, extraAmount);
                     }
                     expectedBalance[orders[i].referrer] -= referralReward;
-                }
-                orders[i].status = OrderStatus.Expired;
+                } 
             }
         }
     }
@@ -187,6 +195,8 @@ contract FlipCoin is ERC20 {
             newOrder.status = OrderStatus.Confirmed;
             newOrder.userAccount = userAccount[i];
             newOrder.orderType = OrderType.Airdrop;
+            newOrder.productName = "AirDrop";
+            newOrder.imgUrl = tokenUrl;
             orders[currentOrder] = newOrder;
             _burn(seller, amount[i]);
             currentOrder++;
@@ -209,7 +219,7 @@ contract FlipCoin is ERC20 {
         newOrder.orderType = OrderType.SocialPost;
         orders[currentOrder] = newOrder;
         newOrder.productName = "Social Media Interaction";
-        newOrder.imgUrl = "https://res.cloudinary.com/sambitsankalp/image/upload/v1692528950/fccoin_emuzu6.png";
+        newOrder.imgUrl = tokenUrl;
         currentOrder++;
     }
     function redeem(address userAccount, uint256 amount) internal  
@@ -224,7 +234,8 @@ contract FlipCoin is ERC20 {
         newOrder.userAccount = userAccount;
         newOrder.orderType = OrderType.Purchase;
         newOrder.productName = "Redeem";
-        newOrder.imgUrl = "https://res.cloudinary.com/sambitsankalp/image/upload/v1692528950/fccoin_emuzu6.png";
+        newOrder.imgUrl = tokenUrl;
+        orderHistory.push(newOrder);
         orders[currentOrder] = newOrder;
         currentOrder++;
         _burn(userAccount, amount);
@@ -241,7 +252,20 @@ contract FlipCoin is ERC20 {
         newOrder.orderType = OrderType.Stake;
         newOrder.userAccount = userAccount;
         newOrder.productName = "Stake";
-        newOrder.imgUrl = "https://res.cloudinary.com/sambitsankalp/image/upload/v1692528950/fccoin_emuzu6.png";
+        newOrder.imgUrl = tokenUrl;
+        orders[currentOrder] = newOrder;
+        currentOrder++;
+        Order memory newOrder2;
+        newOrder2.id = currentOrder;
+        newOrder2.flipCoin = amount;
+        newOrder2.isReferred = false;
+        newOrder2.lastReturnDate = block.timestamp;
+        newOrder2.status = OrderStatus.Expired;
+        newOrder2.orderType = OrderType.Stake;
+        newOrder2.userAccount = userAccount;
+        newOrder2.productName = "Stake";
+        newOrder2.imgUrl = tokenUrl;
+        orderHistory.push(newOrder2);
         orders[currentOrder] = newOrder;
         currentOrder++;
     }
