@@ -209,6 +209,7 @@ const Checkout = () => {
             <button
               onClick={() => {
                 if (referrer === '') setReferrer(nullAdress);
+                // console.log(item);
                 purchase(
                   Contract,
                   Math.floor(price),
@@ -217,7 +218,9 @@ const Checkout = () => {
                   referrer !== nullAdress,
                   referrer,
                   toggle,
-                  calculate(cartTotalAmount)
+                  calculate(cartTotalAmount),
+                  cartItems[0].title,
+                  cartItems[0].image
                 );
               }}
               className="mt-4 w-full rounded-md bg-[#c6f6f8] px-4 py-1 font-urbanist font-extrabold text-secondary shadow-md ring-2 ring-[#abecee] transition duration-300 ease-in hover:bg-[#abecee] hover:text-primary md:px-4 md:py-2"
