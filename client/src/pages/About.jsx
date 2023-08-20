@@ -13,8 +13,9 @@ const About = () => {
           </h1>
           <p className="flex w-4/5 flex-col space-y-6 text-center font-gotu text-lg text-secondary md:text-xl">
             <span>Buy products using FlipCoins</span>
-            <span> 
-"Elevate Your Loyalty Experience: Where Tokens Fuel Rewards and Trust is Transparent."
+            <span>
+              "Elevate Your Loyalty Experience: Where Tokens Fuel Rewards and
+              Trust is Transparent."
             </span>
           </p>
         </div>
@@ -22,10 +23,10 @@ const About = () => {
         {/* grid container */}
         <div className="grid gap-8 p-6 pt-3 md:grid-cols-2 md:gap-24">
           <div className="space-y-4 self-center">
-            <h2 className="font-urbanist text-2xl font-bold text-primary md:text-3xl lg:text-4xl">
+            <h2 className="font-urbanist text-xl font-bold text-primary md:text-2xl">
               {about[0].name}
             </h2>
-            <ul className="list-disc font-gotu text-base text-secondary md:text-lg lg:text-xl">
+            <ul className="list-disc font-gotu text-base text-secondary md:text-lg">
               {about[0].desc.map((des) => (
                 <li>{des}</li>
               ))}
@@ -33,16 +34,16 @@ const About = () => {
           </div>
 
           <img
-            className="h-64 w-full overflow-hidden rounded-lg object-cover md:h-96"
+            className="h-40 w-full overflow-hidden rounded-lg object-cover md:h-96"
             src={about[0].img}
             alt="/"
           />
 
           <div className="space-y-4 self-center md:col-start-2 md:row-start-2">
-            <h2 className="font-urbanist text-2xl font-bold text-primary md:text-3xl lg:text-4xl">
+            <h2 className="font-urbanist text-xl font-bold text-primary md:text-2xl">
               {about[1].name}
             </h2>
-            <p className="font-gotu text-base text-secondary md:text-lg lg:text-xl">
+            <p className="font-gotu text-base text-secondary md:text-lg">
               {about[1].desc.map((des) => (
                 <li>{des}</li>
               ))}
@@ -50,30 +51,19 @@ const About = () => {
           </div>
 
           <img
-            className="h-64 w-full overflow-hidden rounded-lg object-cover md:h-96"
+            className="h-56 w-full overflow-hidden rounded-lg object-cover md:h-96"
             src={about[1].img}
             alt="/"
           />
-
-          {/* <div className="space-y-4 self-center">
-            <h2 className="font-urbanist text-2xl font-bold text-primary md:text-3xl lg:text-4xl">
-              {about[2].name}
-            </h2>
-            <p className="font-gotu text-base text-secondary md:text-lg lg:text-xl">
-              {about[2].desc.map((des) => (
-                <li>{des}</li>
-              ))}
-            </p>
-          </div> */}
-
-          {/* <img
-            className="h-64 w-full overflow-hidden rounded-lg object-cover md:h-96"
-            src={about[2].img}
-            alt="/"
-          /> */}
         </div>
-        <Table/>
-        <img src="https://res.cloudinary.com/doybtqm8h/image/upload/v1692561108/WhatsApp_Image_2023-08-21_at_01.21.23_kuh77a.jpg" alt="" />
+        <Table />
+        <div className="flex items-center justify-center">
+          <img
+            src="https://res.cloudinary.com/doybtqm8h/image/upload/v1692561108/WhatsApp_Image_2023-08-21_at_01.21.23_kuh77a.jpg"
+            alt=""
+            className="h-[50%] w-[50%]"
+          />
+        </div>
       </div>
     </main>
   );
