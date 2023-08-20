@@ -5,7 +5,7 @@ export const about = [
     name: 'Purchase Rules',
     desc: [
       'While placing orders customers can earn tokens depending on the total cart value which are credited after the return period.',
-      'It is capped at max 100 tokens per order and 1 token for every purchase of Rs 50.',,
+      'It is capped at max 100 tokens per order and 1 token for every purchase of Rs 50.',
     ],
   },
   {
