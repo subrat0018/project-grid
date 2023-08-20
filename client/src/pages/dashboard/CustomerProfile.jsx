@@ -24,7 +24,7 @@ const CustomerProfile = (props) => {
             <span className="flex items-center justify-center font-gotu text-base font-bold">
               {balance}
               <img
-                src="https://res.cloudinary.com/sambitsankalp/image/upload/v1692195660/Bitcoin_Cash_cpb1xm.png"
+                src="https://res.cloudinary.com/sambitsankalp/image/upload/v1692528950/fccoin_emuzu6.png"
                 alt="BD"
                 className="ml-1 h-4 w-4"
               />

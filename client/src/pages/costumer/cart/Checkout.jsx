@@ -102,7 +102,7 @@ const Checkout = () => {
                             <>
                               You will earn {calculate(item.price)}{' '}
                               <img
-                                src="https://res.cloudinary.com/sambitsankalp/image/upload/v1692195660/Bitcoin_Cash_cpb1xm.png"
+                                src="https://res.cloudinary.com/sambitsankalp/image/upload/v1692528950/fccoin_emuzu6.png"
                                 alt="BD"
                                 className="ml-1 h-5 w-5"
                               />
@@ -140,7 +140,7 @@ const Checkout = () => {
                 Total: {formatPrice(price)} {`(`}
                 {calculate(price / 80)}{' '}
                 <img
-                  src="https://res.cloudinary.com/sambitsankalp/image/upload/v1692195660/Bitcoin_Cash_cpb1xm.png"
+                  src="https://res.cloudinary.com/sambitsankalp/image/upload/v1692528950/fccoin_emuzu6.png"
                   alt="BD"
                   className="ml-1 h-6 w-6"
                 />
@@ -160,7 +160,7 @@ const Checkout = () => {
                       {formatPrice(price - calculate(price / 80))} {`(-`}
                       {calculate(cartTotalAmount)}{' '}
                       <img
-                        src="https://res.cloudinary.com/sambitsankalp/image/upload/v1692195660/Bitcoin_Cash_cpb1xm.png"
+                        src="https://res.cloudinary.com/sambitsankalp/image/upload/v1692528950/fccoin_emuzu6.png"
                         alt="BD"
                         className="ml-1 h-6 w-6"
                       />
@@ -173,7 +173,7 @@ const Checkout = () => {
                 <p className="mt-2 flex items-center justify-start text-sm text-primary md:text-base">
                   You have currently 100{' '}
                   <img
-                    src="https://res.cloudinary.com/sambitsankalp/image/upload/v1692195660/Bitcoin_Cash_cpb1xm.png"
+                    src="https://res.cloudinary.com/sambitsankalp/image/upload/v1692528950/fccoin_emuzu6.png"
                     alt="BD"
                     className="ml-1 h-5 w-5"
                   />

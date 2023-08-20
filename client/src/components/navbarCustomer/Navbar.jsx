@@ -313,27 +313,6 @@ const Navbar = () => {
                   </>
                 )} */}
                 <li className="font-urbanist font-bold text-zinc-600 transition duration-200 ease-in-out hover:text-primary">
-                  {account.currentAccount == null ? (
-                    <NavLink
-                      onClick={() => {
-                        if (dropdown) {
-                          handleDropdown();
-                        }
-                      }}
-                      className={({ isActive }) =>
-                        isActive ? 'text-primary' : null
-                      }
-                      to="/customer/login"
-                    >
-                      Login
-                    </NavLink>
-                  ) : (
-                    <li className="font-urbanist font-bold text-zinc-600 transition duration-200 ease-in-out hover:text-primary">
-                      Hey {Name}
-                    </li>
-                  )}
-                </li>
-                <li className="font-urbanist font-bold text-zinc-600 transition duration-200 ease-in-out hover:text-primary">
                   <NavLink
                     onClick={() => {
                       if (dropdown) {
@@ -377,7 +356,7 @@ const Navbar = () => {
                 {/* mobile cart logo */}
                 <div
                   onClick={handleCartNav}
-                  className="relative flex cursor-pointer items-center justify-end text-xl text-zinc-600 hover:text-primary"
+                  className="relative flex cursor-pointer items-center justify-end pr-3 text-xl text-zinc-600 hover:text-primary"
                 >
                   <HiOutlineShoppingBag size={25} />
 
@@ -385,8 +364,36 @@ const Navbar = () => {
                     {cartTotalQuantity}
                   </span>
                 </div>
+                {account.currentAccount == null ? (
+                  <li className="font-urbanist font-bold text-zinc-600 transition duration-200 ease-in-out hover:text-primary">
+                    <NavLink
+                      onClick={() => {
+                        if (dropdown) {
+                          handleDropdown();
+                        }
+                      }}
+                      className={({ isActive }) =>
+                        isActive ? 'text-primary' : null
+                      }
+                      to="/customer/login"
+                    >
+                      Login
+                    </NavLink>
+                  </li>
+                ) : (
+                  <li className="flex items-center justify-center divide-x-2 rounded-full bg-black px-4 py-1 font-urbanist font-bold text-white transition duration-200 ease-in-out hover:text-zinc-200">
+                    <p className="mr-2">{Name}</p>
+                    <div className="flex items-center justify-center pl-2">
+                      {balance ? balance : 0}
+                      <img
+                        src="https://res.cloudinary.com/sambitsankalp/image/upload/v1692528950/fccoin_emuzu6.png"
+                        alt="BD"
+                        className="ml-1 h-5 w-5"
+                      />
+                    </div>
+                  </li>
+                )}
               </div>
-              <div>{balance}</div>
             </div>
           </div>
 
