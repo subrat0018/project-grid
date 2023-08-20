@@ -82,8 +82,9 @@ const OldOrders = () => {
                         </p>
 
                         <h2 className="mt-5 flex items-center justify-start text-base font-bold text-primary md:text-xl">
-                          {item.status === '2' ? '+' : '-'}
-                          {item.flipCoin}{' '}
+                          {item.status === '3' && <p className=' text-red-500'>-{item.flipCoin}</p>}
+                          {item.status === '2' && <p className=' text-green-500'>+{item.flipCoin}</p>}
+                          {' '}
                           <img
                             src="https://res.cloudinary.com/sambitsankalp/image/upload/v1692528950/fccoin_emuzu6.png"
                             alt="BD"
