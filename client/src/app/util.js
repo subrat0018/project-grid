@@ -7,3 +7,21 @@ export const trimAndAddEllipsis = (str) => {
   }
   return str;
 };
+
+export function formatPrice(price) {
+  // Get the user's locale from the browser
+  const userLocale = navigator.language || 'en-US';
+
+  // Format the price value using the user's locale and currency
+  const formattedPrice = Number(price).toLocaleString(userLocale, {
+    style: 'currency',
+    currency: 'INR',
+  });
+
+  return formattedPrice;
+}
+
+export function calculate(value) {
+  if (Number(value * 80) / 100 >= 100) return 100;
+  else return Math.floor(Number(value * 80) / 100);
+}

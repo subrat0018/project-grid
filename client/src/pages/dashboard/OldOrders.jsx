@@ -5,6 +5,7 @@ import { FaMinus, FaPlus, FaTrashAlt } from 'react-icons/fa';
 import Button from '../../components/Button';
 import { getOrders } from '../../contexts/useContract/readContract';
 import Web3Context from '../../contexts/index';
+import { calculate, formatPrice } from '../../app/util';
 
 const OldOrders = () => {
   const dispatch = useDispatch();
@@ -12,10 +13,6 @@ const OldOrders = () => {
   const { cartItems, cartTotalAmount } = useSelector((store) => store.cart);
   const [orders,setOrders] =  useState([]);
   const [userOrders, setUserOrders] = useState([]);
-  function calculate(value) {
-    if (Number(value) / 100 >= 100) return 100;
-    else return Math.floor(Number(value) / 100);
-  }
   useEffect(() => {
     dispatch(setGetTotals());
     setOrders(getOrders(Contract).then(res=>console.log(res)));
@@ -24,18 +21,6 @@ const OldOrders = () => {
     console.log(userOrders);
   }, [cartItems, dispatch ,account]);
 
-  function formatPrice(price) {
-    // Get the user's locale from the browser
-    const userLocale = navigator.language || 'en-US';
-
-    // Format the price value using the user's locale and currency
-    const formattedPrice = Number(price).toLocaleString(userLocale, {
-      style: 'currency',
-      currency: 'INR',
-    });
-
-    return formattedPrice;
-  }
   return (
     <main className="flex w-full items-start bg-bgcolor md:min-h-[80vh]">
       <div className="container mx-auto px-6 pt-16 lg:px-16">
@@ -70,7 +55,7 @@ const OldOrders = () => {
                         </p>
 
                         <h2 className="mt-5 text-base font-bold text-primary md:text-xl">
-                          {formatPrice(item.price)}
+                          {formatPrice(item.price * 80)}
                         </h2>
 
                         <p className="mt-1 flex items-center justify-start text-base text-primary md:text-lg">
