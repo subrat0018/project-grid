@@ -24,13 +24,13 @@ const distributeToPartners = async(contract, sellers, account) => {
   if(res)return true;
   return false;
 }
-const disperseCoin = async (contract, seller, amount, userAccount,totalAmount, account) => {
+const disperseCoin = async (contract, seller, amount, userAccount,totalAmount) => {
   if (!contract) {
     return false;
   }
   const res = await contract.methods
     .disperseCoin(seller, amount, userAccount, totalAmount)
-    .send({ from: account });
+    .send({ from: seller });
   return res;
 };
 const cancelOrder = async (contract, orderId, account) => {
