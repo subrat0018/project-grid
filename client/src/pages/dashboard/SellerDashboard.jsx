@@ -11,7 +11,7 @@ const SellerDashboard = () => {
   const [sellers, setSellers] = useState([]);
 
   useEffect(() => {
-    axios('http://localhost:5000/getsellers', {
+    axios('https://blockducts-backend.onrender.com/getsellers', {
       method: 'GET',
     }).then((res) => {
       // console.log(res.data);

@@ -135,7 +135,7 @@ const Navbar = () => {
   };
   useEffect(() => {
     checkIfWalletIsConnected().then((res) => {
-      axios('http://localhost:5000/getdetails', {
+      axios('https://blockducts-backend.onrender.com/getdetails', {
         method: 'POST',
         data: {
           walletAddress: res,
