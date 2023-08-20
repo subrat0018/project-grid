@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { useState, useContext } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";

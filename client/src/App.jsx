@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable react-hooks/exhaustive-deps */
 import { Routes, Route, Navigate } from 'react-router-dom';
 import { SharedLayout } from './routes/sharedLayout';
@@ -13,9 +14,9 @@ import { ProductItemLayout } from './routes/ProductItemLayout';
 import CustomerDashboardLayout from './routes/CustomerDashboardLayout';
 import Web3Context from './contexts';
 import { AdminDashboardLayout } from './routes/AdminDashboardLayout';
-import { AdminLoginLayout } from './routes/AdminLoginLayout';
+// import { AdminLoginLayout } from './routes/AdminLoginLayout';
 import { checkAdmin } from './store/auth/adminAuthSlice';
-import AdminDistributeLayout from './routes/AdminDistributeLayout';
+// import AdminDistributeLayout from './routes/AdminDistributeLayout';
 import CheckoutLayout from './routes/CheckoutLayout';
 import SellerDashboardLayout from './routes/SellerDashboardLayout';
 import axios from 'axios';

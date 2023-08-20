@@ -1,17 +1,27 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState, useContext } from 'react';
 import { FaMinus, FaPlus, FaTrashAlt } from 'react-icons/fa';
 import { useDispatch, useSelector } from 'react-redux';
-import { setGetTotals } from '../../../store/customer/cart/cartSlice';
+import {
+  setClearCart,
+  setCloseCart,
+  setGetTotals,
+  setOpenCart,
+} from '../../../store/customer/cart/cartSlice';
 import { purchase } from '../../../contexts/useContract/writeContract';
 import Web3Context from '../../../contexts/index';
 import { calculate, formatPrice } from '../../../app/util';
 import { balanceOf } from '../../../contexts/useContract/readContract';
-import { reedem } from '../../../contexts/useContract/writeContract';
+// import { reedem } from '../../../contexts/useContract/writeContract';
+import { useNavigate } from 'react-router-dom';
 const Checkout = () => {
   const dispatch = useDispatch();
-  const { account, checkIfWalletIsConnected, Contract } =
+  const navigate = useNavigate();
+  const { account, Contract } =
     useContext(Web3Context);
-  const { cartItems, cartTotalAmount } = useSelector((store) => store.cart);
+  const { cartItems, cartTotalAmount, cartState } = useSelector(
+    (store) => store.cart
+  );
   const [balance, setBalance] = useState(0);
   const [price, setPrice] = useState(cartTotalAmount);
   const [toggle, setToggle] = useState(0);
@@ -23,12 +33,34 @@ const Checkout = () => {
   useEffect(() => {
     dispatch(setGetTotals());
     setPrice(cartTotalAmount * 80);
-    balanceOf(Contract, account.currentAccount).then(res=>{
+    balanceOf(Contract, account.currentAccount).then((res) => {
       setBalance(res);
     });
+
+    handleCartState();
   }, [cartItems, dispatch, cartTotalAmount]);
 
-  console.log(price, calculate(price));
+  const handleClearCart = () => {
+    dispatch(setClearCart());
+  };
+
+  const handleCartState = () => {
+    if (cartState) {
+      dispatch(
+        setCloseCart({
+          cartState: false,
+        })
+      );
+
+      // document.body.style.overflow = "unset";
+    } else {
+      dispatch(
+        setOpenCart({
+          cartState: true,
+        })
+      );
+    }
+  };
 
   return (
     <main className="flex w-full items-start bg-bgcolor md:min-h-[80vh]">
@@ -170,21 +202,20 @@ const Checkout = () => {
                     <>{formatPrice(price)}</>
                   )}
                 </p>
-                <p className="mt-2 flex items-center justify-start text-sm text-primary md:text-base">
-                  You have currently 100{' '}
+                {/* <p className="mt-2 flex items-center justify-start text-sm text-primary md:text-base">
+                  You have currently {balance}{' '}
                   <img
                     src="https://res.cloudinary.com/sambitsankalp/image/upload/v1692528950/fccoin_emuzu6.png"
                     alt="BD"
                     className="ml-1 h-5 w-5"
                   />
                   .
-                </p>
+                </p> */}
 
                 <button
                   onClick={() => {
-                    if(balance < calculate(cartTotalAmount))
-                    {
-                      alert("Your balance is low");
+                    if (balance < calculate(cartTotalAmount)) {
+                      alert('Your balance is low');
                       return;
                     }
                     if (toggle === 0) {
@@ -203,7 +234,16 @@ const Checkout = () => {
                 </button>
               </div>
             </div>
-            <button className="mt-8 w-full rounded-md bg-[#c6f6f8] px-4 py-1 font-urbanist font-extrabold text-secondary shadow-md ring-2 ring-[#abecee] transition duration-300 ease-in hover:bg-[#abecee] hover:text-primary md:px-4 md:py-2">
+            <button
+              onClick={() => navigate('/stakecoins')}
+              className="mt-10 w-full rounded-md bg-[#c6f6f8] px-4 py-1 font-urbanist font-extrabold text-secondary shadow-md ring-2 ring-[#abecee] transition duration-300 ease-in hover:bg-[#abecee] hover:text-primary md:px-4 md:py-2"
+            >
+              Stake your FlipCoins
+            </button>
+            <button
+              onClick={() => navigate('/products')}
+              className="mt-4 w-full rounded-md bg-[#c6f6f8] px-4 py-1 font-urbanist font-extrabold text-secondary shadow-md ring-2 ring-[#abecee] transition duration-300 ease-in hover:bg-[#abecee] hover:text-primary md:px-4 md:py-2"
+            >
               Add more items
             </button>
             <button
@@ -222,6 +262,8 @@ const Checkout = () => {
                   cartItems[0].title,
                   cartItems[0].image
                 );
+
+                handleClearCart();
               }}
               className="mt-4 w-full rounded-md bg-[#c6f6f8] px-4 py-1 font-urbanist font-extrabold text-secondary shadow-md ring-2 ring-[#abecee] transition duration-300 ease-in hover:bg-[#abecee] hover:text-primary md:px-4 md:py-2"
             >
