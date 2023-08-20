@@ -1,22 +1,18 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useContext, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setGetTotals } from '../../store/customer/cart/cartSlice';
-import { FaMinus, FaPlus, FaTrashAlt } from 'react-icons/fa';
+// import { FaMinus, FaPlus, FaTrashAlt } from 'react-icons/fa';
 import Button from '../../components/Button';
 import { getOrders } from '../../contexts/useContract/readContract';
 import Web3Context from '../../contexts/index';
-import { calculate, formatPrice } from '../../app/util';
 
 const OldOrders = () => {
   const dispatch = useDispatch();
   const { Contract, account } = useContext(Web3Context);
-  const { cartItems, cartTotalAmount } = useSelector((store) => store.cart);
+  const { cartItems } = useSelector((store) => store.cart);
   const [orders, setOrders] = useState([]);
   const [userOrders, setUserOrders] = useState([]);
-  function calculate(value) {
-    if (Number(value) / 50 >= 100) return 100;
-    else return Math.floor(Number(value) / 50);
-  }
 
   useEffect(() => {
     dispatch(setGetTotals());

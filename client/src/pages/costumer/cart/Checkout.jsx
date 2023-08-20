@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState, useContext } from 'react';
 import { FaMinus, FaPlus, FaTrashAlt } from 'react-icons/fa';
 import { useDispatch, useSelector } from 'react-redux';
@@ -11,12 +12,12 @@ import { purchase } from '../../../contexts/useContract/writeContract';
 import Web3Context from '../../../contexts/index';
 import { calculate, formatPrice } from '../../../app/util';
 import { balanceOf } from '../../../contexts/useContract/readContract';
-import { reedem } from '../../../contexts/useContract/writeContract';
+// import { reedem } from '../../../contexts/useContract/writeContract';
 import { useNavigate } from 'react-router-dom';
 const Checkout = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { account, checkIfWalletIsConnected, Contract } =
+  const { account, Contract } =
     useContext(Web3Context);
   const { cartItems, cartTotalAmount, cartState } = useSelector(
     (store) => store.cart

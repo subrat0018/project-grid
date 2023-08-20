@@ -1,28 +1,16 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from 'react';
-import { AiOutlineEdit } from 'react-icons/ai';
-import { MdOutlineDelete } from 'react-icons/md';
-import { BsArrowRight } from 'react-icons/bs';
 
 import { useDispatch, useSelector } from 'react-redux';
-import {
-  deleteAdminProduct,
-  readAdminProducts,
-  setClearErrors,
-  setCurrentId,
-  setFilterCategory,
-} from '../../store/admin/product/productAdminSlice';
-import { trimAndAddEllipsis } from '../../app/util';
-import Button from '../../components/Button';
+import { readAdminProducts } from '../../store/admin/product/productAdminSlice';
+// import { trimAndAddEllipsis } from '../../app/util';
+// import Button from '../../components/Button';
 
 export const AdminProducts = () => {
   // const [selectedCategory, setSelectedCategory] = useState('All');
-  const [viewProduct, setViewProduct] = useState(false);
-  const [viewSingleProduct, setViewSingleProduct] = useState(null);
 
   const [description, setDescription] = useState([]);
   const [desc, setdesc] = useState('');
-  const [coins, setcoins] = useState('');
   const [coin, setcoin] = useState('');
 
   const dispatch = useDispatch();
@@ -34,7 +22,6 @@ export const AdminProducts = () => {
     sortOrder,
     search,
     filterCategory,
-    currentId,
     // loadingDelete,
   } = useSelector((store) => store.productsAdmin);
 
