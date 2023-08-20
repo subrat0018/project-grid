@@ -208,111 +208,21 @@ const Navbar = () => {
             <div className="flex items-center md:space-x-3">
               {/* about and products */}
               <ul className="hidden space-x-3 md:flex">
-                {/* {customer ? (
-                  <li className="font-urbanist font-bold text-zinc-600">
-                    <button
-                      onClick={handleDropdown}
-                      className="flex items-center space-x-0.5 transition duration-200 ease-in-out hover:text-primary"
-                    >
-                      <span>{customer.customerfirstName}</span>
-                      <IoIosArrowDown />
-                    </button>
-
-                    {dropdown && (
-                      <div
-                        className={`absolute z-10 mt-6 rounded-md shadow-md bg-${
-                          navColor ? "bgcolor2" : "bgcolor"
-                        } ring-1 ring-slate-400 transition duration-200 ease-in-out`}
-                      >
-                        <div className="py-1">
-                          <div className="flex flex-col border-b border-slate-400 px-6 py-2">
-                            <span className="text-base">Customer</span>
-                            <span className="text-sm font-medium">
-                              {customer.email}
-                            </span>
-                          </div>
-
-                           <NavLink
-                            to="/customer/settings"
-                            className="block px-6 py-2 transition duration-200 ease-in-out hover:text-primary"
-                          >
-                            Settings
-                          </NavLink> 
-
-                          <button
-                            onClick={handleLogout}
-                            className="block w-full px-6 py-2 text-left transition duration-200 ease-in-out hover:text-primary"
-                          >
-                            Logout
-                          </button>
-                        </div>
-                      </div>
-                    )}
-                  </li>
-                ) : (
-                  <>
-                    <li className="space-x-2 font-urbanist font-bold text-zinc-600">
-                      <button
-                        onClick={handleDropdown}
-                        className={`${
-                          location.pathname === "/customer/signup" ||
-                          location.pathname === "/customer/login"
-                            ? "text-primary"
-                            : null
-                        } flex items-center space-x-0.5 transition duration-200 ease-in-out hover:text-primary`}
-                      >
-                        <span>Account</span>
-                        <IoIosArrowDown />
-                      </button>
-
-                      {dropdown && (
-                        <div
-                          className={`absolute z-10 mt-6 rounded-md shadow-md bg-${
-                            navColor ? "bgcolor2" : "bgcolor"
-                          } ring-1 ring-slate-400 transition duration-200 ease-in-out`}
-                        >
-                          <div className="py-1">
-                            <button
-                              onClick={() => {
-                                if (dropdown) {
-                                  handleDropdown();
-                                }
-                              }}
-                              className="block w-full px-6 py-2 text-left transition duration-200 ease-in-out hover:text-primary"
-                            >
-                              <NavLink
-                                to="/customer/signup"
-                                className={({ isActive }) =>
-                                  isActive ? "text-primary" : null
-                                }
-                              >
-                                Signup
-                              </NavLink>
-                            </button>
-
-                            <button
-                              onClick={() => {
-                                if (dropdown) {
-                                  handleDropdown();
-                                }
-                              }}
-                              className="block w-full px-6 py-2 text-left transition duration-200 ease-in-out hover:text-primary"
-                            >
-                              <NavLink
-                                to="/customer/login"
-                                className={({ isActive }) =>
-                                  isActive ? "text-primary" : null
-                                }
-                              >
-                                Login
-                              </NavLink>
-                            </button>
-                          </div>
-                        </div>
-                      )}
-                    </li>
-                  </>
-                )} */}
+                <li className="font-urbanist font-bold text-zinc-600 transition duration-200 ease-in-out hover:text-primary">
+                  <NavLink
+                    onClick={() => {
+                      if (dropdown) {
+                        handleDropdown();
+                      }
+                    }}
+                    className={({ isActive }) =>
+                      isActive ? 'text-primary' : null
+                    }
+                    to="/about"
+                  >
+                    About
+                  </NavLink>
+                </li>
                 <li className="font-urbanist font-bold text-zinc-600 transition duration-200 ease-in-out hover:text-primary">
                   <NavLink
                     onClick={() => {
