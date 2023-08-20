@@ -23,11 +23,11 @@ const OldOrders = () => {
   useEffect(() => {
     // console.log("Orders" , orders)
     const userRecord = orders.length?orders.filter((item)=> {return (item.userAccount.toLowerCase() === account.currentAccount.toLowerCase())}):[];
-    console.log("Before", userRecord);
+    // console.log("Before", userRecord);
     userRecord.sort((a, b) => {
       return parseInt(b.lastReturnDate) - parseInt(a.lastReturnDate);
     });
-    console.log("After", userRecord);
+    // console.log("After", userRecord);
     setUserOrders([ ...userRecord]);
     
   },[orders,account])

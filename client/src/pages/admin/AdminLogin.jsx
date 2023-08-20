@@ -9,7 +9,7 @@ export const AdminLogin = () => {
   const dispatch = useDispatch();
   const { loading, errorLogIn, admin } = useSelector((store) => store.admin);
 
-  console.log("user login state: ", admin);
+  // console.log("user login state: ", admin);
 
   const handleSubmit = async (e) => {
     e.preventDefault();

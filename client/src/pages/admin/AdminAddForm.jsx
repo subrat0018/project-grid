@@ -26,7 +26,7 @@ export const AdminAddForm = () => {
       dispatch(updateAdminProduct({ currentId, productData })).then(
         (response) => {
           if (response.meta.requestStatus === 'fulfilled') {
-            console.log('Updated');
+            // console.log('Updated');
 
             const fileInputs = document.querySelectorAll('input[type="file"]');
             fileInputs.forEach((input) => {
@@ -38,7 +38,7 @@ export const AdminAddForm = () => {
     } else {
       dispatch(createAdminProduct(productData)).then((response) => {
         if (response.meta.requestStatus === 'fulfilled') {
-          console.log('Created');
+          // console.log('Created');
 
           const fileInputs = document.querySelectorAll('input[type="file"]');
           fileInputs.forEach((input) => {

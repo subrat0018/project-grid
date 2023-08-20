@@ -157,8 +157,6 @@ const Navbar = () => {
     };
   }, []);
 
-  console.log(account);
-
   return (
     <>
       <header

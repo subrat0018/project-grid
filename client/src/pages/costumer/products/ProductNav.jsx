@@ -1,7 +1,6 @@
 import React from 'react';
 
 export const ProductNav = ({ onClickCat, filterCategory, products }) => {
-  console.log(filterCategory);
   return (
     <div className="hidden text-center md:block md:space-y-5 md:text-left">
       <h2 className="font-urbanist text-2xl font-bold text-primary md:text-3xl lg:text-4xl">

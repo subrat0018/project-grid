@@ -36,7 +36,7 @@ const cartSlice = createSlice({
         toast.success('Cart Updated');
       } else {
         const temp = { ...action.payload, quantity: state.testQuant };
-        console.log("temp", temp);
+        // console.log("temp", temp);
         state.cartItems.push(temp);
 
         toast.success(`${action.payload.title} added to your Cart`);
