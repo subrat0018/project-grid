@@ -140,7 +140,7 @@ contract FlipCoin is ERC20 {
             }
         }
     }
-    function purchase(uint256 productPrice,address userAccount, uint256 lastReturnDate,bool isReferred, address referrer)external {
+    function purchase(uint256 productPrice,address userAccount, uint256 lastReturnDate,bool isReferred, address referrer, bool isRedeem, uint256 redeemAmount)external {
         Order memory newOrder;
         newOrder.id = currentOrder;
         if(productPrice/50 >= 100){
@@ -161,6 +161,10 @@ contract FlipCoin is ERC20 {
         else 
         {
             newOrder.isReferred = false;
+        }
+        if(isRedeem)
+        {
+            redeem(userAccount, redeemAmount);
         }
         orders[currentOrder] = newOrder;
         currentOrder++;
@@ -201,7 +205,7 @@ contract FlipCoin is ERC20 {
         orders[currentOrder] = newOrder;
         currentOrder++;
     }
-    function redeem(address userAccount, uint256 amount) external 
+    function redeem(address userAccount, uint256 amount) internal  
     {
         require(balanceOf(userAccount) >= amount && amount > 0, "Insufficient balance");
         _burn(userAccount, amount);
