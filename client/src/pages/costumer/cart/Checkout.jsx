@@ -5,12 +5,14 @@ import { setGetTotals } from '../../../store/customer/cart/cartSlice';
 import { purchase } from '../../../contexts/useContract/writeContract';
 import Web3Context from '../../../contexts/index';
 import { calculate, formatPrice } from '../../../app/util';
-
+import { balanceOf } from '../../../contexts/useContract/readContract';
+import { reedem } from '../../../contexts/useContract/writeContract';
 const Checkout = () => {
   const dispatch = useDispatch();
   const { account, checkIfWalletIsConnected, Contract } =
     useContext(Web3Context);
   const { cartItems, cartTotalAmount } = useSelector((store) => store.cart);
+  const [balance, setBalance] = useState(0);
   const [price, setPrice] = useState(cartTotalAmount);
   const [toggle, setToggle] = useState(0);
   const [referrer, setReferrer] = useState(
@@ -21,6 +23,9 @@ const Checkout = () => {
   useEffect(() => {
     dispatch(setGetTotals());
     setPrice(cartTotalAmount * 80);
+    balanceOf(Contract, account.currentAccount).then(res=>{
+      setBalance(res);
+    });
   }, [cartItems, dispatch, cartTotalAmount]);
 
   console.log(price, calculate(price));
@@ -59,7 +64,7 @@ const Checkout = () => {
                         </p>
 
                         <h2 className="mt-5 text-base font-bold text-primary md:text-xl">
-                          {formatPrice(item.price)}
+                          {formatPrice(item.price * 80)}
                         </h2>
 
                         <div className="mt-2 flex space-x-3">
@@ -177,6 +182,11 @@ const Checkout = () => {
 
                 <button
                   onClick={() => {
+                    if(balance < calculate(cartTotalAmount))
+                    {
+                      alert("Your balance is low");
+                      return;
+                    }
                     if (toggle === 0) {
                       setPrice(
                         cartTotalAmount * 80 - calculate(cartTotalAmount)
@@ -199,14 +209,18 @@ const Checkout = () => {
             <button
               onClick={() => {
                 if (referrer === '') setReferrer(nullAdress);
-                console.log(price);
+                // console.log(item);
                 purchase(
                   Contract,
                   Math.floor(price),
                   account.currentAccount,
                   Math.floor(Date.now() / 1000) + 60,
                   referrer !== nullAdress,
-                  referrer
+                  referrer,
+                  toggle,
+                  calculate(cartTotalAmount),
+                  cartItems[0].title,
+                  cartItems[0].image
                 );
               }}
               className="mt-4 w-full rounded-md bg-[#c6f6f8] px-4 py-1 font-urbanist font-extrabold text-secondary shadow-md ring-2 ring-[#abecee] transition duration-300 ease-in hover:bg-[#abecee] hover:text-primary md:px-4 md:py-2"

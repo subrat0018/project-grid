@@ -10,11 +10,11 @@ const getOrders = async (contract)=>{
   return orders;
 
 }
-const balanceOf = (contract, address) =>{
+const balanceOf = async(contract, address) =>{
   // console.log(contract);
   if(!contract)return 0;
   // console.log(address);
-  const res = contract.methods.balanceOf(address).call().then(res=>res);
+  const res = await contract.methods.balanceOf(address).call();
   return res;
 }
 const totalSupply = async(contract)=>{

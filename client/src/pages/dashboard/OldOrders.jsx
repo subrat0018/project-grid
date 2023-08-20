@@ -28,8 +28,9 @@ const OldOrders = () => {
   useEffect(()=>{
     // console.log("Orders" , orders)
     const userRecord = orders.length?orders.filter((item)=> {return (item.userAccount.toLowerCase() === account.currentAccount.toLowerCase() && (item.status === "2" || item.status === "3"))}):[];
+    userRecord.reverse();
     setUserOrders([ ...userRecord]);
-    console.log(userOrders);
+    
   },[orders,account])
   function formatDateAndTime(date) {
     const options = { year: 'numeric', month: 'numeric', day: 'numeric', hour: 'numeric', minute: 'numeric', second: 'numeric', hour12: true };
@@ -53,7 +54,7 @@ const OldOrders = () => {
         <div className="flex h-full min-h-[80vh] w-full items-start justify-center">
           <div className="h-full min-h-[80vh] w-[80%] bg-white p-4">
             <div className="pb-3 font-urbanist text-2xl font-bold">
-              Old Orders
+              Coin History
             </div>
             <div className="min-h-[70vh] overflow-y-auto bg-bgcolor">
               {userOrders &&
@@ -65,14 +66,16 @@ const OldOrders = () => {
                     <div className="grid grid-cols-5 gap-3 p-4 font-urbanist">
                       {/* image */}
                       <img
-                        src={item.image}
-                        alt={item.title}
+                        src={item.imgUrl}
+                        alt={item.productName}
                         className="col-span-1 h-full w-full"
                       />
 
                       {/* name */}
                       <div className="col-span-4">
-
+                        <h1 className='mt-5 text-base font-bold text-primary md:text-xl'>
+                          {item.productName}
+                        </h1>
                         <p className="mt-2 text-base text-primary md:text-xl">
                           {item.category}
                         </p>
@@ -98,15 +101,16 @@ const OldOrders = () => {
                           ) : (
                             <></>
                           )}
-                        </p>
-                        <p className="mt-1 text-base text-primary md:text-lg">
-                          The product is delivered to NIT Rourkela, Odisha,
-                          India
-                        </p>
-                        <p className="mt-2 text-base text-primary md:text-lg">
-                          Could you like to rate the product?
-                        </p>
-                        <div class="flex cursor-pointer items-center space-x-1">
+                          </p>
+                        {item.productName.length > 8 &&
+                       <> <p className="mt-1 text-base text-primary md:text-lg">
+                       The product is delivered to NIT Rourkela, Odisha,
+                       India
+                     </p>
+                     <p className="mt-2 text-base text-primary md:text-lg">
+                       Could you like to rate the product?
+                     </p></>}
+                        {item.productName.length > 8 && <div class="flex cursor-pointer items-center space-x-1">
                           <svg
                             class="h-4 w-4 text-yellow-300"
                             aria-hidden="true"
@@ -152,13 +156,13 @@ const OldOrders = () => {
                           >
                             <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z" />
                           </svg>
-                        </div>
-                        <Button
+                        </div>}
+                        {item.productName.length > 8 && <Button
                           navigateTo="/products"
                           btnStyle="btn-secondary mt-2"
                           text="Rebuy this product"
-                        />
-                      </div>
+                        />}
+                        </div>
                     </div>
                   </div>
                 ))}
