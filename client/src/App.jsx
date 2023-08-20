@@ -41,8 +41,6 @@ function App() {
           walletAddress: res,
         },
       }).then((data) => {
-        // console.log(data)
-        console.log('data', data.data);
         setdata(data.data);
       });
     });

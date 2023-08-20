@@ -5,15 +5,19 @@ import Web3Context from '../../contexts';
 import { distributeToPartners } from '../../contexts/useContract/writeContract';
 import { mint } from '../../contexts/useContract/writeContract';
 const SellerDashboard = () => {
-  const {Contract, account} = useContext(Web3Context);
+  const { Contract, account } = useContext(Web3Context);
   // const [supplycoins, setsupplycoins] = useState();
   const [mintCoins, setMintCoins] = useState();
   const [sellers, setSellers] = useState([]);
-  useEffect(()=>{
-    axios("http://localhost:5000/getsellers",{
-      method: "GET"
-    }).then(res=>{console.log(res.data)});
-  })
+
+  useEffect(() => {
+    axios('http://localhost:5000/getsellers', {
+      method: 'GET',
+    }).then((res) => {
+      // console.log(res.data);
+    });
+  });
+
   return (
     <main className="flex w-full items-center bg-bgcolor md:min-h-screen">
       <div className="container mx-auto px-6 py-16 lg:px-16">
@@ -38,10 +42,14 @@ const SellerDashboard = () => {
               placeholder="Add coins to mint"
               className="w-full border-2 border-transparent shadow-lg focus:outline-none md:px-3 md:py-2"
             />
-            <button onClick={()=>{
-              mint(Contract, mintCoins, account.currentAccount);
-            }}
-             className="btn-secondary ml-2">Mint</button>
+            <button
+              onClick={() => {
+                mint(Contract, mintCoins, account.currentAccount);
+              }}
+              className="btn-secondary ml-2"
+            >
+              Mint
+            </button>
           </div>
           <h2 className="text-lg font-bold text-primary md:text-xl lg:text-2xl">
             Current Seller/Products{`(5)`}
@@ -57,9 +65,14 @@ const SellerDashboard = () => {
               </div>
             ))}
           </div>
-          <button onClick={()=>{
-            distributeToPartners(Contract, sellers, account.currentAccount);
-          }} className='btn-secondary w-full'>Distribute</button>
+          <button
+            onClick={() => {
+              distributeToPartners(Contract, sellers, account.currentAccount);
+            }}
+            className="btn-secondary w-full"
+          >
+            Distribute
+          </button>
         </div>
       </div>
     </main>

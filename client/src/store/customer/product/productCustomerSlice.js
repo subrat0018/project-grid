@@ -24,7 +24,7 @@ export const readCustomerProducts = createAsyncThunk(
       product_url = `https://fakestoreapi.com/products`;
       let category_url = `https://fakestoreapi.com/products/categories`;
 
-      console.log(product_url);
+      // console.log(product_url);
 
       const product_response = await fetch(product_url);
       let product_data = await product_response.json();
@@ -32,7 +32,7 @@ export const readCustomerProducts = createAsyncThunk(
       const category_response = await fetch(category_url);
       const category_data = await category_response.json();
 
-      console.log(filterCategory);
+      // console.log(filterCategory);
 
       if (filterCategory !== 'All')
         product_data = product_data.filter(

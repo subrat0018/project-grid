@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { useState } from 'react';
 
 import Button from '../../../../components/Button';
@@ -29,11 +30,11 @@ const ProductItem = () => {
 
   const itemIndex = cartItems.findIndex((item) => item.id === id);
 
-  console.log('quantity', cartItems[itemIndex]?.quantity);
+  // console.log('quantity', cartItems[itemIndex]?.quantity);
 
-  console.log('testQuant', testQuant);
+  // console.log('testQuant', testQuant);
 
-  console.log(cartItems);
+  // console.log(cartItems);
 
   const handleIncrease = () => {
     dispatch(setPreAdd());
