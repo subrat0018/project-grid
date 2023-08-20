@@ -6,16 +6,16 @@ import './styles.css';
 import { Toaster } from 'react-hot-toast';
 import { Provider } from 'react-redux';
 import { store } from './app/store';
-import Web3Provider from "./contexts/Web3Provider";
+import Web3Provider from './contexts/Web3Provider';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <HashRouter>
+  <HashRouter basename="/">
     <Web3Provider>
-    <Provider store={store}>
-      <Toaster position="top-center" reverseOrder={false} />
-      <App />
-    </Provider>
+      <Provider store={store}>
+        <Toaster position="top-center" reverseOrder={false} />
+        <App />
+      </Provider>
     </Web3Provider>
   </HashRouter>
 );
