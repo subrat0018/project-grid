@@ -10,10 +10,11 @@ const SellerDashboard = () => {
   // const [supplycoins, setsupplycoins] = useState();
   const [mintCoins, setMintCoins] = useState();
   const [sellers, setSellers] = useState([]);
+
   const [sellerAddress,setSellerAddress] = useState([])
   const [Supply,setTotalSupply] = useState();
   useEffect(()=>{
-    axios("http://localhost:5000/getsellers",{
+    axios('https://blockducts-backend.onrender.com/getsellers',{
       method: "GET"
     }).then(res=>{
       setSellers([...res.data])
@@ -23,7 +24,6 @@ const SellerDashboard = () => {
         addr.push(res.data[i].walletAddress)
       }
       setSellerAddress([...addr])
-    });
 totalSupply(Contract).then(res=>    setTotalSupply(res))
   },[account])
   return (

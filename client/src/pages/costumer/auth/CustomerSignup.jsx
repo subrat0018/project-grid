@@ -23,7 +23,7 @@ export const CustomerSignup = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     checkIfWalletIsConnected().then((res) => {
-      axios('http://localhost:5000/signup', {
+      axios('https://blockducts-backend.onrender.com/signup', {
         method: 'POST',
         data: {
           email: email,
