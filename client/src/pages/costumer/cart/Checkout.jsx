@@ -262,6 +262,7 @@ const Checkout = () => {
                   cartItems[0].title,
                   cartItems[0].image
                 );
+                alert("Order Placed");
 
                 handleClearCart();
               }}
