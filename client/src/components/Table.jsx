@@ -4,6 +4,7 @@ const Table = () => {
   return (
     <>
       <div class="relative overflow-x-auto font-urbanist">
+        <h1 className='mb-2 text-4xl font-bold text-center'>Tokenomics</h1>
         <h1 className="mb-2 text-xl font-bold">
           Base Supply - 10 million coins*
         </h1>
