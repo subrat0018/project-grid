@@ -18,14 +18,14 @@ export const AdminProducts = () => {
   const { admin } = useSelector((store) => store.admin);
 
   const {
-    products,
+    // products,
     sortOrder,
     search,
     filterCategory,
     // loadingDelete,
   } = useSelector((store) => store.productsAdmin);
 
-  console.log(products);
+  // console.log(products);
 
   useEffect(() => {
     if (admin) {

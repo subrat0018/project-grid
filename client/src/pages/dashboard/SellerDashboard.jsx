@@ -6,26 +6,19 @@ import { distributeToPartners } from '../../contexts/useContract/writeContract';
 import { totalSupply } from '../../contexts/useContract/readContract';
 import { mint } from '../../contexts/useContract/writeContract';
 const SellerDashboard = () => {
-  const {Contract, account} = useContext(Web3Context);
+  const { Contract, account } = useContext(Web3Context);
   // const [supplycoins, setsupplycoins] = useState();
   const [mintCoins, setMintCoins] = useState();
   const [sellers, setSellers] = useState([]);
-  const [sellerAddress,setSellerAddress] = useState([])
-  const [Supply,setTotalSupply] = useState();
-  useEffect(()=>{
-    axios("http://localhost:5000/getsellers",{
-      method: "GET"
-    }).then(res=>{
-      setSellers([...res.data])
-      let addr= [];
-      for(let i=0;i<res.data.length;i++){
-        // console.log(res.data)
-        addr.push(res.data[i].walletAddress)
-      }
-      setSellerAddress([...addr])
+
+  useEffect(() => {
+    axios('http://localhost:5000/getsellers', {
+      method: 'GET',
+    }).then((res) => {
+      // console.log(res.data);
     });
-totalSupply(Contract).then(res=>    setTotalSupply(res))
-  },[account])
+  });
+
   return (
     <main className="flex w-full items-center bg-bgcolor md:min-h-screen">
       <div className="container mx-auto px-6 py-16 lg:px-16">
@@ -50,10 +43,14 @@ totalSupply(Contract).then(res=>    setTotalSupply(res))
               placeholder="Add coins to mint"
               className="w-full border-2 border-transparent shadow-lg focus:outline-none md:px-3 md:py-2"
             />
-            <button onClick={()=>{
-              mint(Contract, mintCoins, account.currentAccount);
-            }}
-             className="btn-secondary ml-2">Mint</button>
+            <button
+              onClick={() => {
+                mint(Contract, mintCoins, account.currentAccount);
+              }}
+              className="btn-secondary ml-2"
+            >
+              Mint
+            </button>
           </div>
           <h2 className="text-lg font-bold text-primary md:text-xl lg:text-2xl">
             Platform Sellers and Partners
@@ -69,10 +66,14 @@ totalSupply(Contract).then(res=>    setTotalSupply(res))
               </div>
             ))}
           </div>
-          <button onClick={()=>{
-            // console.log(sellerAddress)
-            distributeToPartners(Contract, sellerAddress, account.currentAccount);
-          }} className='btn-secondary w-full'>Distribute</button>
+          <button
+            onClick={() => {
+              distributeToPartners(Contract, sellers, account.currentAccount);
+            }}
+            className="btn-secondary w-full"
+          >
+            Distribute
+          </button>
         </div>
       </div>
     </main>

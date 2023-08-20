@@ -23,7 +23,7 @@ const Web3Provider = ({ children }) => {
         method: "eth_requestAccounts",
       });
 
-      console.log("Connected", accounts[0]);
+      // console.log("Connected", accounts[0]);
       return accounts[0]
       // window.location.href = `/`
     } catch (error) {

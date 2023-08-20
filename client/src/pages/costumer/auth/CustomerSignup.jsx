@@ -18,7 +18,7 @@ export const CustomerSignup = () => {
   const dispatch = useDispatch();
   const { loading, errorSignUp } = useSelector((store) => store.customer);
 
-  console.log(seller);
+  // console.log(seller);
 
   const handleSubmit = async (e) => {
     e.preventDefault();

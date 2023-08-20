@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { useState } from 'react';
 
 import Button from '../../../../components/Button';
@@ -29,11 +30,11 @@ const ProductItem = () => {
 
   const itemIndex = cartItems.findIndex((item) => item.id === id);
 
-  console.log('quantity', cartItems[itemIndex]?.quantity);
+  // console.log('quantity', cartItems[itemIndex]?.quantity);
 
-  console.log('testQuant', testQuant);
+  // console.log('testQuant', testQuant);
 
-  console.log(cartItems);
+  // console.log(cartItems);
 
   const handleIncrease = () => {
     dispatch(setPreAdd());
@@ -87,14 +88,7 @@ const ProductItem = () => {
             </p>
 
             <span className="flex flex-row items-start justify-start font-gotu text-lg text-secondary md:text-2xl lg:text-3xl">
-              {formatPrice(item.price * 80)} {`(10 `}
-              <img
-                src="https://res.cloudinary.com/sambitsankalp/image/upload/v1692528950/fccoin_emuzu6.png"
-                alt="BD"
-                className="h-8 w-8"
-              />
-              {` `}
-              {`)`}
+              {formatPrice(item.price * 80)} 
             </span>
 
             <div className="flex items-center justify-between space-x-4 md:justify-start">

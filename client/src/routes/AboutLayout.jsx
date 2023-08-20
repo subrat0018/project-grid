@@ -1,5 +1,5 @@
 import React from 'react';
-import About from '../pages/about';
+import About from '../pages/About';
 
 const AboutLayout = () => {
   return (

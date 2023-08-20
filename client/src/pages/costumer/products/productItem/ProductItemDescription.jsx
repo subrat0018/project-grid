@@ -1,7 +1,7 @@
 import React from "react";
 
 export const ProductItemDescription = ({ item }) => {
-  console.log(item);
+  // console.log(item);
   return (
     <div className="space-y-3">
       {[item.description].map((desc, index) => {

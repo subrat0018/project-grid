@@ -47,15 +47,15 @@ const stakeTokens = async (
   contract,
   amount,
   userAccount,
-  interval,
-  account
+  interval
 ) => {
   if (!contract) {
     return false;
   }
+  // console.log("helliuuuu")
   const res = await contract.methods
     .stakeTokens(amount, userAccount, interval)
-    .send({ from: account });
+    .send({ from: userAccount });
   return res;
 };
 
