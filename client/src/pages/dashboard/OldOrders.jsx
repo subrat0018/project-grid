@@ -23,10 +23,11 @@ const OldOrders = () => {
   useEffect(() => {
     // console.log("Orders" , orders)
     const userRecord = orders.length?orders.filter((item)=> {return (item.userAccount.toLowerCase() === account.currentAccount.toLowerCase())}):[];
-    console.log(userRecord);
-    userRecord.sort((a, b)=>{
-      return (a.lastReturnDate > b.lastReturnDate);
+    console.log("Before", userRecord);
+    userRecord.sort((a, b) => {
+      return parseInt(b.lastReturnDate) - parseInt(a.lastReturnDate);
     });
+    console.log("After", userRecord);
     setUserOrders([ ...userRecord]);
     
   },[orders,account])
@@ -45,7 +46,7 @@ const OldOrders = () => {
   function checkItem(item)
   {
     if(item.status === "3")return false;
-    if(item.productName === "Redeem" || item.productName === "Stake" || item.productName === "AirDrop" || item.productName === "Social Media Interaction")return false;
+    if(item.productName === "Referral Expired" || item.productName === "Referral Reward" || item.productName === "Redeem" || item.productName === "Stake Credit" || item.productName === "Stake Debit" || item.productName === "AirDrop" || item.productName === "Social Media Interaction")return false;
     return true;
   }
   return (
@@ -54,7 +55,7 @@ const OldOrders = () => {
         <div className="flex w-full items-start justify-center">
           <div className="h-full w-full bg-white p-4">
             <div className="pb-3 font-urbanist text-2xl font-bold">
-              Order History
+              Coin History
             </div>
             <div className="min-h-[70vh] overflow-y-auto bg-bgcolor">
               {userOrders &&
