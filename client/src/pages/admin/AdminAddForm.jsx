@@ -18,6 +18,8 @@ export const AdminAddForm = () => {
   );
   const { cartItems } = useSelector((store) => store.cart);
 
+  const [data, setdata] = useState([]);
+
   // SUBMIT
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -55,6 +57,10 @@ export const AdminAddForm = () => {
     fetch('https://fakestoreapi.com/products/categories')
       .then((res) => res.json())
       .then((json) => setcategories(json));
+
+    fetch('https://fakestoreapi.com/products?limit=5')
+      .then((res) => res.json())
+      .then((json) => setdata(json));
   }, []);
 
   return (
@@ -67,7 +73,7 @@ export const AdminAddForm = () => {
           Past Products
         </h2>
 
-        {cartItems.map((item, i) => (
+        {data.map((item, i) => (
           <div key={i} className="flex justify-center border-b-2 border-black">
             <div className="grid grid-cols-5 gap-3 p-4 font-urbanist">
               {/* image */}
@@ -91,21 +97,21 @@ export const AdminAddForm = () => {
                   {formatPrice(item.price * 80)}
                 </h2>
 
-                <p className="mt-1 flex items-center justify-start text-base text-primary md:text-lg">
+                {/* <p className="mt-1 flex items-center justify-start text-base text-primary md:text-lg">
                   {calculate(item.price) ? (
                     <>
                       You will got {calculate(item.price)}{' '}
                       <img
                         src="https://res.cloudinary.com/sambitsankalp/image/upload/v1692528950/fccoin_emuzu6.png"
                         alt="BD"
-                        className="ml-1 h-5 w-5"
-                      />
+                        className="mx-1 h-5 w-5"
+                      />{' '}
                       from this order.
                     </>
                   ) : (
                     <></>
                   )}
-                </p>
+                </p> */}
                 <p className="mt-1 text-base text-primary md:text-lg">
                   The product is delivered to NIT Rourkela, Odisha, India
                 </p>
