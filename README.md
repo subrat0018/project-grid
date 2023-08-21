@@ -35,8 +35,8 @@
     The official repository for the website of blockducts
     <br />
     <a href="https://blockducts.vercel.app/">View Live</a>
-    <!-- ·
-    <a href="https://www.youtube.com/watch?v=LwG5t0DxFAc">Project Demo</a> -->
+    ·
+    <a href="https://youtu.be/CIKvMFucwHA">Project Demo</a>
   </p>
 </p>
 
