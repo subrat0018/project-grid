@@ -34,9 +34,9 @@
   <p align="center">
     The official repository for the website of blockducts
     <br />
-    <a href="https://pilot-two.vercel.app/">View Live</a>
-    ·
-    <a href="https://www.youtube.com/watch?v=LwG5t0DxFAc">Project Demo</a>
+    <a href="https://blockducts.vercel.app/">View Live</a>
+    <!-- ·
+    <a href="https://www.youtube.com/watch?v=LwG5t0DxFAc">Project Demo</a> -->
   </p>
 </p>
 
